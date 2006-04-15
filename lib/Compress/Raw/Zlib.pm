@@ -13,7 +13,7 @@ use warnings ;
 use bytes ;
 our ($VERSION, $XS_VERSION, @ISA, @EXPORT, $AUTOLOAD);
 
-$VERSION = '2.000_09';
+$VERSION = '2.000_11';
 $XS_VERSION = $VERSION; 
 $VERSION = eval $VERSION;
 
@@ -1173,9 +1173,6 @@ The primary site for the I<zlib> compression library is
 F<http://www.zlib.org>.
 
 The primary site for gzip is F<http://www.gzip.org>.
-
-
-
 
 
 

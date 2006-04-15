@@ -1,4 +1,5 @@
 README
+Changes
 t/01version.t
 t/02zlib.t
 t/07bufsize.t
