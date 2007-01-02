@@ -1,5 +1,6 @@
 README
 Changes
+t/000prereq.t
 t/01version.t
 t/02zlib.t
 t/07bufsize.t

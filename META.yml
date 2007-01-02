@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Compress-Raw-Zlib
-version:             2.002
+version:             2.003
 abstract:            Low-Level Interface to zlib compression library
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.31
