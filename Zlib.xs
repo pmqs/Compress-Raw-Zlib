@@ -228,7 +228,8 @@ typedef di_stream * Compress__Raw__Zlib__inflateScanStream ;
 #define adlerInitial adler32(0L, Z_NULL, 0)
 #define crcInitial crc32(0L, Z_NULL, 0)
 
-static const char * const my_z_errmsg[] = {
+//static const char * const my_z_errmsg[] = {
+static const char my_z_errmsg[][32] = {
     "need dictionary",     /* Z_NEED_DICT     2 */
     "stream end",          /* Z_STREAM_END    1 */
     "",                    /* Z_OK            0 */
@@ -510,7 +511,7 @@ PostInitStream(s, flags, bufsize, windowBits)
 
 static SV* 
 #ifdef CAN_PROTOTYPE
-deRef(SV * sv, char * string)
+deRef(SV * sv, const char * string)
 #else
 deRef(sv, string)
 SV * sv ;
@@ -542,7 +543,7 @@ char * string;
 
 static SV*
 #ifdef CAN_PROTOTYPE
-deRef_l(SV * sv, char * string)
+deRef_l(SV * sv, const char * string)
 #else
 deRef_l(sv, string)
 SV * sv ;

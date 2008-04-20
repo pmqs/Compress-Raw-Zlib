@@ -7,14 +7,9 @@ Compress::Raw::Zlib::FAQ -- Frequently Asked Questions about Compress::Raw::Zlib
 
 Common questions answered.
 
-
-
-
 =head2 Compatibility with Unix compress/uncompress.
 
-
 This module is not compatible with Unix C<compress>.
-
 
 If you have the C<uncompress> program available, you can use this to read
 compressed files
@@ -42,13 +37,11 @@ available
 
 =head2 Accessing .tar.Z files
 
-
 See previous FAQ item.
 
 If the C<Archive::Tar> module is installed and either the C<uncompress> or
 C<gunzip> programs are available, you can use one of these workarounds to
 read C<.tar.Z> files.
-
 
 Firstly with C<uncompress>
 
@@ -84,38 +77,20 @@ write a C<.tar.Z> file
     $tar->write($fh);
     $fh->close ;
 
-
 =head2 Accessing Zip Files
-
 
 This module does not support reading/writing zip files.
 
-Limited support for reading/writing zip files is included with the
+Support for reading/writing zip files is included with the
 C<IO::Compress::Zip> and C<IO::Uncompress::Unzip> modules.
 
-
-A full interface for manipulating zip files is available with the
-C<Archive::Zip> module. You can find it on CPAN at 
+The primary focus of the C<IO::Compress::Zip> and C<IO::Uncompress::Unzip>
+modules is to provide an C<IO::File> compatible streaming read/write
+interface to zip files/buffers. They are not fully flegged archivers. If
+you are looking for an archiver check out the C<Archive::Zip> module. You
+can find it on CPAN at 
 
     http://www.cpan.org/modules/by-module/Archive/Archive-Zip-*.tar.gz    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 =head2 Zlib Library Version Support
 
@@ -138,13 +113,7 @@ You need to have zlib 1.2.1 or better if you want to use the C<-Merge>
 option with C<IO::Compress::Gzip>, C<IO::Compress::Deflate> and
 C<IO::Compress::RawDeflate>.
 
-
-
 =back
-
-
-
-
 
 =head1 SEE ALSO
 
@@ -156,15 +125,9 @@ L<File::GlobMapper|File::GlobMapper>, L<Archive::Zip|Archive::Zip>,
 L<Archive::Tar|Archive::Tar>,
 L<IO::Zlib|IO::Zlib>
 
-
-
-
-
 =head1 AUTHOR
 
 This module was written by Paul Marquess, F<pmqs@cpan.org>. 
-
-
 
 =head1 MODIFICATION HISTORY
 
@@ -172,7 +135,7 @@ See the Changes file.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2005-2007 Paul Marquess. All rights reserved.
+Copyright (c) 2005-2008 Paul Marquess. All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
