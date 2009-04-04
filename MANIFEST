@@ -4,6 +4,7 @@ t/000prereq.t
 t/01version.t
 t/02zlib.t
 t/07bufsize.t
+t/09limitoutput.t
 t/18lvalue.t
 t/99pod.t
 t/Test/Builder.pm
