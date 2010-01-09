@@ -13,7 +13,7 @@ use warnings ;
 use bytes ;
 our ($VERSION, $XS_VERSION, @ISA, @EXPORT, $AUTOLOAD);
 
-$VERSION = '2.023';
+$VERSION = '2.024';
 $XS_VERSION = $VERSION; 
 $VERSION = eval $VERSION;
 
@@ -1412,7 +1412,7 @@ See the Changes file.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2005-2009 Paul Marquess. All rights reserved.
+Copyright (c) 2005-2010 Paul Marquess. All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
