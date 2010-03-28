@@ -1,6 +1,14 @@
 CHANGES
 -------
 
+  2.025 27 March 2010 
+
+      * Updated to include zlib 1.2.4
+
+      * Allow zlib version check to be disabled by setting
+        TEST_SKIP_VERSION_CHECK environment variable.
+        [RT #54510]
+
   2.023 9 November 2009
 
       * fixed instance where $[ should have been $] in t/02zlib.t
