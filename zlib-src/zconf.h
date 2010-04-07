@@ -375,7 +375,7 @@ typedef uLong FAR uLongf;
 #  endif
 #endif
 
-#ifdef _LARGEFILE64_SOURCE
+#ifdef _LARGEFILE64_SOURCE_dummy
 #  include <sys/types.h>
 #endif
 

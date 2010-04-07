@@ -138,7 +138,7 @@ my @names = qw(
     #ZLIB_VERNUM
 
 my %verSpecificNames = (
-    Z_TREES => '124',
+    Z_TREES => '1240',
 );
 
 if (eval {require ExtUtils::Constant; 1}) {

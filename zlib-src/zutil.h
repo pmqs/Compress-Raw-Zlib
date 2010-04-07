@@ -167,7 +167,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
   #pragma warn -8066
 #endif
 
-#ifdef _LARGEFILE64_SOURCE
+#ifdef _LARGEFILE64_SOURCE_dummy
 #  define z_off64_t off64_t
 #else
 #  define z_off64_t z_off_t
@@ -183,7 +183,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #  define F_OPEN(name, mode) fopen((name), (mode))
 #endif
 
-#ifdef _LARGEFILE64_SOURCE
+#ifdef _LARGEFILE64_SOURCE_dummy
 #  define F_OPEN64(name, mode) fopen64((name), (mode))
 #else
 #  define F_OPEN64(name, mode) fopen((name), (mode))

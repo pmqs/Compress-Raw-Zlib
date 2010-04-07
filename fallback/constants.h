@@ -85,7 +85,7 @@ constant_7 (pTHX_ const char *name, IV *iv_return) {
   case 'S':
     if (memEQ(name, "Z_TREE", 6)) {
     /*                     S     */
-#if ZLIB_VERNUM >= 0x124
+#if ZLIB_VERNUM >= 0x1240
       *iv_return = Z_TREES;
       return PERL_constant_ISIV;
 #else
@@ -332,7 +332,7 @@ my @names = (qw(DEF_WBITS MAX_MEM_LEVEL MAX_WBITS OS_CODE Z_ASCII
 	       Z_PARTIAL_FLUSH Z_RLE Z_STREAM_END Z_STREAM_ERROR Z_SYNC_FLUSH
 	       Z_UNKNOWN Z_VERSION_ERROR),
             {name=>"ZLIB_VERSION", type=>"PV"},
-            {name=>"Z_TREES", type=>"IV", macro=>["#if ZLIB_VERNUM >= 0x124\n", "#endif\n"]});
+            {name=>"Z_TREES", type=>"IV", macro=>["#if ZLIB_VERNUM >= 0x1240\n", "#endif\n"]});
 
 print constant_types(), "\n"; # macro defs
 foreach (C_constant ("Zlib", 'constant', 'IV', $types, undef, 3, @names) ) {
