@@ -80,7 +80,7 @@ write a C<.tar.Z> file
 =head2 Zlib Library Version Support
 
 By default C<Compress::Raw::Zlib> will build with a private copy of version
-1.2.4 of the zlib library. (See the F<README> file for details of
+1.2.5 of the zlib library. (See the F<README> file for details of
 how to override this behaviour)
 
 If you decide to use a different version of the zlib library, you need to be

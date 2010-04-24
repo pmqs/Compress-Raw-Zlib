@@ -1,6 +1,10 @@
 CHANGES
 -------
 
+  2.027 24 April 2010 
+
+      * Updated to include zlib 1.2.5
+
   2.026 7 April 2010 
 
       * Fixed definition of Z_TREES in Makefile.PL
