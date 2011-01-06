@@ -1,6 +1,11 @@
 CHANGES
 -------
 
+  2.032 4 Jan 2011
+
+      * Document inflateReset
+        [RT #61082]
+
   2.030 22 July 2010 
 
       * Ran the zlib2ansi script against the files in zlib-src.
