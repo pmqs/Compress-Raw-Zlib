@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Compress-Raw-Zlib
-version:            2.040
+version:            2.042
 abstract:           ~
 author:  []
 license:            perl
