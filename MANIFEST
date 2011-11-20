@@ -46,3 +46,4 @@ examples/filtdef    Perl
 examples/filtinf    Perl
 pod/FAQ.pod
 META.yml                                 Module meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)
