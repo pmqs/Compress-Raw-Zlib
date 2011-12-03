@@ -42,8 +42,8 @@ zlib-src/zutil.h
 fallback/constants.h
 fallback/constants.xs
 lib/Compress/Raw/Zlib.pm
+lib/Compress/Raw/Zlib/FAQ.pod
 examples/filtdef    Perl
 examples/filtinf    Perl
-pod/FAQ.pod
 META.yml                                 Module meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)
