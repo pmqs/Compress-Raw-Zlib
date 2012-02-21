@@ -1,7 +1,12 @@
 CHANGES
 -------
 
-  2.049 30 January 2012
+  2.050 20 February 2012
+
+      * Build failure on Irix & Solaris.
+        [RT #69985]
+      
+  2.049 18 February 2012
 
       * Include zlib 1.2.6 source.
 
