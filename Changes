@@ -1,6 +1,11 @@
 CHANGES
 -------
 
+  2.051 20 February 2012
+
+      * Bug in Compress::Raw::Zlib on Windows
+        [#75222] 
+      
   2.050 20 February 2012
 
       * Build failure on Irix & Solaris.
