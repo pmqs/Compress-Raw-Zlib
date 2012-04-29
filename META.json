@@ -16,7 +16,9 @@
    "no_index" : {
       "directory" : [
          "t",
-         "inc"
+         "inc",
+         "t",
+         "private"
       ]
    },
    "prereqs" : {
@@ -35,5 +37,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : "2.051"
+   "version" : "2.052"
 }

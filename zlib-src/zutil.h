@@ -13,6 +13,10 @@
 #ifndef ZUTIL_H
 #define ZUTIL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
 #if ((__GNUC__-0) * 10 + __GNUC_MINOR__-0 >= 33) && !defined(NO_VIZ)
 #  define ZLIB_INTERNAL __attribute__((visibility ("hidden")))
 #else
@@ -244,5 +248,9 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
            (*((strm)->zalloc))((strm)->opaque, (items), (size))
 #define ZFREE(strm, addr)  (*((strm)->zfree))((strm)->opaque, (voidpf)(addr))
 #define TRY_FREE(s, p) {if (p) ZFREE(s, p);}
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ZUTIL_H */

@@ -17,5 +17,7 @@ no_index:
   directory:
     - t
     - inc
+    - t
+    - private
 requires: {}
-version: 2.051
+version: 2.052
