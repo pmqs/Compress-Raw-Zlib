@@ -1,6 +1,10 @@
 CHANGES
 -------
 
+  2.053 6 May 2012
+
+      * Include zlib 1.2.7 source.
+      
   2.052 29 April 2012
 
       * Fixed build issue when Perl is built with C++
