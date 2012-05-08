@@ -1,6 +1,11 @@
 CHANGES
 -------
 
+  2.054 8 May 2012
+
+      * Build issue on Win32
+        [#77030] 
+      
   2.053 6 May 2012
 
       * Include zlib 1.2.7 source.
