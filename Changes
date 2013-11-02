@@ -1,6 +1,17 @@
 CHANGES
 -------
 
+  2.063 23 October 2013
+
+      * gcc -g3: final link failed: Memory exhausted
+        [#88936]
+
+      * Compress::Raw::Zlib uses AutoLoader for no reason
+        [#88260]
+
+      * Typo in Compress::Zlib _combine function documentation
+        [#89305]
+
   2.062 11 August 2013
 
       * typo fix
