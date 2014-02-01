@@ -1,6 +1,14 @@
 CHANGES
 -------
 
+  2.064 1 February 2014
+
+      * [PATCH] Handle non-PVs better
+        [#91558]
+
+      * Z_OK instead of Z_BUF_ERROR
+        [#92521]
+
   2.063 23 October 2013
 
       * gcc -g3: final link failed: Memory exhausted

@@ -6,6 +6,7 @@ t/02zlib.t
 t/07bufsize.t
 t/09limitoutput.t
 t/18lvalue.t
+t/19nonpv.t
 t/99pod.t
 t/Test/Builder.pm
 t/Test/More.pm
