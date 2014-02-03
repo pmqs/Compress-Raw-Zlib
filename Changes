@@ -1,6 +1,14 @@
 CHANGES
 -------
 
+  2.065 3 February 2014
+
+      * [PATCH] resolve c++ build failure in core
+        [#92657]
+
+      * gcc -g3: final link failed: Memory exhausted
+        [#88936]
+
   2.064 1 February 2014
 
       * [PATCH] Handle non-PVs better
