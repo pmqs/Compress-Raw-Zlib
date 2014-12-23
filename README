@@ -1,7 +1,7 @@
 
                             Compress-Raw-Zlib
 
-                         Version 2.067
+                         Version 2.068
 
                             21st September 2014
 
@@ -355,7 +355,7 @@ To help me help you, I need all of the following information:
         If you haven't installed Compress-Raw-Zlib then search Compress::Raw::Zlib.pm
         for a line like this:
 
-          $VERSION = "2.067" ;
+          $VERSION = "2.068" ;
 
      c. The version of zlib you have used.
         If you have successfully installed Compress-Raw-Zlib, this one-liner

@@ -1,9 +1,18 @@
 CHANGES
 -------
 
+  2.068 10 Dec 2014
+
+      * Silence more compiler warnings
+ 
+      * Disable running of 07bufsize.y by default.
+        COMPRESS_ZLIB_RUN_MOST needs set to run them. Makes life more
+        bearable on legacy platforms
+
+
   2.067 8 Dec 2014
 
-      * Silence Compiler Warnings
+      * Silence compiler warnings
 
   2.066 21 Sept 2014
 
