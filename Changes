@@ -1,6 +1,28 @@
 CHANGES
 -------
 
+  2.069 26 Sept 2015
+
+      * reduce compiler warnings and stderr noise
+        [#101341]
+
+      * amigaos4: cpan/Compress-Raw-Zlib: also __amigaos4__
+        [#106799]
+
+      * const all global data
+        https://github.com/madler/zlib/commit/82e9dc60932bf2ce5422a5e76e66e5a05abd26e3
+        [#101298]
+
+      * Coverity finding: Unused value
+        https://github.com/madler/zlib/commit/9859a94c1002484ee5f824c05683a5b2484cbf49
+        [105414]
+
+      * Coverity findings
+        [102399]
+
+      * Coverity finding: Overlapping buffer in memory copy
+        [105413]
+
   2.068 10 Dec 2014
 
       * Silence more compiler warnings
