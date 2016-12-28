@@ -1,6 +1,12 @@
 CHANGES
 -------
 
+  2.070 28 Dec 2016
+
+      * #107642: compilation warning from inflate.c
+
+      * #119007: [PATCH] Wrong FLAG_APPEND logic analog to Bzip2
+
   2.069 26 Sept 2015
 
       * reduce compiler warnings and stderr noise
