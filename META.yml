@@ -20,5 +20,5 @@ no_index:
     - t
     - private
 requires: {}
-version: '2.070'
+version: '2.071'
 x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

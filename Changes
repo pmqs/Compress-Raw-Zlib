@@ -1,6 +1,15 @@
 CHANGES
 -------
 
+  2.071 30 Dec 2016
+
+      * #119580 (inflate.c: One (last?) compilation warning)
+        Identical issue reeported in upstream zlib
+             https://github.com/madler/zlib/issues/111
+
+        Fix checked into zlib dev codeline via
+            https://github.com/madler/zlib/commit/2edb94a3025d288dc251bc6cbb2c02e60fbd7438
+
   2.070 28 Dec 2016
 
       * #107642: compilation warning from inflate.c
