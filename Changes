@@ -1,6 +1,20 @@
 CHANGES
 -------
 
+  2.072 12 Feb 2017
+
+      * Makefile.PL
+        #120084: Need Fix for Makefile.PL depending on . in @INC
+
+      * zlib-src
+        #120207: inflateUndermine: subvert arg conditionally used/unused
+
+      * zlib-src
+        #112829: two gcc6-found problems
+
+      * fix deflateParams for zlib > 1.2.8
+        #119762: Tests broken with zlib-1.2.10
+
   2.071 30 Dec 2016
 
       * #119580 (inflate.c: One (last?) compilation warning)
