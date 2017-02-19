@@ -1,6 +1,12 @@
 CHANGES
 -------
 
+  2.073 18 Feb 2017
+
+      * Zlib.xs
+        Comment out unused variables & remove C++-ism
+        #120272: [PATCH] Unbreak compilation
+
   2.072 12 Feb 2017
 
       * Makefile.PL
