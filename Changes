@@ -3,7 +3,11 @@ CHANGES
 
   2.086 31 March 2019
 
-      * Update files to point to github
+      * Moved source to github https://github.com/pmqs/Compress-Raw-Zlib
+
+      * Add META_MERGE to Makefile.PL
+
+      * Added meta-json.t & meta-yaml.t
 
   2.084 5 January 2019
 
