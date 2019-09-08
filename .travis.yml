@@ -5,6 +5,7 @@ perl:
   - "5.12"         
   - "5.20"              
   - "dev"               
-  - "blead"            
+  - "blead"  
+dist: trusty
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto
