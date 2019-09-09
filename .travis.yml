@@ -19,5 +19,5 @@ perl:
 dist: trusty
 
 before_install:
-  #- eval $(curl https://travis-perl.github.io/init) --auto
+  - eval $(curl https://travis-perl.github.io/init) --auto
   - perl -v
