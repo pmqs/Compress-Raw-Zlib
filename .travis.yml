@@ -16,7 +16,7 @@ perl:
   #- "5.30"         
   #- "blead"  
   
-dist: trusty
+#dist: trusty
 
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto
