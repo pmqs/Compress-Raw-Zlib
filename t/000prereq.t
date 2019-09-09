@@ -13,6 +13,9 @@ use Test::More ;
 
 BEGIN
 {
+
+    diag "Running Perl version  $]\n";
+
     # use Test::NoWarnings, if available
     my $extra = 0 ;
     $extra = 1
@@ -54,4 +57,3 @@ BEGIN
     }
     
 }
-
