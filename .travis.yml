@@ -19,3 +19,6 @@ perl:
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto
 
+install:
+  - perl -V
+  - cpan-install --deps
