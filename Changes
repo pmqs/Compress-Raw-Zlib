@@ -1,6 +1,14 @@
 CHANGES
 -------
 
+  2.088 31 October 2019
+
+      * Add SUPPORT section
+        d348ad76c2073a2973d094891fbd0c2e24bf397d
+
+      * 000prereq.t: dump Perl version
+        e1afe502818cb1ccf5bad917b14b029b408f47f1
+
   2.087 10 August 2019
 
       * clang warning in ppport.h
