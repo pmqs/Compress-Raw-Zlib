@@ -1,5 +1,14 @@
 name: Linux build
 
+name: linux
+
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
 
 jobs:
   build:
