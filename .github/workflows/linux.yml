@@ -1,0 +1,33 @@
+name: Perl-CI-Linux
+
+# on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl:
+          - '5.30'
+          - '5.28'
+          - '5.26'
+          - '5.24'
+          - '5.22'
+
+    name: Perl ${{ matrix.perl }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+    - name: Perl version
+      run: perl -V
+    - name: Install dependencies
+      run: cpanm --quiet --installdeps --notest .
+    - name: Build
+      run: perl Makefile.PL && make
+    - name: Test
+      run: make test
