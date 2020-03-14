@@ -1,7 +1,5 @@
 name: Linux build
 
-name: linux
-
 on:
   push:
     branches:
