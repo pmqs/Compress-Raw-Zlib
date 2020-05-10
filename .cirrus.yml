@@ -2,9 +2,12 @@ task:
   name: FreeBSD
   freebsd_instance:
     image: freebsd-12-0-release-amd64
-  test_script:
-    - perl -V
+  install_script:
+    - pkg install -y perl
+    - perl -V    
+  build_script:
     - perl Makefile.PL
+  test_script:    
     - make test
 
 
@@ -12,7 +15,9 @@ task:
   name: MacOS
   osx_instance:
     image: catalina-xcode-11.3.1
-  test_script:
-    - perl -V
+  install_script:
+    - perl -V    
+  build_script:
     - perl Makefile.PL
+  test_script:    
     - make test
