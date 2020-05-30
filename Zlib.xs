@@ -1526,9 +1526,11 @@ inflate (s, buf, output, eof=FALSE)
     if (DO_UTF8(output) && !sv_utf8_downgrade(output, 1))
          croak("Wide character in Compress::Raw::Zlib::Inflate::inflate output parameter");
 #endif
-    if((s->flags & FLAG_APPEND) != FLAG_APPEND) {
-        SvCUR_set(output, 0);
-    }
+     if((s->flags & FLAG_APPEND) == FLAG_APPEND) {
+         SvOOK_off(output);
+     } else {
+         SvCUR_set(output, 0);
+     }
 
     /* Assume no output buffer - the code below will update if there is any available */
     s->stream.avail_out = 0;

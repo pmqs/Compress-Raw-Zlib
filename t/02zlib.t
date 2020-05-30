@@ -741,6 +741,41 @@ if ($] >= 5.005)
 
 }
 
+{
+    title 'RT#132734: test inflate append OOK output parameter';
+    # https://github.com/pmqs/IO-Compress/issues/18
+
+    my $hello = "I am a HAL 9000 computer" ;
+    my $data = $hello ;
+
+    my($X, $Z);
+
+    ok my $x = new Compress::Raw::Zlib::Deflate ( -AppendOutput => 1 );
+
+    cmp_ok $x->deflate($data, $X), '==',  Z_OK ;
+
+    cmp_ok $x->flush($X), '==', Z_OK ;
+
+    ok my $k = new Compress::Raw::Zlib::Inflate ( -AppendOutput => 1,
+                                             -ConsumeInput => 1 ) ;
+    $Z = 'prev. ' ;
+    substr($Z, 0, 4, ''); # chop off first 4 characters using offset
+    cmp_ok $Z, 'eq', '. ' ;
+
+    # use Devel::Peek ; Dump($Z) ; # shows OOK flag
+
+    # if (1) { # workaround
+    #     my $prev = $Z;
+    #     undef $Z ;
+    #     $Z = $prev ;
+    # }
+
+    cmp_ok $k->inflate($X, $Z), '==', Z_STREAM_END ;
+    # use Devel::Peek ; Dump($Z) ; # No OOK flag
+
+    cmp_ok $Z, 'eq', ". $hello" ;
+}
+
 SKIP:
 {
     skip "InflateScan needs zlib 1.2.1 or better, you have $Zlib_ver", 1
