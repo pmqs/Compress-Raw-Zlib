@@ -3,6 +3,7 @@ task:
   freebsd_instance:
     image: freebsd-12-1-release-amd64
   install_script:
+    - pkg info
     - perl -V    
   build_script:
     - perl Makefile.PL
