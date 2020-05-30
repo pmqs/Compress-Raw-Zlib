@@ -1077,10 +1077,11 @@ deflate (s, buf, output)
          croak("Wide character in Compress::Raw::Zlib::Deflate::deflate output parameter");
 #endif
 
-    if((s->flags & FLAG_APPEND) != FLAG_APPEND) {
-        SvCUR_set(output, 0);
-        /* sv_setpvn(output, "", 0); */
-    }
+     if((s->flags & FLAG_APPEND) == FLAG_APPEND) {
+         SvOOK_off(output);
+     } else {
+         SvCUR_set(output, 0);
+     }
     prefix = cur_length =  SvCUR(output) ;
     s->stream.next_out = (Bytef*) SvPVX(output) + cur_length;
     increment =  SvLEN(output) -  cur_length;
@@ -1206,10 +1207,11 @@ flush(s, output, f=Z_FINISH)
     if (DO_UTF8(output) && !sv_utf8_downgrade(output, 1))
          croak("Wide character in Compress::Raw::Zlib::Deflate::flush input parameter");
 #endif
-    if((s->flags & FLAG_APPEND) != FLAG_APPEND) {
-        SvCUR_set(output, 0);
-        /* sv_setpvn(output, "", 0); */
-    }
+     if((s->flags & FLAG_APPEND) == FLAG_APPEND) {
+         SvOOK_off(output);
+     } else {
+         SvCUR_set(output, 0);
+     }
     prefix = cur_length =  SvCUR(output) ;
     s->stream.next_out = (Bytef*) SvPVX(output) + cur_length;
     increment =  SvLEN(output) -  cur_length;

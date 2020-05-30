@@ -27,10 +27,10 @@ BEGIN
         $count = 245 ;
     }
     elsif ($] >= 5.006) {
-        $count = 333 ;
+        $count = 349 ;
     }
     else {
-        $count = 288 ;
+        $count = 304 ;
     }
 
     plan tests => $count + $extra;
@@ -774,6 +774,70 @@ if ($] >= 5.005)
     # use Devel::Peek ; Dump($Z) ; # No OOK flag
 
     cmp_ok $Z, 'eq', ". $hello" ;
+}
+
+
+{
+    title 'RT#132734: test deflate append OOK output parameter';
+    # https://github.com/pmqs/IO-Compress/issues/18
+
+    my $hello = "I am a HAL 9000 computer" ;
+    my $data = $hello ;
+
+    my($X, $Z);
+
+    $X = 'prev. ' ;
+    substr($X, 0, 6, ''); # chop off all characters using offset
+    cmp_ok $X, 'eq', '' ;
+
+    # use Devel::Peek ; Dump($X) ; # shows OOK flag
+
+    # if (1) { # workaround
+    #     my $prev = $Z;
+    #     undef $Z ;
+    #     $Z = $prev ;
+    # }
+
+    ok my $x = new Compress::Raw::Zlib::Deflate ( -AppendOutput => 1 );
+
+    cmp_ok $x->deflate($data, $X), '==',  Z_OK ;
+
+    cmp_ok $x->flush($X), '==', Z_OK ;
+
+    ok my $k = new Compress::Raw::Zlib::Inflate ( -AppendOutput => 1,
+                                             -ConsumeInput => 1 ) ;
+    cmp_ok $k->inflate($X, $Z), '==', Z_STREAM_END ;
+
+    is $Z, $hello ;
+}
+
+
+{
+    title 'RT#132734: test flush append OOK output parameter';
+    # https://github.com/pmqs/IO-Compress/issues/18
+
+    my $hello = "I am a HAL 9000 computer" ;
+    my $data = $hello ;
+
+    my($X, $Z);
+
+    my $F = 'prev. ' ;
+    substr($F, 0, 6, ''); # chop off all characters using offset
+    cmp_ok $F, 'eq', '' ;
+
+    # use Devel::Peek ; Dump($F) ; # shows OOK flag
+
+    ok my $x = new Compress::Raw::Zlib::Deflate ( -AppendOutput => 1 );
+
+    cmp_ok $x->deflate($data, $X), '==',  Z_OK ;
+
+    cmp_ok $x->flush($F), '==', Z_OK ;
+
+    ok my $k = new Compress::Raw::Zlib::Inflate ( -AppendOutput => 1,
+                                             -ConsumeInput => 1 ) ;
+    cmp_ok $k->inflate($X . $F, $Z), '==', Z_STREAM_END ;
+
+    is $Z, $hello ;
 }
 
 SKIP:
