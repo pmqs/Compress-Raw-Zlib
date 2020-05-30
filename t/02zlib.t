@@ -743,7 +743,7 @@ if ($] >= 5.005)
 
 {
     title 'RT#132734: test inflate append OOK output parameter';
-    # https://github.com/pmqs/IO-Compress/issues/18
+    # https://github.com/pmqs/Compress-Raw-Zlib/issues/3
 
     my $hello = "I am a HAL 9000 computer" ;
     my $data = $hello ;
@@ -779,7 +779,7 @@ if ($] >= 5.005)
 
 {
     title 'RT#132734: test deflate append OOK output parameter';
-    # https://github.com/pmqs/IO-Compress/issues/18
+    # https://github.com/pmqs/Compress-Raw-Zlib/issues/3
 
     my $hello = "I am a HAL 9000 computer" ;
     my $data = $hello ;
@@ -814,7 +814,7 @@ if ($] >= 5.005)
 
 {
     title 'RT#132734: test flush append OOK output parameter';
-    # https://github.com/pmqs/IO-Compress/issues/18
+    # https://github.com/pmqs/Compress-Raw-Zlib/issues/3
 
     my $hello = "I am a HAL 9000 computer" ;
     my $data = $hello ;
