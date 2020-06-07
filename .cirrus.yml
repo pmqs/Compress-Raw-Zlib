@@ -6,7 +6,6 @@ task:
       image: freebsd-12-1-release-amd64
   install_script:
     - pkg info
-    - gcloud compute images list --project freebsd-org-cloud-dev --no-standard-images
     - pkg install -y gcc
     - pkg install -y perl5
     - perl -V    
