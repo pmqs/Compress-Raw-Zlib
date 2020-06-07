@@ -2,10 +2,11 @@ task:
   name: FreeBSD
   freebsd_instance:
     matrix:
-      image: freebsd-11-2-release-amd64
+#       image: freebsd-11-2-release-amd64
       image: freebsd-12-1-release-amd64
   install_script:
     - pkg info
+    - gcloud compute images list --project freebsd-org-cloud-dev --no-standard-images
     - pkg install -y gcc
     - pkg install -y perl5
     - perl -V    
@@ -27,7 +28,7 @@ task:
   install_script:
     - perl -V    
     - echo|cpan App::cpanminus
-    - cpanm --installdeps .        
+    - /Users/anka/perl5/bin/cpanm --installdeps .        
   build_script:
     - perl Makefile.PL
   test_script:    
