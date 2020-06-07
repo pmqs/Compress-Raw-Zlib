@@ -1,16 +1,16 @@
-# task:
-#   name: FreeBSD
-#   freebsd_instance:
-#     image: freebsd-12-1-release-amd64
-#   install_script:
-#     - pkg info
-#     - pkg install -y gcc
-#     - pkg install -y perl
-#     - perl -V    
-#   build_script:
-#     - perl Makefile.PL
-#   test_script:    
-#     - make test
+task:
+  name: FreeBSD
+  freebsd_instance:
+    image: freebsd-12-1-release-amd64
+  install_script:
+    - pkg info
+    - pkg install -y gcc
+    - pkg install -y perl5
+    - perl -V    
+  build_script:
+    - perl Makefile.PL
+  test_script:    
+    - make test
 
 
 task:
