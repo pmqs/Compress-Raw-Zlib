@@ -42,8 +42,8 @@ jobs:
         perl-version: ${{ matrix.perl }}
 #         distribution: strawberry
       
-    - name: Set Path for zlib 
-      run: echo "::add-path::${{ env.ZLIB_LIB }}"    
+#     - name: Set Path for zlib 
+#       run: echo "::add-path::${{ env.ZLIB_LIB }}"    
         
     # Install zlib on windows
 #     - name: Install zlib (Windows)
