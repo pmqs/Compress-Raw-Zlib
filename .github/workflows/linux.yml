@@ -45,7 +45,7 @@ jobs:
       run: |
         vcpkg install zlib   
     - name: Set Path for zlib 
-      run: echo "::add-path::${{ env.LIBLZMA_LIB }}"                
+      run: echo "::add-path::${{ env.ZLIB_LIB }}"                
     - name: Perl version
       run: perl -V
     - name: Install dependencies
