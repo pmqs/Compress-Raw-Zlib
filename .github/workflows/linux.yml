@@ -2,6 +2,11 @@ name: Linux build
 
 on: [push, pull_request]
 
+env:
+  VCPKG_INSTALLED: /c/vcpkg/installed
+  ZLIB_LIB: C:\vcpkg\installed\x86-windows\bin
+  ZLIB_INCLUDE: C:\vcpkg\installed\x86-windows\include
+
 jobs:
   build:
 
@@ -35,6 +40,12 @@ jobs:
       with:
         perl-version: ${{ matrix.perl }}
         distribution: strawberry
+    # Install zlib on windows
+    - name: Install zlib (Windows)
+      run: |
+        vcpkg install zlib   
+    - name: Set Path for zlib 
+      run: echo "::add-path::${{ env.LIBLZMA_LIB }}"                
     - name: Perl version
       run: perl -V
     - name: Install dependencies
