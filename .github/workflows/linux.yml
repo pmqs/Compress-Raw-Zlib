@@ -2,11 +2,6 @@ name: Linux build
 
 on: [push, pull_request]
 
-env:
-  VCPKG_INSTALLED: /c/vcpkg/installed
-  ZLIB_LIB: C:\vcpkg\installed\x86-windows\bin
-  ZLIB_INCLUDE: C:\vcpkg\installed\x86-windows\include
-
 jobs:
   build:
 
@@ -39,11 +34,6 @@ jobs:
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
-        distribution: strawberry
-    # Install zlib on windows
-    - name: Install zlib (Windows)
-      run: |
-        vcpkg install zlib   
     - name: Set Path for zlib 
       run: echo "::add-path::${{ env.ZLIB_LIB }}"                
     - name: Perl version
@@ -51,7 +41,7 @@ jobs:
     - name: Install dependencies
       run: cpanm --quiet --installdeps --notest .
     - name: Build
-      run: echo abc && perl Makefile.PL CFLAGS="C:\vcpkg\installed\x86-windows\lib\libz.lib" && make
+      run: perl Makefile.PL && make
       env:
         BUILD_ZLIB: ${{ matrix.build-zlib }}
     - name: Test
