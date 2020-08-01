@@ -35,17 +35,31 @@ jobs:
     name: Perl ${{ matrix.perl }} BUILD_ZLIB=${{ matrix.build-zlib}}
     steps:
     - uses: actions/checkout@v1
+      
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
+#         distribution: strawberry
+      
+    - name: Set Path for zlib 
+      run: echo "::add-path::${{ env.ZLIB_LIB }}"    
+        
+    # Install zlib on windows
+#     - name: Install zlib (Windows)
+#       run: |
+#         vcpkg install zlib 
+
     - name: Perl version
       run: perl -V
+      
     - name: Install dependencies
       run: cpanm --verbose --installdeps --notest .
+      
     - name: Build
       run: perl Makefile.PL && make
       env:
         BUILD_ZLIB: ${{ matrix.build-zlib }}
+      
     - name: Test
       run: make test
