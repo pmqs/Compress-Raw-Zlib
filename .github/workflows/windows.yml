@@ -43,12 +43,13 @@ jobs:
 #         distribution: strawberry
       
 #     - name: Set Path for zlib 
-#       run: echo "::add-path::${{ env.ZLIB_LIB }}"    
+#       run: echo "::add-path::${{ env.ZLIB_LIB }}"   
+        run: echo "::add-path::C:\vcpkg\installed\x86-windows\bin"
         
     # Install zlib on windows
-#     - name: Install zlib (Windows)
-#       run: |
-#         vcpkg install zlib 
+    - name: Install zlib (Windows)
+      run: |
+        vcpkg install zlib 
 
     - name: Perl version
       run: perl -V
