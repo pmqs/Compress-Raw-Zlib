@@ -4,8 +4,8 @@ on: [push, pull_request]
 
 env:
   VCPKG_INSTALLED: /c/vcpkg/installed
-  ZLIB_LIB: C:\vcpkg\installed\x86-windows\bin
-  ZLIB_INCLUDE: C:\vcpkg\installed\x86-windows\include
+#   ZLIB_LIB: C:\vcpkg\installed\x86-windows\bin
+#   ZLIB_INCLUDE: C:\vcpkg\installed\x86-windows\include
 
 jobs:
   build:
