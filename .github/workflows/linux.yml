@@ -51,7 +51,7 @@ jobs:
     - name: Install dependencies
       run: cpanm --quiet --installdeps --notest .
     - name: Build
-      run: perl Makefile.PL && make
+      run: perl Makefile.PL CFLAGS="C:\vcpkg\installed\x86-windows\lib\libz.lib" && make
       env:
         BUILD_ZLIB: ${{ matrix.build-zlib }}
     - name: Test
