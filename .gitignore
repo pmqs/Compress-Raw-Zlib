@@ -29,21 +29,3 @@
 /releases
 /scratch
 /t/test-zips
-
-
-
-# crc32.c
-# Zlib.bs
-# Zlib.c
-# adler32.c
-# compress.c
-# constants.h
-# constants.xs
-# deflate.c
-# infback.c
-# inffast.c
-# inflate.c
-# inftrees.c
-# trees.c
-# uncompr.c
-# zutil.c
