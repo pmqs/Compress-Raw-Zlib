@@ -644,7 +644,7 @@ Compress::Raw::Zlib - Low-Level Interface to zlib compression library
 =head1 DESCRIPTION
 
 The I<Compress::Raw::Zlib> module provides a Perl interface to the I<zlib>
-compression library (see L</AUTHOR> for details about where to get
+compression library (see L</SEE ALSO> for details about where to get
 I<zlib>).
 
 =head1 Compress::Raw::Zlib::Deflate
