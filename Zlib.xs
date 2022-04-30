@@ -78,6 +78,21 @@
 #  define AT_LEAST_ZLIB_1_2_9
 #endif
 
+/* zlib-ng specific */
+#ifdef ZLIBNG_VERSION
+#   define HAVE_ZLIB_NG         TRUE
+#else
+#   define HAVE_ZLIB_NG         FALSE
+#   define ZLIBNG_VERSION       ""
+#   define ZLIBNG_VERNUM        0
+#   define ZLIBNG_VER_MAJOR     0
+#   define ZLIBNG_VER_MINOR     0
+#   define ZLIBNG_VER_REVISION  0
+#   define ZLIBNG_VER_STATUS    0
+#   define ZLIBNG_VER_MODIFIED  0
+#   define ZLIBNG_VERNUM        0
+#endif
+
 #ifdef USE_PPPORT_H
 #  define NEED_sv_2pvbyte
 #  define NEED_sv_2pv_nolen
@@ -787,6 +802,22 @@ ZLIB_VERNUM()
 #endif
 uLong
 zlibCompileFlags()
+
+
+#define haveZlibNg()    HAVE_ZLIB_NG
+bool
+haveZlibNg()
+
+const char*
+zlibng_version()
+    CODE:
+#ifdef ZLIBNG_VERSION
+        RETVAL = ZLIBNG_VERSION ;
+#else
+        RETVAL  = NULL;
+#endif
+    OUTPUT:
+        RETVAL
 
 MODULE = Compress::Raw::Zlib	PACKAGE = Compress::Raw::Zlib	PREFIX = Zip_
 

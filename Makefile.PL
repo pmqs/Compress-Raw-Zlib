@@ -171,6 +171,12 @@ my @names = qw(
     Z_UNKNOWN
     Z_VERSION_ERROR
 
+    ZLIBNG_VERNUM
+    ZLIBNG_VER_MAJOR
+    ZLIBNG_VER_MINOR
+    ZLIBNG_VER_REVISION
+    ZLIBNG_VER_STATUS
+    ZLIBNG_VER_MODIFIED
 );
     #ZLIB_VERNUM
 
@@ -209,6 +215,8 @@ if (eval {require ExtUtils::Constant; 1}) {
                        }
                      }
                  keys %verSpecificNames ;
+
+    push @names, { name => 'ZLIBNG_VERSION', type => 'PV' };
 
     ExtUtils::Constant::WriteConstants(
                                      NAME => 'Zlib',
