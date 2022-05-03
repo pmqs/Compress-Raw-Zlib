@@ -18,46 +18,46 @@
 #  define Z_PREFIX_SET
 
 /* all linked symbols and init macros */
-#  define _dist_code            perl_crz__dist_code
-#  define _length_code          perl_crz__length_code
-#  define _tr_align             perl_crz__tr_align
-#  define _tr_flush_bits        perl_crz__tr_flush_bits
-#  define _tr_flush_block       perl_crz__tr_flush_block
-#  define _tr_init              perl_crz__tr_init
-#  define _tr_stored_block      perl_crz__tr_stored_block
-#  define _tr_tally             perl_crz__tr_tally
-#  define adler32               perl_crz_adler32
-#  define adler32_combine       perl_crz_adler32_combine
-#  define adler32_combine64     perl_crz_adler32_combine64
-#  define adler32_z             perl_crz_adler32_z
+#  define _dist_code            Perl_crz__dist_code
+#  define _length_code          Perl_crz__length_code
+#  define _tr_align             Perl_crz__tr_align
+#  define _tr_flush_bits        Perl_crz__tr_flush_bits
+#  define _tr_flush_block       Perl_crz__tr_flush_block
+#  define _tr_init              Perl_crz__tr_init
+#  define _tr_stored_block      Perl_crz__tr_stored_block
+#  define _tr_tally             Perl_crz__tr_tally
+#  define adler32               Perl_crz_adler32
+#  define adler32_combine       Perl_crz_adler32_combine
+#  define adler32_combine64     Perl_crz_adler32_combine64
+#  define adler32_z             Perl_crz_adler32_z
 #  ifndef Z_SOLO
 #    define compress              z_compress
 #    define compress2             z_compress2
 #    define compressBound         z_compressBound
 #  endif
-#  define crc32                 perl_crz_crc32
-#  define crc32_combine         perl_crz_crc32_combine
-#  define crc32_combine64       perl_crz_crc32_combine64
-#  define crc32_z               perl_crz_crc32_z
-#  define deflate               perl_crz_deflate
-#  define deflateBound          perl_crz_deflateBound
-#  define deflateCopy           perl_crz_deflateCopy
-#  define deflateEnd            perl_crz_deflateEnd
-#  define deflateGetDictionary  perl_crz_deflateGetDictionary
-#  define deflateInit           perl_crz_deflateInit
-#  define deflateInit2          perl_crz_deflateInit2
-#  define deflateInit2_         perl_crz_deflateInit2_
-#  define deflateInit_          perl_crz_deflateInit_
-#  define deflateParams         perl_crz_deflateParams
-#  define deflatePending        perl_crz_deflatePending
-#  define deflatePrime          perl_crz_deflatePrime
-#  define deflateReset          perl_crz_deflateReset
-#  define deflateResetKeep      perl_crz_deflateResetKeep
-#  define deflateSetDictionary  perl_crz_deflateSetDictionary
-#  define deflateSetHeader      perl_crz_deflateSetHeader
-#  define deflateTune           perl_crz_deflateTune
-#  define deflate_copyright     perl_crz_deflate_copyright
-#  define get_crc_table         perl_crz_get_crc_table
+#  define crc32                 Perl_crz_crc32
+#  define crc32_combine         Perl_crz_crc32_combine
+#  define crc32_combine64       Perl_crz_crc32_combine64
+#  define crc32_z               Perl_crz_crc32_z
+#  define deflate               Perl_crz_deflate
+#  define deflateBound          Perl_crz_deflateBound
+#  define deflateCopy           Perl_crz_deflateCopy
+#  define deflateEnd            Perl_crz_deflateEnd
+#  define deflateGetDictionary  Perl_crz_deflateGetDictionary
+#  define deflateInit           Perl_crz_deflateInit
+#  define deflateInit2          Perl_crz_deflateInit2
+#  define deflateInit2_         Perl_crz_deflateInit2_
+#  define deflateInit_          Perl_crz_deflateInit_
+#  define deflateParams         Perl_crz_deflateParams
+#  define deflatePending        Perl_crz_deflatePending
+#  define deflatePrime          Perl_crz_deflatePrime
+#  define deflateReset          Perl_crz_deflateReset
+#  define deflateResetKeep      Perl_crz_deflateResetKeep
+#  define deflateSetDictionary  Perl_crz_deflateSetDictionary
+#  define deflateSetHeader      Perl_crz_deflateSetHeader
+#  define deflateTune           Perl_crz_deflateTune
+#  define deflate_copyright     Perl_crz_deflate_copyright
+#  define get_crc_table         Perl_crz_get_crc_table
 #  ifndef Z_SOLO
 #    define gz_error              z_gz_error
 #    define gz_intmax             z_gz_intmax
@@ -98,70 +98,70 @@
 #    define gzvprintf             z_gzvprintf
 #    define gzwrite               z_gzwrite
 #  endif
-#  define inflate               perl_crz_inflate
-#  define inflateBack           perl_crz_inflateBack
-#  define inflateBackEnd        perl_crz_inflateBackEnd
-#  define inflateBackInit       perl_crz_inflateBackInit
-#  define inflateBackInit_      perl_crz_inflateBackInit_
-#  define inflateCodesUsed      perl_crz_inflateCodesUsed
-#  define inflateCopy           perl_crz_inflateCopy
-#  define inflateEnd            perl_crz_inflateEnd
-#  define inflateGetDictionary  perl_crz_inflateGetDictionary
-#  define inflateGetHeader      perl_crz_inflateGetHeader
-#  define inflateInit           perl_crz_inflateInit
-#  define inflateInit2          perl_crz_inflateInit2
-#  define inflateInit2_         perl_crz_inflateInit2_
-#  define inflateInit_          perl_crz_inflateInit_
-#  define inflateMark           perl_crz_inflateMark
-#  define inflatePrime          perl_crz_inflatePrime
-#  define inflateReset          perl_crz_inflateReset
-#  define inflateReset2         perl_crz_inflateReset2
-#  define inflateResetKeep      perl_crz_inflateResetKeep
-#  define inflateSetDictionary  perl_crz_inflateSetDictionary
-#  define inflateSync           perl_crz_inflateSync
-#  define inflateSyncPoint      perl_crz_inflateSyncPoint
-#  define inflateUndermine      perl_crz_inflateUndermine
-#  define inflateValidate       perl_crz_inflateValidate
-#  define inflate_copyright     perl_crz_inflate_copyright
-#  define inflate_fast          perl_crz_inflate_fast
-#  define inflate_table         perl_crz_inflate_table
+#  define inflate               Perl_crz_inflate
+#  define inflateBack           Perl_crz_inflateBack
+#  define inflateBackEnd        Perl_crz_inflateBackEnd
+#  define inflateBackInit       Perl_crz_inflateBackInit
+#  define inflateBackInit_      Perl_crz_inflateBackInit_
+#  define inflateCodesUsed      Perl_crz_inflateCodesUsed
+#  define inflateCopy           Perl_crz_inflateCopy
+#  define inflateEnd            Perl_crz_inflateEnd
+#  define inflateGetDictionary  Perl_crz_inflateGetDictionary
+#  define inflateGetHeader      Perl_crz_inflateGetHeader
+#  define inflateInit           Perl_crz_inflateInit
+#  define inflateInit2          Perl_crz_inflateInit2
+#  define inflateInit2_         Perl_crz_inflateInit2_
+#  define inflateInit_          Perl_crz_inflateInit_
+#  define inflateMark           Perl_crz_inflateMark
+#  define inflatePrime          Perl_crz_inflatePrime
+#  define inflateReset          Perl_crz_inflateReset
+#  define inflateReset2         Perl_crz_inflateReset2
+#  define inflateResetKeep      Perl_crz_inflateResetKeep
+#  define inflateSetDictionary  Perl_crz_inflateSetDictionary
+#  define inflateSync           Perl_crz_inflateSync
+#  define inflateSyncPoint      Perl_crz_inflateSyncPoint
+#  define inflateUndermine      Perl_crz_inflateUndermine
+#  define inflateValidate       Perl_crz_inflateValidate
+#  define inflate_copyright     Perl_crz_inflate_copyright
+#  define inflate_fast          Perl_crz_inflate_fast
+#  define inflate_table         Perl_crz_inflate_table
 #  ifndef Z_SOLO
 #    define uncompress            z_uncompress
 #    define uncompress2           z_uncompress2
 #  endif
-#  define zError                perl_crz_zError
+#  define zError                Perl_crz_zError
 #  ifndef Z_SOLO
 #    define zcalloc               z_zcalloc
 #    define zcfree                z_zcfree
 #  endif
-#  define zlibCompileFlags      perl_crz_zlibCompileFlags
-#  define zlibVersion           perl_crz_zlibVersion
+#  define zlibCompileFlags      Perl_crz_zlibCompileFlags
+#  define zlibVersion           Perl_crz_zlibVersion
 
 /* all zlib typedefs in zlib.h and zconf.h */
-#  define Byte                  perl_crz_Byte
-#  define Bytef                 perl_crz_Bytef
-#  define alloc_func            perl_crz_alloc_func
-#  define charf                 perl_crz_charf
-#  define free_func             perl_crz_free_func
+#  define Byte                  Perl_crz_Byte
+#  define Bytef                 Perl_crz_Bytef
+#  define alloc_func            Perl_crz_alloc_func
+#  define charf                 Perl_crz_charf
+#  define free_func             Perl_crz_free_func
 #  ifndef Z_SOLO
 #    define gzFile                z_gzFile
 #  endif
-#  define gz_header             perl_crz_gz_header
-#  define gz_headerp            perl_crz_gz_headerp
-#  define in_func               perl_crz_in_func
-#  define intf                  perl_crz_intf
-#  define out_func              perl_crz_out_func
-#  define uInt                  perl_crz_uInt
-#  define uIntf                 perl_crz_uIntf
-#  define uLong                 perl_crz_uLong
-#  define uLongf                perl_crz_uLongf
-#  define voidp                 perl_crz_voidp
-#  define voidpc                perl_crz_voidpc
-#  define voidpf                perl_crz_voidpf
+#  define gz_header             Perl_crz_gz_header
+#  define gz_headerp            Perl_crz_gz_headerp
+#  define in_func               Perl_crz_in_func
+#  define intf                  Perl_crz_intf
+#  define out_func              Perl_crz_out_func
+#  define uInt                  Perl_crz_uInt
+#  define uIntf                 Perl_crz_uIntf
+#  define uLong                 Perl_crz_uLong
+#  define uLongf                Perl_crz_uLongf
+#  define voidp                 Perl_crz_voidp
+#  define voidpc                Perl_crz_voidpc
+#  define voidpf                Perl_crz_voidpf
 
 /* all zlib structs in zlib.h and zconf.h */
-#  define gz_header_s           perl_crz_gz_header_s
-#  define internal_state        perl_crz_internal_state
+#  define gz_header_s           Perl_crz_gz_header_s
+#  define internal_state        Perl_crz_internal_state
 
 #endif
 
