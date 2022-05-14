@@ -74,6 +74,8 @@ sub bit
     diag <<EOM ;
 
 
+Compress::Raw::Zlib::VERSION        $Compress::Raw::Zlib::VERSION
+
 ZLIB_VERSION (from zlib.h)          $zlib_h
 zlib_version (from zlib library)    $libz
 
