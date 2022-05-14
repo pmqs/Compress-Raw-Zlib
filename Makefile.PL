@@ -71,11 +71,14 @@ ParseCONFIG() ;
 UpDowngrade(getPerlFiles('MANIFEST'))
     unless $ENV{PERL_CORE};
 
+# When using  the systm supplied zlib, we don't want to use our bespoke prefix
+my $Z_PREFIX = $BUILD_ZLIB ? '-DZ_PREFIX' : '';
+
 WriteMakefile(
     NAME         => 'Compress::Raw::Zlib',
     VERSION_FROM => 'lib/Compress/Raw/Zlib.pm',
     INC          => "-I$ZLIB_INCLUDE" ,
-    DEFINE       => "-DNO_VIZ -DZ_SOLO $OLD_ZLIB $WALL -DZ_PREFIX -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H" ,
+    DEFINE       => "-DNO_VIZ -DZ_SOLO $OLD_ZLIB $WALL $Z_PREFIX -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H" ,
     XS           => { 'Zlib.xs' => 'Zlib.c'},
     'depend'     => { 'Makefile'   => 'config.in' },
     'clean'      => { FILES        => '*.c constants.h constants.xs' },
