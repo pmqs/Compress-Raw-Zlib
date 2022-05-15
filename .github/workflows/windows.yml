@@ -25,8 +25,11 @@ jobs:
           # - '5.10'
           # - '5.8'
           # - '5.6'
+        build-zlib:
+          - 0
+          - 1
 
-    name: Perl ${{ matrix.perl }}
+    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}}
     steps:
     - uses: actions/checkout@v1
     - name: Setup perl
@@ -39,5 +42,7 @@ jobs:
       run: cpanm --quiet --installdeps --notest .
     - name: Build
       run: perl Makefile.PL && make
+      env:
+        BUILD_ZLIB: ${{matrix.build-zlib}}
     - name: Test
       run: make test
