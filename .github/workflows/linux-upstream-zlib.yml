@@ -18,17 +18,15 @@ jobs:
         zlib-version:
           - 1.2.12
           
-        include:
-          - zlib-source: ${HOME}/upstream-zlib-source
-            zlib-install: ${HOME}/upstream-zlib-install
+        #include:
+        #  - zlib-source: ${HOME}/upstream-zlib-source
+        #    zlib-install: ${HOME}/upstream-zlib-install
 
     env:
       zlib-source: ${HOME}/upstream-zlib-source
       zlib-install: ${HOME}/upstream-zlib-install
-      ZLIB_LIB: ${{ env.zlib-install }}/lib
-      ZLIB_INCLUDE: ${{ matrix.zlib-install }}/include
-
-      
+      ZLIB_LIB: ${HOME}/upstream-zlib-install/lib
+      ZLIB_INCLUDE: ${HOME}/upstream-zlib-install/include     
       
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
