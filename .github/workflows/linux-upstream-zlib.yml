@@ -1,4 +1,4 @@
-name: Linux build
+name: Linux build with upstream zlib
 
 on: [push, pull_request]
 
@@ -17,8 +17,8 @@ jobs:
         #  - 1.2.12
           
         include:
-          - zlib-source: ${{ github.workspace }}/upstream-zlib-source
-            zlib-install: ${{ github.workspace }}/upstream-install
+          - zlib-source: $HOME/upstream-zlib-source
+            zlib-install: $HOME/upstream-zlib-install
             
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
