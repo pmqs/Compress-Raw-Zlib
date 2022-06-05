@@ -55,7 +55,9 @@ jobs:
       run: perl -V
       
     - name: Install dependencies
-      run: cpanm --quiet --installdeps --notest .
+      run: |
+        env
+        cpanm --quiet --installdeps --notest .
       
     - name: Build
       run: |
