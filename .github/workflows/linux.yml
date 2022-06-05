@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         perl:
+          - '5.36'
           - '5.34'
           - '5.32'
           - '5.30'
@@ -42,7 +43,7 @@ jobs:
       run: cpanm --quiet --installdeps --notest .
     - name: Build
       run: perl Makefile.PL && make
-      env: 
+      env:
         BUILD_ZLIB: ${{matrix.build-zlib}}
     - name: Test
       run: make test
