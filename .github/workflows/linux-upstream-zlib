@@ -1,0 +1,66 @@
+name: Linux build
+
+on: [push, pull_request]
+
+# upstream build derivbed from https://github.com/madler/zlib/pull/506
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl:
+          - '5.36'
+        #zlib-version:
+        #  - 1.2.12
+          
+        include:
+          - zlib-source: ${{ github.workspace }}/upstream-zlib-source
+            zlib-install: ${{ github.workspace }}/upstream-install
+            
+    name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
+    steps:
+    - uses: actions/checkout@v1
+
+    # BUILD Upstream zlib
+
+    - name: Checkout upstream zlib ${{matrix.zlib-version}}
+      uses: actions/checkout@v2
+      with:
+        repository: madler/zlib
+        path: ${{ matrix.zlib-source }}
+
+    - name: Build zlib ${{matrix.zlib-version}}
+      run: |
+        ./configure --prefix ${{ matrix.zlib-install }}
+        make
+        make test
+        make install
+      working-directory: ${{ matrix.zlib-source }}      
+     
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+        
+    - name: Perl version
+      run: perl -V
+      
+    - name: Install dependencies
+      run: cpanm --quiet --installdeps --notest .
+      
+    - name: Build
+      run: perl Makefile.PL && make
+      env:
+        BUILD_ZLIB: 0
+        ZLIB_LIB: ${{ matrix.zlib-install }}/lib
+        ZLIB_INCLUDE: ${{ matrix.zlib-install }}/include
+        
+    - name: Test
+      run: make test
