@@ -55,6 +55,7 @@ jobs:
         echo HOME ${HOME}
         echo ZLIB_LIB $ZLIB_LIB
         echo ZLIB_INCLUDE $ZLIB_INCLUDE
+        find ${HOME}/upstream-zlib-install
         perl Makefile.PL && make
       env:
         BUILD_ZLIB: 0
