@@ -17,8 +17,8 @@ jobs:
           - 1.2.12
           
         include:
-          - zlib-source: ${{ env.HOME }}/upstream-zlib-source
-            zlib-install: ${{ env.HOME }}/upstream-zlib-install
+          - zlib-source: $HOME/upstream-zlib-source
+            zlib-install: $HOME/upstream-zlib-install
             
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
@@ -50,7 +50,10 @@ jobs:
       run: cpanm --quiet --installdeps --notest .
       
     - name: Build
-      run: perl Makefile.PL && make
+      run: |
+        echo ZLIB_LIB $ZLIB_LIB
+        echo ZLIB_INCLUDE $ZLIB_INCLUDE
+        perl Makefile.PL && make
       env:
         BUILD_ZLIB: 0
         ZLIB_LIB: ${{ matrix.zlib-install }}/lib
