@@ -51,6 +51,8 @@ jobs:
       
     - name: Build
       run: |
+        echo CWD $CWD
+        echo HOME ${HOME}
         echo ZLIB_LIB $ZLIB_LIB
         echo ZLIB_INCLUDE $ZLIB_INCLUDE
         perl Makefile.PL && make
