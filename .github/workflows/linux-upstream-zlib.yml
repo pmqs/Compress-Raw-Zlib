@@ -17,8 +17,8 @@ jobs:
           - 1.2.12
           
         include:
-          - zlib-source: $HOME/upstream-zlib-source
-            zlib-install: $HOME/upstream-zlib-install
+          - zlib-source: ${HOME}/upstream-zlib-source
+            zlib-install: ${HOME}/upstream-zlib-install
             
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
