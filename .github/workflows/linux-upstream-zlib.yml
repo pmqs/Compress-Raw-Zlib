@@ -13,18 +13,16 @@ jobs:
       matrix:
         perl:
           - '5.36'
-        #zlib-version:
-        #  - 1.2.12
+        zlib-version:
+          - 1.2.12
           
         include:
-          - zlib-source: $HOME/upstream-zlib-source
-            zlib-install: $HOME/upstream-zlib-install
+          - zlib-source: ${{ env.HOME }}/upstream-zlib-source
+            zlib-install: ${{ env.HOME }}/upstream-zlib-install
             
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
     - uses: actions/checkout@v1
-
-    # BUILD Upstream zlib
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       uses: actions/checkout@v2
