@@ -19,6 +19,7 @@ jobs:
         include:
           - zlib-source: ${HOME}/upstream-zlib-source
             zlib-install: ${HOME}/upstream-zlib-install
+            fred: ${{ env.HOME }}
             
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
@@ -52,6 +53,7 @@ jobs:
     - name: Build
       run: |
         echo CWD $CWD
+        echo FRED ${{ matrix.fred }}
         echo HOME ${HOME}
         echo ZLIB_LIB $ZLIB_LIB
         echo ZLIB_INCLUDE $ZLIB_INCLUDE
