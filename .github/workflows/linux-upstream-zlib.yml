@@ -22,11 +22,10 @@ jobs:
         #  - zlib-source: ${HOME}/upstream-zlib-source
         #    zlib-install: ${HOME}/upstream-zlib-install
 
-    env:
-      zlib-source: ${HOME}/upstream-zlib-source
-      zlib-install: ${HOME}/upstream-zlib-install
-      ZLIB_LIB: ${HOME}/upstream-zlib-install/lib
-      ZLIB_INCLUDE: ${HOME}/upstream-zlib-install/include     
+    #env:
+    #  zlib-source: ${HOME}/upstream-zlib-source
+    #  zlib-install: ${HOME}/upstream-zlib-install
+  
       
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
@@ -36,15 +35,15 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: madler/zlib
-        path: ${{ env.zlib-source }}
+        path: ${HOME}/upstream-zlib-source
 
     - name: Build zlib ${{matrix.zlib-version}}
       run: |
-        ./configure --prefix ${{ env.zlib-install }}
+        ./configure --prefix ${HOME}/upstream-zlib-install
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source }}      
+      working-directory: ${HOME}/upstream-zlib-source      
      
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
@@ -55,11 +54,8 @@ jobs:
       run: perl -V
       
     - name: Install dependencies
-      run: |
-        env
-        cpanm --verbose --installdeps --notest .
-        #cpanm --quiet --installdeps --notest .
-      
+      run: cpanm --quiet --installdeps --notest .    
+              
     - name: Build
       run: |
         echo HOME ${HOME}
@@ -67,10 +63,11 @@ jobs:
         echo ZLIB_INCLUDE $ZLIB_INCLUDE
         find ${HOME}/upstream-zlib-install
         perl Makefile.PL && make
-      #env:
-      #  BUILD_ZLIB: 0
-      #  ZLIB_LIB: ${{ matrix.zlib-install }}/lib
-      #  ZLIB_INCLUDE: ${{ matrix.zlib-install }}/include
+      env:
+        BUILD_ZLIB: 0
+        ZLIB_LIB: ${HOME}/upstream-zlib-install/lib
+        ZLIB_INCLUDE: ${HOME}/upstream-zlib-install/include
+        
         
     - name: Test
       run: make test
