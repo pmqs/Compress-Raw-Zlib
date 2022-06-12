@@ -17,6 +17,7 @@ jobs:
         zlib-version:
           - v1.2.12
           - v1.2.11
+          - develop
  
       
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
