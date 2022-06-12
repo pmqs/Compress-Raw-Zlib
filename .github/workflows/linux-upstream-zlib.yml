@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
  
-
   
 jobs:
   build:
