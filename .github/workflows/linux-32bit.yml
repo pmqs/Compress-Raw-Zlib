@@ -5,13 +5,22 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-      
+    container:
+      image: i386/ubuntu:latest
     steps:
-      
-      - name: Get the qemu container
-        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-        
-      - name: Run tests on s390x/ubuntu
-        run: docker run --rm --interactive s390x/ubuntu bash -c "git clone --recurse-submodules $GITHUB_SERVER_URL/$GITHUB_REPOSITORY; cd $( echo $GITHUB_REPOSITORY | cut -d/ -f2 ); curl -L https://cpanmin.us | perl - --notest --installdeps .; perl Makefile.PL; make; prove -wlvmb t"
+      - name: install the Perl header, core modules, building tools
+        run: |
+          apt update
+          apt install -y libperl-dev build-essential
+      - uses: actions/checkout@v1
+      - name: perl -V
+        run: perl -V
+      #- name: perl %Config
+      #  run: perl -MConfig -MData::Dumper -e 'local $Data::Dumper::Sortkeys = 1;warn Dumper \%Config;'
+      - name: perl Makefile.PL
+        run: perl Makefile.PL
+      - name: make
+        run: make
+      - name: make test
+        run: make test
