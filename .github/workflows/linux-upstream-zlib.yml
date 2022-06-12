@@ -51,11 +51,11 @@ jobs:
     - name: Perl version
       run: perl -V
       
-    - name: Install dependencies
-      run: |
-        pwd
-        ls
-        cpanm --verbose --installdeps --notest .    
+    #- name: Install dependencies
+    #  run: |
+    #    pwd
+    #    ls
+    #    cpanm --verbose --installdeps --notest .    
               
     - name: Build
       run: |
