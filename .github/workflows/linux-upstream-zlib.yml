@@ -15,7 +15,8 @@ jobs:
         perl:
           - '5.36'
         zlib-version:
-          - 1.2.12
+          - v1.2.12
+          - v1.2.11
  
       
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
@@ -33,6 +34,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: madler/zlib
+        ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
