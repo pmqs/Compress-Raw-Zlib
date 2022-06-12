@@ -2,7 +2,7 @@ name: Linux build with upstream zlib
 
 on: [push, pull_request]
 
-# upstream build derivbed from https://github.com/madler/zlib/pull/506
+# upstream build derived from https://github.com/madler/zlib/pull/506
  
 
   
@@ -17,33 +17,32 @@ jobs:
           - '5.36'
         zlib-version:
           - 1.2.12
-          
-        #include:
-        #  - zlib-source: ${HOME}/upstream-zlib-source
-        #    zlib-install: ${HOME}/upstream-zlib-install
-
-    #env:
-    #  zlib-source: ${HOME}/upstream-zlib-source
-    #  zlib-install: ${HOME}/upstream-zlib-install
-  
+ 
       
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
     - uses: actions/checkout@v1
 
+    - name: Set Env
+      run: | 
+        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}" >> $GITHUB_ENV
+        echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}" >> $GITHUB_ENV
+        echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib" >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include" >> $GITHUB_ENV
+        
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       uses: actions/checkout@v2
       with:
         repository: madler/zlib
-        path: ${HOME}/upstream-zlib-source
+        path: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
       run: |
-        ./configure --prefix ${HOME}/upstream-zlib-install
+        ./configure --prefix ${{ env.zlib-install }}
         make
         make test
         make install
-      working-directory: ${HOME}/upstream-zlib-source      
+      working-directory: ${{ env.zlib-source }}
      
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
@@ -58,15 +57,15 @@ jobs:
               
     - name: Build
       run: |
-        echo HOME ${HOME}
+        echo BUILD_ZLIB ${BUILD_ZLIB}
         echo ZLIB_LIB $ZLIB_LIB
         echo ZLIB_INCLUDE $ZLIB_INCLUDE
-        find ${HOME}/upstream-zlib-install
+        #find ${HOME}/upstream-zlib-install
         perl Makefile.PL && make
       env:
         BUILD_ZLIB: 0
-        ZLIB_LIB: ${HOME}/upstream-zlib-install/lib
-        ZLIB_INCLUDE: ${HOME}/upstream-zlib-install/include
+        #ZLIB_LIB: ${HOME}/upstream-zlib-install/lib
+        #ZLIB_INCLUDE: ${HOME}/upstream-zlib-install/include
         
         
     - name: Test
