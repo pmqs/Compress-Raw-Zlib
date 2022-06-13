@@ -15,9 +15,9 @@
 #  #          got: '544801189'
 #  #     expected: '121635237'
 #  # Looks like you failed 2 tests of 353.
-#  t/02zlib.t ......... 
+#  t/02zlib.t .........
 #  Dubious, test returned 2 (wstat 512, 0x200)
-#  Failed 2/353 subtests 
+#  Failed 2/353 subtests
 #
 
 name: Alpine 32-bit
@@ -39,7 +39,7 @@ jobs:
         run: perl -V
       - name: perl Makefile.PL
         run: perl Makefile.PL
-        env: 
+        env:
           BUILD_ZLIB: 0
       - name: make
         run: make
