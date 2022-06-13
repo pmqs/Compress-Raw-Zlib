@@ -87,7 +87,7 @@ if (! $BUILD_ZLIB)
     $OPT_ZLIB_LIB = ''
         if $ZLIB_LIB eq './zlib-src' ;
 
-    #$OPT_SOLO = '';
+    $OPT_SOLO = '';
 }
 
 WriteMakefile(
