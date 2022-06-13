@@ -12,8 +12,7 @@ jobs:
       - name: install the Perl header, core modules, building tools
         run: |
           apk update
-          apk add perl
-          apk add --update make
+          apk add build-base perl
       - uses: actions/checkout@v1
       - name: perl -V
         run: perl -V
