@@ -1,4 +1,4 @@
-name: Linux 32-bit
+name: Alpine 32-bit
 
 on: [push, pull_request]
 
@@ -9,10 +9,10 @@ jobs:
     container:
       image: i386/alpine
     steps:
-      - name: install the Perl header, core modules, building tools
-        run: |
-          apt update
-          apt install -y libperl-dev build-essential
+      #- name: install the Perl header, core modules, building tools
+      #  run: |
+      #    apt update
+      #    apt install -y libperl-dev build-essential
       - uses: actions/checkout@v1
       - name: perl -V
         run: perl -V
