@@ -74,6 +74,7 @@ UpDowngrade(getPerlFiles('MANIFEST'))
 my $OPT_Z_PREFIX =  '-DZ_PREFIX' ;
 my $OPT_ZLIB_INCLUDE = "-I$ZLIB_INCLUDE";
 my $OPT_ZLIB_LIB = "-L$ZLIB_LIB" ;
+my $OPT_SOLO = '-DZ_SOLO';
 
 if (! $BUILD_ZLIB)
 {
@@ -85,13 +86,15 @@ if (! $BUILD_ZLIB)
 
     $OPT_ZLIB_LIB = ''
         if $ZLIB_LIB eq './zlib-src' ;
+
+    $OPT_SOLO = '';
 }
 
 WriteMakefile(
     NAME         => 'Compress::Raw::Zlib',
     VERSION_FROM => 'lib/Compress/Raw/Zlib.pm',
     INC          => $OPT_ZLIB_INCLUDE ,
-    DEFINE       => "-DNO_VIZ -DZ_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB" ,
+    DEFINE       => "-DNO_VIZ $OPT_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB" ,
     XS           => { 'Zlib.xs' => 'Zlib.c'},
     'depend'     => { 'Makefile'   => 'config.in' },
     'clean'      => { FILES        => '*.c constants.h constants.xs' },

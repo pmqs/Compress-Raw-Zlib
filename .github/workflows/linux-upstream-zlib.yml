@@ -1,0 +1,72 @@
+name: Linux build with upstream zlib
+
+on: [push, pull_request]
+
+# upstream build derived from https://github.com/madler/zlib/pull/506
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl:
+          - '5.36'
+        zlib-version:
+          - v1.2.12
+          - v1.2.11
+          - develop
+
+
+    name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set Env
+      run: |
+        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}" >> $GITHUB_ENV
+        echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"           >> $GITHUB_ENV
+        echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib"           >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include"   >> $GITHUB_ENV
+
+    - name: Checkout upstream zlib ${{matrix.zlib-version}}
+      uses: actions/checkout@v2
+      with:
+        repository: madler/zlib
+        ref: ${{ matrix.zlib-version }}
+        path: ${{ env.zlib-source }}
+
+    - name: Build zlib ${{matrix.zlib-version}}
+      run: |
+        ./configure --prefix ${{ env.zlib-install }}
+        make
+        make test
+        make install
+      working-directory: ${{ env.zlib-source }}
+
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+
+    - name: Perl version
+      run: perl -V
+
+    #- name: Install dependencies
+    #  run: |
+    #    cpanm --verbose --installdeps --notest .
+
+    - name: Build
+      run: |
+        echo BUILD_ZLIB ${BUILD_ZLIB}
+        echo ZLIB_LIB $ZLIB_LIB
+        echo ZLIB_INCLUDE $ZLIB_INCLUDE
+        #find ${HOME}/upstream-zlib-install
+        perl Makefile.PL && make
+      env:
+        BUILD_ZLIB: 0
+
+    - name: Test
+      run: make test
