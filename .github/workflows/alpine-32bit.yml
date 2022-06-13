@@ -9,10 +9,10 @@ jobs:
     container:
       image: i386/alpine
     steps:
-      #- name: install the Perl header, core modules, building tools
-      #  run: |
-      #    apt update
-      #    apt install -y libperl-dev build-essential
+      - name: install the Perl header, core modules, building tools
+        run: |
+          apk update
+          apk  install perl
       - uses: actions/checkout@v1
       - name: perl -V
         run: perl -V
