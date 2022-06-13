@@ -1,4 +1,4 @@
-name: Linux build with upstream zlib
+name: MacOS build with upstream zlib
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     strategy:
       matrix:

@@ -1,0 +1,47 @@
+
+# regression test for https://github.com/pmqs/Compress-Raw-Zlib/issues/12
+#
+# needs the following combination to trigger the issue
+#     A 32-bit Alpine
+#     BUILD_ZLIB=0
+#     Z_SOLO set inn Makefile.PL
+#
+# Error is
+#
+#       Failed test (t/02zlib.t at line 1097)
+#  #          got: '1865561793'
+#  #     expected: '2598427311'
+#  #     Failed test (t/02zlib.t at line 1117)
+#  #          got: '544801189'
+#  #     expected: '121635237'
+#  # Looks like you failed 2 tests of 353.
+#  t/02zlib.t ......... 
+#  Dubious, test returned 2 (wstat 512, 0x200)
+#  Failed 2/353 subtests 
+#
+
+name: Alpine 32-bit
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: i386/alpine
+    steps:
+      - name: install the Perl, gcc, make & zlib
+        run: |
+          apk update
+          apk add build-base perl perl-dev zlib-dev
+      - uses: actions/checkout@v1
+      - name: perl -V
+        run: perl -V
+      - name: perl Makefile.PL
+        run: perl Makefile.PL
+        env: 
+          BUILD_ZLIB: 0
+      - name: make
+        run: make
+      - name: make test
+        run: make test
