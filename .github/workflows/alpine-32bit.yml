@@ -13,6 +13,7 @@ jobs:
         run: |
           apk update
           apk add perl
+          apk add --update make
       - uses: actions/checkout@v1
       - name: perl -V
         run: perl -V
