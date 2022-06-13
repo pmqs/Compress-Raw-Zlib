@@ -1,7 +1,12 @@
+name: FreeBSD
+
+on: [push, pull_request]
+
+jobs:
   freebsd:
     runs-on: macos-10.15
     steps:
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v1
     - uses: vmactions/freebsd-vm@v0.1.6
       with:
         #prepare: pkg install -y p5-ExtUtils-PkgConfig
