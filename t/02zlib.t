@@ -488,8 +488,8 @@ SKIP:
     }
 
     # Z_STREAM_END returned by 1.12.2, Z_DATA_ERROR for older zlib
-    # ZLIB_NG has the fix from 2.0.6
-    if (ZLIB_VERNUM >= ZLIB_1_2_12_0 || ZLIBNG_VERNUM >= 0x2060)
+    # ZLIB_NG has the fix for all versions
+    if (ZLIB_VERNUM >= ZLIB_1_2_12_0 || ZLIBNG_VERNUM)
     {
         cmp_ok $status, '==', Z_STREAM_END ;
     }
