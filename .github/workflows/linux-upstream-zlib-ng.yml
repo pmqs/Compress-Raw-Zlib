@@ -40,7 +40,7 @@ jobs:
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
       if: ${{ ! matrix.zlib-native }}
       run: |
-        ./configure --prefix ${{ env.zlib-install }}
+        ./configure --prefix ${{ env.zlib-install }} --zlib-compat
         make
         make test
         make install
@@ -49,7 +49,7 @@ jobs:
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
       if: ${{ matrix.zlib-native }}
       run: |
-        ./configure --prefix ${{ env.zlib-install }} --zlib-compat
+        ./configure --prefix ${{ env.zlib-install }}
         make
         make test
         make install
