@@ -1,0 +1,84 @@
+name: MacOS + upstream zlib-ng
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        perl:
+          - '5.36'
+        zlib-version:
+          - 'develop'
+          - '2.0.6'
+          - '2.0.5'
+          - '2.0.4'
+          - '2.0.3'
+          - '2.0.2'
+          - '2.0.1'
+          - '2.0.0'
+        zlib-native:
+          - 1
+          - 0
+
+
+    name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set Env
+      run: |
+        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}" >> $GITHUB_ENV
+        echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"           >> $GITHUB_ENV
+        echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib"           >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include"   >> $GITHUB_ENV
+
+    - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
+      uses: actions/checkout@v2
+      with:
+        repository: zlib-ng/zlib-ng
+        ref: ${{ matrix.zlib-version }}
+        path: ${{ env.zlib-source }}
+
+    - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
+      if: ${{ ! matrix.zlib-native }}
+      run: |
+        ./configure --prefix ${{ env.zlib-install }} --zlib-compat
+        make
+        make test
+        make install
+      working-directory: ${{ env.zlib-source }}
+
+    - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
+      if: ${{ matrix.zlib-native }}
+      run: |
+        ./configure --prefix ${{ env.zlib-install }}
+        make
+        make test
+        make install
+      working-directory: ${{ env.zlib-source }}
+
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+
+    - name: Perl version
+      run: perl -V
+
+    #- name: Install dependencies
+    #  run: |
+    #    cpanm --verbose --installdeps --notest .
+
+    - name: Build
+      run: |
+        perl Makefile.PL && make
+      env:
+        BUILD_ZLIB: 0
+        USE_ZLIB_NG: ${{ matrix.zlib-native }}
+
+    - name: Test
+      run: make test
