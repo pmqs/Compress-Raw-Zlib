@@ -1,4 +1,4 @@
-name: Linux build with upstream zlib-ng
+name: Linux + upstream zlib-ng
 
 on: [push, pull_request]
 
@@ -14,12 +14,12 @@ jobs:
         zlib-version:
           #- v2.0.6
           - develop
-        zlib-compat:
+        zlib-native:
           - 1
           - 0
 
 
-    name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-compat }}
+    name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
     steps:
     - uses: actions/checkout@v1
 
@@ -38,18 +38,18 @@ jobs:
         path: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      if: ${{ matrix.zlib-compat }}
+      if: ${{ ! matrix.zlib-native }}
       run: |
-        ./configure --prefix ${{ env.zlib-install }} --zlib-compat
+        ./configure --prefix ${{ env.zlib-install }}
         make
         make test
         make install
       working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} native mode
-      if: ${{ ! matrix.zlib-compat }}
+      if: ${{ ! matrix.zlib-native }}
       run: |
-        ./configure --prefix ${{ env.zlib-install }}
+        ./configure --prefix ${{ env.zlib-install }} --zlib-compat
         make
         make test
         make install
@@ -72,7 +72,7 @@ jobs:
         perl Makefile.PL && make
       env:
         BUILD_ZLIB: 0
-        USE_ZLIB_NG: ${{ matrix.zlib-compat }}
+        USE_ZLIB_NG: ${{ matrix.zlib-native }}
 
     - name: Test
       run: make test

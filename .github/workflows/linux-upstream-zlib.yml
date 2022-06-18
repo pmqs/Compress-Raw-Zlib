@@ -1,4 +1,4 @@
-name: Linux build with upstream zlib
+name: Linux + upstream zlib
 
 on: [push, pull_request]
 

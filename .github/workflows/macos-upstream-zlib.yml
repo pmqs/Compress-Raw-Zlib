@@ -1,4 +1,4 @@
-name: MacOS build with upstream zlib
+name: MacOS + upstream zlib
 
 on: [push, pull_request]
 
