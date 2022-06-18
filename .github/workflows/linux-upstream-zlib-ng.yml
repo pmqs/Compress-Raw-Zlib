@@ -46,8 +46,8 @@ jobs:
         make install
       working-directory: ${{ env.zlib-source }}
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} native mode
-      if: ${{ ! matrix.zlib-native }}
+    - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
+      if: ${{ matrix.zlib-native }}
       run: |
         ./configure --prefix ${{ env.zlib-install }} --zlib-compat
         make
