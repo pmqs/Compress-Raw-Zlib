@@ -11,7 +11,6 @@ use warnings;
 use bytes;
 
 use Test::More ;
-use CompTestUtils;
 
 BEGIN
 {
@@ -25,11 +24,12 @@ BEGIN
     $extra = 1
         if eval { require Test::NoWarnings ;  import Test::NoWarnings; 1 };
 
-    plan tests => 288 + $extra ;
+    plan tests => 280 + $extra ;
 
     use_ok('Compress::Raw::Zlib', 2) ;
 }
 
+use CompTestUtils;
 
 my $hello = <<EOM ;
 hello world
@@ -39,13 +39,7 @@ EOM
 my $len   = length $hello ;
 
 # Check zlib_version and ZLIB_VERSION are the same.
-SKIP: {
-    skip "TEST_SKIP_VERSION_CHECK is set", 1
-        if $ENV{TEST_SKIP_VERSION_CHECK};
-    is Compress::Raw::Zlib::zlib_version, ZLIB_VERSION,
-        "ZLIB_VERSION matches Compress::Raw::Zlib::zlib_version" ;
-}
-
+test_zlib_header_matches_library();
 
 for my $i (1 .. 13)
 {

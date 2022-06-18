@@ -61,7 +61,9 @@ BEGIN
 {
     # Print our versions of all modules used
 
-    my @results = ( [ 'perl', $] ] );
+    use Compress::Raw::Zlib;
+
+    my @results = ( [ 'Perl', $] ] );
     my @modules = qw(
                     Compress::Raw::Zlib
                     );
@@ -79,14 +81,24 @@ BEGIN
             if $ver ;
     }
 
-    push @results, ["zlib_version", Compress::Raw::Zlib::zlib_version() ];
-    no strict 'refs';
-    push @results, ["ZLIB_VERNUM", sprintf("0x%x", &{ "Compress::Raw::Zlib::ZLIB_VERNUM" }) ];
+    push @results, ['',''];
+    push @results, ["zlib_version (from zlib library)", Compress::Raw::Zlib::zlib_version() ];
+    push @results, ["ZLIB_VERSION (from zlib.h)", Compress::Raw::Zlib::ZLIB_VERSION ];
+    push @results, ["ZLIB_VERNUM", sprintf("0x%x", Compress::Raw::Zlib::ZLIB_VERNUM) ];
+    push @results, ['',''];
 
-    # my @z =
-    if (Compress::Raw::Zlib::haveZlibNg())
+    if (Compress::Raw::Zlib::is_zlibng)
     {
         push @results, ["zlib-ng", "Yes" ];
+
+        if (Compress::Raw::Zlib::is_zlibng_compat)
+        {
+            push @results, ["zlib-ng Mode", "Compat" ];
+        }
+        else
+        {
+            push @results, ["zlib-ng Mode", "Native" ];
+        }
 
         my @ng = qw(
             ZLIBNG_VERSION
