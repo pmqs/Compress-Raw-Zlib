@@ -35,6 +35,7 @@ jobs:
         echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
         echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib"            >> $GITHUB_ENV
         echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include"    >> $GITHUB_ENV
+        echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $GITHUB_ENV
         echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
         echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
         echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                                            >> $GITHUB_ENV
@@ -81,5 +82,5 @@ jobs:
         perl Makefile.PL && make
 
     - name: Test
-      # run: make test 
+      # run: make test
       run: perl -Mblib t/01version.t
