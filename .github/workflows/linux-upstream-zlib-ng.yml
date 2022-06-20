@@ -82,5 +82,4 @@ jobs:
         perl Makefile.PL && make
 
     - name: Test
-      # run: make test
-      run: perl -Mblib t/01version.t
+      run: make test

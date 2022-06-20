@@ -489,7 +489,7 @@ SKIP:
 
     # Z_STREAM_END returned by 1.12.2, Z_DATA_ERROR for older zlib
     # ZLIB_NG has the fix for all versions
-    if (ZLIB_VERNUM >= ZLIB_1_2_12_0 || ZLIBNG_VERNUM)
+    if (ZLIB_VERNUM >= ZLIB_1_2_12_0 ||  Compress::Raw::Zlib::is_zlibng)
     {
         cmp_ok $status, '==', Z_STREAM_END ;
     }

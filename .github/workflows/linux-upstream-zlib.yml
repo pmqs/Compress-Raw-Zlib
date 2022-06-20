@@ -64,9 +64,6 @@ jobs:
     - name: Build
       run: |
         perl Makefile.PL && make
-      #env:
-      #  BUILD_ZLIB: 0
 
     - name: Test
-      # run: make test TEST_VERBOSE=1 TEST_FILES=t/01version.t
-      run: perl -Mblib t/01version.t
+      run: make test
