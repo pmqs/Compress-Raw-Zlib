@@ -81,4 +81,4 @@ jobs:
         perl Makefile.PL && make
 
     - name: Test
-      run: make test
+      run: make test TEST_VERBOSE=1
