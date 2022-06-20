@@ -33,16 +33,18 @@ SKIP:
 {
     # If running a github workflow that tests upstream zlib/zlib-ng, check we have the version requested
 
-
+diag "a";
     # Not github or not asking for explicit verson, so skip
-    skip 7, "Not github"
+    skip "Not github", 7
         if ! (defined $ENV{GITHUB_ACTION} && defined $ENV{ZLIB_VERSION}) ;
+diag "B";
 
     my $expected_version =  $ENV{ZLIB_VERSION} ;
+diag "B";
     # zlib prefixed tags with a "v", so remove
     $expected_version =~ s/^v//i;
-
-    skip 7, "Skipping version tests for 'develop' branch"
+diag "B";
+    skip "Skipping version tests for 'develop' branch", 7
         if ($expected_version eq 'develop') ;
 
     if ($ENV{USE_ZLIB_NG})
