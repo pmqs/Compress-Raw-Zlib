@@ -80,8 +80,10 @@
 
 #if USE_ZLIB_NG
 
-#  define HAVE_ZLIB_NG_NATIVE      TRUE
-#  define HAVE_ZLIB_NG_COMPAT      FALSE
+/* zlibng native */
+
+#  define HAVE_ZLIB_NG_NATIVE       TRUE
+#  define HAVE_ZLIB_NG_COMPAT       FALSE
 
 #  ifndef ZLIBNG_VER_STATUS
 #    define ZLIBNG_VER_STATUS 0
@@ -95,8 +97,8 @@
 #  define CRZ_crcInitial            zng_crc32(0L, Z_NULL, 0)
 
 #  define CRZ_ZSTREAM               zng_stream
-#  define CRZ_ZLIB_VERSION          ZLIBNG_VERSION
-#  define ZLIB_VERSION              ZLIBNG_VERSION
+
+
 
 #  define CRZ_adler32               zng_adler32
 #  define CRZ_adler32_combine       zng_adler32_combine
@@ -118,15 +120,30 @@
 #  define CRZ_inflateSetDictionary  zng_inflateSetDictionary
 #  define CRZ_inflateSync           zng_inflateSync
 #  define CRZ_zlibCompileFlags      zng_zlibCompileFlags
-#  define CRZ_zlibVersion           zlibng_version
-#  define CRZ_zlib_version          zlibng_version
+
+
+/* zlib  symbols & functions */
+
+// #  define CRZ_ZLIB_VERSION          ZLIBNG_VERSION
+// #  define ZLIB_VERSION              ZLIBNG_VERSION
+#  define CRZ_ZLIB_VERSION          ""
+#  define ZLIB_VERSION              ""
+
+// #  define CRZ_zlibVersion           zlibng_version
+// #  define CRZ_zlib_version          zlibng_version
+
+   const char *CRZ_zlibVersion(void)  { return ""; }
+   const char *CRZ_zlib_version(void) { return ""; }
+
 
 #else /* zlib specific */
+
 
 #  define HAVE_ZLIB_NG_NATIVE       FALSE
 
 /* Is this real zlib or zlib-ng in compat mode */
 #  ifdef ZLIBNG_VERSION
+     /* zlib-ng in compat mode */
 #    define HAVE_ZLIB_NG_COMPAT     TRUE
 
 #    ifndef ZLIBNG_VER_STATUS
@@ -137,10 +154,15 @@
 #      define ZLIBNG_VER_MODIFIED 0
 #    endif
 
+   const char *zlibng_version(void)  { return ZLIBNG_VERSION ; }
+
+
 #  else
+     /* zlib native mode */
+
 #    define HAVE_ZLIB_NG_COMPAT     FALSE
 
-/* zlib doesn't have the ZLIBNG synbols, so create them */
+     /* zlib doesn't have the ZLIBNG synbols, so create them */
 #    define ZLIBNG_VERSION          ""
 #    define ZLIBNG_VERNUM           0
 #    define ZLIBNG_VER_MAJOR        0
@@ -149,6 +171,8 @@
 #    define ZLIBNG_VER_STATUS       0
 #    define ZLIBNG_VER_MODIFIED     0
 #    define ZLIBNG_VERNUM           0
+
+   const char *zlibng_version(void) { return ""; }
 
 #  endif
 
@@ -877,21 +901,12 @@ BOOT:
         sv_setiv(os_code_sv, Perl_crz_BUILD_ZLIB) ;
     }
 
-#if ! HAVE_ZLIB_NG_NATIVE
-#  define Zip_zlib_version()	(const char*)CRZ_zlib_version()
-#else
-#  define Zip_zlib_version()	""
-#endif
+#define Zip_zlib_version()	(const char*)CRZ_zlib_version()
 const char*
 Zip_zlib_version()
 
-#if HAVE_ZLIB_NG_NATIVE
-#  define Zip_zlibng_version()	(const char*)zlibng_version()
-#else
-#  define Zip_zlibng_version()   (const char*)""
-#endif
 const char*
-Zip_zlibng_version()
+zlibng_version()
 
 #define Zip_is_zlib_native()	(! (HAVE_ZLIB_NG_NATIVE || HAVE_ZLIB_NG_COMPAT))
 bool
