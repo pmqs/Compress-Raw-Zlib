@@ -69,4 +69,5 @@ jobs:
       #  BUILD_ZLIB: 0
 
     - name: Test
-      run: make test TEST_VERBOSE=1
+      # run: make test TEST_VERBOSE=1 TEST_FILES=t/01version.t
+      run: perl -Mblib t/01version.t
