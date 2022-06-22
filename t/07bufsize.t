@@ -24,7 +24,7 @@ BEGIN
     $extra = 1
         if eval { require Test::NoWarnings ;  import Test::NoWarnings; 1 };
 
-    plan tests => 280 + $extra ;
+    plan tests => 288 + $extra ;
 
     use_ok('Compress::Raw::Zlib', 2) ;
 }
