@@ -1020,7 +1020,7 @@ SKIP:
 
     my $flags = Compress::Raw::Zlib::zlibCompileFlags;
 
-    if (ZLIB_VERNUM() < 0x1210)
+    if (!Compress::Raw::Zlib::is_zlibng && ZLIB_VERNUM() < 0x1210)
     {
         is $flags, 0, "zlibCompileFlags == 0 if < 1.2.1";
     }

@@ -43,32 +43,32 @@
 #  define z_off_t   long
 #endif
 
-#if USE_ZLIB_NG || ! defined(ZLIB_VERNUM) || ZLIB_VERNUM < 0x1200
+#if ! USE_ZLIB_NG && (! defined(ZLIB_VERNUM) || ZLIB_VERNUM < 0x1200)
 #  define NEED_DUMMY_BYTE_AT_END
 #endif
 
-#if USE_ZLIB_NG || defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1210
+#if USE_ZLIB_NG || (defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1210)
 #  define MAGIC_APPEND
 #  define AT_LEAST_ZLIB_1_2_1
 #endif
 
-#if USE_ZLIB_NG || defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1221
+#if USE_ZLIB_NG || (defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1221)
 #  define AT_LEAST_ZLIB_1_2_2_1
 #endif
 
-#if USE_ZLIB_NG || defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1222
+#if USE_ZLIB_NG || (defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1222)
 #  define AT_LEAST_ZLIB_1_2_2_2
 #endif
 
-#if USE_ZLIB_NG || defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1223
+#if USE_ZLIB_NG || (defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1223)
 #  define AT_LEAST_ZLIB_1_2_2_3
 #endif
 
-#if USE_ZLIB_NG || defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1230
+#if USE_ZLIB_NG || (defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1230)
 #  define AT_LEAST_ZLIB_1_2_3
 #endif
 
-#if USE_ZLIB_NG || defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1252
+#if USE_ZLIB_NG || (defined(ZLIB_VERNUM) && ZLIB_VERNUM >= 0x1252)
 /*
     Use Z_SOLO to build source means need own malloc/free
  */
@@ -929,6 +929,8 @@ ZLIB_VERNUM()
     CODE:
 #ifdef ZLIB_VERNUM
         RETVAL = ZLIB_VERNUM ;
+#elif USE_ZLIB_NG
+        RETVAL = 0 ;
 #else
         /* 1.1.4 => 0x1140 */
         RETVAL  = (CRZ_ZLIB_VERSION[0] - '0') << 12 ;
@@ -1776,7 +1778,7 @@ Perl_sv_dump(output); */
         }
     }
 #ifdef NEED_DUMMY_BYTE_AT_END
-    if (eof && RETVAL == Z_OK && s->flags & FLAG_LIMIT_OUTPUT == 0) {
+    if (eof && RETVAL == Z_OK && (s->flags & FLAG_LIMIT_OUTPUT) == 0) {
         Bytef* nextIn =  (Bytef*)s->stream.next_in;
         uInt availIn =  s->stream.avail_in;
         s->stream.next_in = (Bytef*) " ";

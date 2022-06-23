@@ -87,8 +87,8 @@ sub bit
     }
 
     push @results, ['',''];
-    push @results, ["zlib_version (from zlib or zlib-ng library)", Compress::Raw::Zlib::zlib_version() ];
-    push @results, ["ZLIB_VERSION (from zlib.h or zlib-ng.h)", Compress::Raw::Zlib::ZLIB_VERSION ];
+    push @results, ["zlib_version (from zlib library)", Compress::Raw::Zlib::zlib_version() ];
+    push @results, ["ZLIB_VERSION (from zlib.h)", Compress::Raw::Zlib::ZLIB_VERSION ];
     push @results, ["ZLIB_VERNUM", sprintf("0x%x", Compress::Raw::Zlib::ZLIB_VERNUM) ];
     push @results, ['',''];
 
@@ -98,7 +98,9 @@ sub bit
 
     if (Compress::Raw::Zlib::is_zlibng)
     {
-        push @results, ["zlib-ng", "Yes" ];
+        push @results, ["Using zlib-ng", "Yes" ];
+
+        push @results, ["zlibng_version", Compress::Raw::Zlib::zlibng_version() ];
 
         if (Compress::Raw::Zlib::is_zlibng_compat)
         {
@@ -130,10 +132,14 @@ sub bit
     }
     else
     {
-        push @results, ["zlib-ng", "No" ];
+        push @results, ["Using zlib-ng", "No" ];
     }
 
-
+    push @results, ['',''];
+    push @results, ["is_zlib_native",   Compress::Raw::Zlib::is_zlib_native() ? 1 : 0 ];
+    push @results, ["is_zlibng",        Compress::Raw::Zlib::is_zlibng() ?1 : 0];
+    push @results, ["is_zlibng_native", Compress::Raw::Zlib::is_zlibng_native() ? 1 : 0 ];
+    push @results, ["is_zlibng_compat", Compress::Raw::Zlib::is_zlibng_compat() ? 1 : 0];
 
 
     my $zlib_h = ZLIB_VERSION ;
