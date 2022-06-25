@@ -10,7 +10,7 @@ use warnings ;
 use bytes ;
 our ($VERSION, $XS_VERSION, @ISA, @EXPORT, %EXPORT_TAGS, @EXPORT_OK, $AUTOLOAD, %DEFLATE_CONSTANTS, @DEFLATE_CONSTANTS);
 
-$VERSION = '2.200';
+$VERSION = '2.201';
 $XS_VERSION = $VERSION;
 $VERSION = eval $VERSION;
 
@@ -1350,7 +1350,6 @@ The I<zlib-ng> library has an option to build with a zlib-compataible API.
 The c<is_zlibng_compat> function retuens true if zlib-ng has ben built with this API.
 
 Finally, C<is_zlibng_native> returns true if I<zlib-ng> was built with its native API.
-
 
 =head1 The LimitOutput option.
 

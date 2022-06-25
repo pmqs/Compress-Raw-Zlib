@@ -1,9 +1,9 @@
 
                             Compress-Raw-Zlib
 
-                              Version 2.200
+                               Version 2.201
 
-                              21 June 2022
+                               25 June 2022
 
         Copyright (c) 2005-2022 Paul Marquess. All rights reserved.
           This program is free software; you can redistribute it
@@ -19,7 +19,7 @@
 DESCRIPTION
 -----------
 
-This module provides a Perl interface to either the zlib or zlib-ng compression libraries.
+This module provides a Perl interface to the zlib compression library.
 
 PREREQUISITES
 -------------
@@ -32,9 +32,9 @@ installed on your system:
     * Perl 5.006 or better.
 
 By default, Compress-Raw-Zlib will build its own private copy of the
-zlib library. If you want to use a prebuilt version of
-zlib or zlib-ng, follow the instructions in the section called
-"Controlling the version of zlib/zlib-ng used by Compress-Raw-Zlib"
+zlib library. If you want to use a different version of
+zlib, follow the instructions in the section called
+"Controlling the version of zlib used by Compress-Raw-Zlib"
 later in this document.
 
 BUILDING THE MODULE
@@ -54,24 +54,27 @@ To install Compress-Raw-Zlib, run the command below:
 
     make install
 
-Controlling the version of zlib/zlib-ng used by Compress-Raw-Zlib
------------------------------------------------------------------
+Controlling the version of zlib used by Compress-Raw-Zlib
+----------------------------------------------------------
 
-Compress-Raw-Zlib interfaces to either the zlib or zlib-ng compression libraries. There
-are a number of options available to control which version/instance of the
-zlib/zlib-ng library is used:
+Compress-Raw-Zlib interfaces to the zlib compression library. There
+are three options available to control which version/instance of the
+zlib library is used:
 
     1. Build a private copy of the zlib library using the
        zlib library source that is included with this module.
-       This is the default option.
+       This is the default and recommended option.
 
-    2. Use a pre-built zlib or zlib-ng library.
+    2. Build a private copy of the zlib library using a standard
+       zlib source distribution.
 
-Note that if you intend to use Option 2, you need to have
-zlib version 1.2.0 or better. Any version of zlib-ng is fine.
+    3. Use a pre-built zlib library.
+
+Note that if you intend to use either Option 2 or 3, you need to have
+zlib version 1.2.0 or better.
 
 The contents of the file config.in are used to control which of the
-options is actually used. This file is read during the
+three options is actually used. This file is read during the
 
     perl Makefile.PL
 
@@ -89,23 +92,39 @@ before building this module.
       LIB          = ./zlib-src
       OLD_ZLIB     = False
       GZIP_OS_CODE = AUTO_DETECT
-      USE_ZLIB_NG  = False
 
-   Option 2
-  ---------
+  Option 2
+  --------
 
-  For option 2, you need to find out where zlib or zlib-ng is stored on your
-  system.
+  For option 2, fetch a copy of the zlib source distribution from
+  http://www.zlib.org and unpack it into the Compress-Raw-Zlib source
+  directory. Assuming you have fetched zlib 1.2.11,
+  it will create a directory called zlib-1.2.11.
 
-  If you want to use a prebuilt version of zlib, firstly find the directory where the zlib
-  library is stored (some
+  Now set the variables in the file config.in as follows (if the version
+  you have fetched isn't 1.2.11, change the INCLUDE and LIB
+  variables appropriately):
+
+      BUILD_ZLIB   = True
+      INCLUDE      = ./zlib-1.2.11
+      LIB          = ./zlib-1.2.11
+      OLD_ZLIB     = False
+      GZIP_OS_CODE = AUTO_DETECT
+
+  Option 3
+  --------
+
+  For option 3, you need to find out where zlib is stored on your
+  system.  There are two parts to this.
+
+  First, find the directory where the zlib library is stored (some
   common names for the library are libz.a and libz.so). Set the LIB variable
   in the config.in file to that directory.
 
   Secondly, find the directory where the file zlib.h is stored. Now set
   the INCLUDE variable in the config.in file to that directory.
 
-  Next set BUILD_ZLIB and USE_ZLIB_NG to False.
+  Next set BUILD_ZLIB to False.
 
   Finally, if you are running zlib 1.0.5 or older, set the OLD_ZLIB
   variable to True. Otherwise set it to False.
@@ -120,36 +139,12 @@ before building this module.
       LIB          = /usr/local/lib
       OLD_ZLIB     = False
       GZIP_OS_CODE = AUTO_DETECT
-      USE_ZLIB_NG  = False
-
-  If you want to use zlib-ng, the process is very similar.
-  Firstly find the directory where the zlib-ng
-  library is stored (some
-  common names for the library are libz-ng.a and libz-ng.so). Set the LIB variable
-  in the config.in file to that directory.
-
-  Secondly, find the directory where the file zlib-ng.h is stored. Now set
-  the INCLUDE variable in the config.in file to that directory.
-
-  Next set BUILD_ZLIB and OLD_ZLIB to False and set USE_ZLIB_NG to True.
-
-  As an example, if the zlib-ng library on your system is in
-  /usr/local/lib, zlib-ng.h is in /usr/local/include, the variables
-  in config.in should be set as follows:
-
-      BUILD_ZLIB   = False
-      INCLUDE      = /usr/local/include
-      LIB          = /usr/local/lib
-      OLD_ZLIB     = False
-      GZIP_OS_CODE = AUTO_DETECT
-      USE_ZLIB_NG  = True
 
 Setting the Gzip OS Code
 ------------------------
 
 Every gzip stream stores a byte in its header to identify the Operating
-System that was used to create the gzip stream.
-When you build Compress-Raw-Zlib it will attempt to determine the value that is correct for
+System that was used to create the gzip stream. When you build Compress-Raw-Zlib it will attempt to determine the value that is correct for
 your Operating System. This will then be used by IO::Compress::Gzip as the
 default value for the OS byte in all gzip headers it creates.
 
@@ -349,7 +344,7 @@ To help me help you, I need all of the following information:
         Note, I want you to run "perl -V" and NOT "perl -v".
 
         If your perl does not understand the "-V" option it is too
-        old. This module needs Perl version 5.6 or better.
+        old. This module needs Perl version 5.004 or better.
 
      b. The version of Compress-Raw-Zlib you have.
         If you have successfully installed Compress-Raw-Zlib, this one-liner
@@ -364,7 +359,7 @@ To help me help you, I need all of the following information:
         If you haven't installed Compress-Raw-Zlib then search Compress::Raw::Zlib.pm
         for a line like this:
 
-          $VERSION = "2.105" ;
+          $VERSION = "2.201" ;
 
      c. The version of zlib you have used.
         If you have successfully installed Compress-Raw-Zlib, this one-liner
