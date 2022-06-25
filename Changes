@@ -1,6 +1,24 @@
 CHANGES
 -------
 
+  2.201 25 June 2022
+
+      * 2.021
+        Sat Jun 25 08:42:46 2022 +0100
+        85416cab509c18c5fa3f923de7b45b6c7c0f7a6f
+
+      * 2.201
+        Sat Jun 25 08:39:26 2022 +0100
+        b3d63862b2ff4ac9d28e23be500c0d32ad69dd11
+
+      * More zlib-ng updates
+        Thu Jun 23 22:42:13 2022 +0100
+        313f626425181702b5fc80af2b6ea7eed41d5a9d
+
+      * Fix test count regression in t/07bufsize.t (#16)
+        Wed Jun 22 09:45:11 2022 +0100
+        98dc5b4a2b30c26752b6f686462b06b8db72a5e4
+
   2.200 21 June 2022
 
       * Added zlib-ng support
