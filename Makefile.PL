@@ -241,7 +241,7 @@ if (eval {require ExtUtils::Constant; 1}) {
                      }
                  keys %verSpecificNames ;
 
-    push @names, { name => 'Z_NULL', type => 'PV' };
+    push @names, { name => 'Z_NULL', type => 'UV' };
     push @names, { name => 'ZLIBNG_VERSION', type => 'PV' };
 
     ExtUtils::Constant::WriteConstants(
