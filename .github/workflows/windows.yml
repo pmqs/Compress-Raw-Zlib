@@ -1,4 +1,4 @@
-name: Windows 
+name: Windows
 
 on: [push, pull_request]
 
@@ -27,16 +27,20 @@ jobs:
           # - '5.8'
           # - '5.6'
         build-zlib:
-          - 0
           - 1
+          - 0
+        distribution:
+          - 'default'
+          - 'strawberry'
 
-    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}}
+    name: Perl ${{ matrix.perl }}  distribution:${{ matrix.distribution }} BUILD_ZLIB:${{matrix.build-zlib}}
     steps:
     - uses: actions/checkout@v1
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
+        distribution: ${{ matrix.distribution }}
     - name: Perl version
       run: perl -V
     - name: Install dependencies
