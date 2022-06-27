@@ -28,7 +28,7 @@ jobs:
           # - '5.6'
         build-zlib:
           - 1
-          - 0
+          # - 0
         distribution:
           - 'default'
           - 'strawberry'
