@@ -1,7 +1,7 @@
 CHANGES
 -------
 
-  2.201 27 June 2022
+  2.202 27 June 2022
 
       * Z_NULL should be 'UV' rather than 'PV'
         https://github.com/pmqs/Compress-Raw-Zlib/issues/17
