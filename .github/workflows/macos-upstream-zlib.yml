@@ -1,7 +1,10 @@
 name: MacOS + upstream zlib
 
-on: [push, pull_request]
-
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+  
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
 
