@@ -1,10 +1,10 @@
 name: Linux + upstream zlib
 
-on: 
+on:
   workflow_dispatch:
   push:
   pull_request:
-  
+
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
@@ -19,6 +19,7 @@ jobs:
         perl:
           - '5.36'
         zlib-version:
+          - v1.2.13
           - v1.2.12
           - v1.2.11
           - develop
