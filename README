@@ -1,11 +1,11 @@
 
                             Compress-Raw-Zlib
 
-                               Version 2.202
+                               Version 2.204
 
-                               27 June 2022
+                               8 February 2023
 
-        Copyright (c) 2005-2022 Paul Marquess. All rights reserved.
+        Copyright (c) 2005-2023 Paul Marquess. All rights reserved.
           This program is free software; you can redistribute it
            and/or modify it under the same terms as Perl itself.
 
@@ -359,7 +359,7 @@ To help me help you, I need all of the following information:
         If you haven't installed Compress-Raw-Zlib then search Compress::Raw::Zlib.pm
         for a line like this:
 
-          $VERSION = "2.202" ;
+          $VERSION = "2.204" ;
 
      c. The version of zlib you have used.
         If you have successfully installed Compress-Raw-Zlib, this one-liner
