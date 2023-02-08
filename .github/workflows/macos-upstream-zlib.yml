@@ -26,7 +26,7 @@ jobs:
 
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
 
     - name: Set Env
       run: |
@@ -39,7 +39,7 @@ jobs:
         echo "ZLIB_NG_PRESENT=0"                                                                >> $GITHUB_ENV
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: madler/zlib
         ref: ${{ matrix.zlib-version }}

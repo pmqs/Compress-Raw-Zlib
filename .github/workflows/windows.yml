@@ -38,7 +38,7 @@ jobs:
 
     name: Perl ${{ matrix.perl }}  distribution:${{ matrix.distribution }} BUILD_ZLIB:${{matrix.build-zlib}}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
