@@ -1282,7 +1282,7 @@ simpler.
             last OUTER
                 unless $status == Z_OK || $status == Z_BUF_ERROR ;
         }
-        while ($status == Z_OK && length $input);
+        while length $input;
     }
 
     die "inflation failed\n"
