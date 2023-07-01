@@ -71,6 +71,10 @@ jobs:
         make install
       working-directory: ${{ env.zlib-source }}
 
+    - name: Show ${{ env.zlib-install }}
+      run: |
+        find ${{ env.zlib-install }}
+        
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
