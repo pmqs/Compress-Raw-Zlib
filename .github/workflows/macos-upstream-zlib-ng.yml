@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
   pull_request:
+  schedule:
+    - cron: '56 12 * * 6'    # Run every sunday
 
 jobs:
   build:
