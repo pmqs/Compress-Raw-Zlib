@@ -5,7 +5,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '13 13 * * 0'    # Run every Sunday
+    - cron: '01 01 * * 6'    # Run every Saturday
 
 jobs:
   build:
