@@ -59,6 +59,9 @@ jobs:
         echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
         echo "LIBRARY_PATH=/"                                                                   >> $GITHUB_ENV
 
+    - name: Set Env
+      run: |
+        env | sort
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
       uses: actions/checkout@v3
