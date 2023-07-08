@@ -52,7 +52,7 @@ jobs:
 
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
-        echo "GITHUB_WORKSPACE_UNIX=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}" | perl -pe 's#^(.)#q[/] . lc($1) . q[/]#e; s#/#\\#'  >> $GITHUB_ENV
+        perl -e '$a = shift; $a =~ s#^(.)#q[/] . lc($1) . q[/]#e; $a =~ s#/#\\#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${GITHUB_WORKSPACE} >> $GITHUB_ENV
 
     - name: Set Env
       run: |
