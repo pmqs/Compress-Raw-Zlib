@@ -120,7 +120,6 @@ jobs:
         perl.exe Makefile.PL && make
       shell: cmd
 
-
     - name: Test
       run: make test
       shell: cmd
