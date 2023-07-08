@@ -1,4 +1,4 @@
-name: MacOS + upstream zlib-ng
+name: Windows + upstream zlib-ng
 
 on:
   workflow_dispatch:
