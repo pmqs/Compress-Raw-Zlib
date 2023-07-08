@@ -36,9 +36,9 @@ jobs:
           - 1
           - 0
 
-    defaults:
-        run:
-          shell: bash
+      defaults:
+          run:
+            shell: bash
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
     steps:
