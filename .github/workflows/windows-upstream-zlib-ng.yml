@@ -52,7 +52,7 @@ jobs:
 
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
-        perl -e '$a = shift; $a =~ s#^(.):#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${GITHUB_WORKSPACE} >> $GITHUB_ENV
+        perl -e '$a = shift; $a =~ s#^(.):\\#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${GITHUB_WORKSPACE} >> $GITHUB_ENV
 
     - name: Set Env
       run: |
