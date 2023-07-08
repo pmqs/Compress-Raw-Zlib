@@ -57,6 +57,7 @@ jobs:
     - name: Set Env
       run: |
         echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
+        echo "zlib-source-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
         echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
         echo "DESTDIR=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"                 >> $GITHUB_ENV
         echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
@@ -81,7 +82,7 @@ jobs:
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source }}
+      working-directory: ${{ env.zlib-source-unix }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
       if: ${{ matrix.zlib-native }}
@@ -90,7 +91,7 @@ jobs:
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source }}
+      working-directory: ${{ env.zlib-source-unix }}
 
     - name: Show ${{ env.zlib-install }}
       run: |
