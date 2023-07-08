@@ -52,11 +52,11 @@ jobs:
 
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
-        perl -e '$a = shift; $a =~ s#^(.)#q[/] . lc($1) . q[/]#e; $a =~ s#/#\\#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${GITHUB_WORKSPACE} >> $GITHUB_ENV
+        perl -e '$a = shift; $a =~ s#^(.):#q[/] . lc($1) . q[/]#e; $a =~ s#/#\\#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${GITHUB_WORKSPACE} >> $GITHUB_ENV
 
     - name: Set Env
       run: |
-        echo "zlib-source=${GITHUB_WORKSPACE_UNIX}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
+        echo "zlib-source=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
         echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
         echo "DESTDIR=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"                 >> $GITHUB_ENV
         echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
