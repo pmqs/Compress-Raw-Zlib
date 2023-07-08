@@ -56,6 +56,7 @@ jobs:
 
     - name: Build zlib ${{matrix.zlib-version}}
       run: |
+        set
         make -f win32/Makefile.gcc
         make -f win32/Makefile.gcc test
         make -f win32/Makefile.gcc install SHARED_MODE=1 DESTDIR="${{ env.zlib-install }}"
