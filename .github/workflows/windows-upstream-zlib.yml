@@ -80,6 +80,10 @@ jobs:
       run: |
         perl -i -pe 's#/#\\#g' $GITHUB_ENV
 
+    - name: Backslash2
+      run: |
+        env
+
     - name: Build
       run: |
         perl.exe Makefile.PL && make
