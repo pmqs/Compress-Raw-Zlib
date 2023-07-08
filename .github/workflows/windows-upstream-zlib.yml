@@ -26,9 +26,9 @@ jobs:
           - develop
 
 
-    defaults:
-      run:
-        shell: bash
+    # defaults:
+    #   run:
+    #     shell: bash
 
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
@@ -63,6 +63,7 @@ jobs:
         make -f win32/Makefile.gcc test
         make -f win32/Makefile.gcc install SHARED_MODE=1
       working-directory: ${{ env.zlib-source }}
+      shell: bash
       env:
         DESTDIR: ${{ env.zlib-install }}
 
