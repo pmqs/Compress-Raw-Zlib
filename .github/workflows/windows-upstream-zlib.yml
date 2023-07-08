@@ -53,10 +53,9 @@ jobs:
 
     - name: Build zlib ${{matrix.zlib-version}}
       run: |
-        ./configure --prefix ${{ env.zlib-install }}
-        make
-        make test
-        make install
+        make -f win32/Makefile.gcc
+        make -f win32/Makefile.gcc test
+        make -f win32/Makefile.gcc install
       working-directory: ${{ env.zlib-source }}
 
     - name: Setup perl
