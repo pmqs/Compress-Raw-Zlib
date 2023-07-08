@@ -36,16 +36,17 @@ jobs:
 
     - name: Set Env
       run: |
-        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $env:GITHUB_ENV
-        echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $env:GITHUB_ENV
-        echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib"            >> $env:GITHUB_ENV
-        echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include"    >> $env:GITHUB_ENV
-        echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $env:GITHUB_ENV
-        echo "BUILD_ZLIB=0"                                                                     >> $env:GITHUB_ENV
-        echo "ZLIB_NG_PRESENT=0"                                                                >> $env:GITHUB_ENV
-        echo "INCLUDE_PATH=/"                                                                   >> $env:GITHUB_ENV
-        echo "INCLUDE_PATH=/"                                                                   >> $env:GITHUB_ENV
-        echo "LIBRARY_PATH=/"                                                                   >> $env:GITHUB_ENV
+        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
+        echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
+        echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib"            >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include"    >> $GITHUB_ENV
+        echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $GITHUB_ENV
+        echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
+        echo "ZLIB_NG_PRESENT=0"                                                                >> $GITHUB_ENV
+        echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
+        echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
+        echo "LIBRARY_PATH=/"                                                                   >> $GITHUB_ENV
+        echo "DESTDIR=${{ env.zlib-install }}"                                                  >> $GITHUB_ENV
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       uses: actions/checkout@v3
@@ -57,6 +58,7 @@ jobs:
     - name: Build zlib ${{matrix.zlib-version}}
       run: |
         env
+        echo XXX ${{ env.zlib-install }}
         make -f win32/Makefile.gcc
         make -f win32/Makefile.gcc test
         make -f win32/Makefile.gcc install SHARED_MODE=1
