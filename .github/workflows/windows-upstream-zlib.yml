@@ -55,7 +55,7 @@ jobs:
       run: |
         make -f win32/Makefile.gcc
         make -f win32/Makefile.gcc test
-        make -f win32/Makefile.gcc install
+        make -f win32/Makefile.gcc install SHARED_MODE=1 DESTDIR=${{ env.zlib-install }}
       working-directory: ${{ env.zlib-source }}
 
     - name: Setup perl
