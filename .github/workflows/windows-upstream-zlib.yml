@@ -77,8 +77,8 @@ jobs:
     #    cpanm --verbose --installdeps --notest .
 
     - name: Backslash
-    run: |
-      perl -i -pe 's#/#\\#g' $GITHUB_ENV
+      run: |
+        perl -i -pe 's#/#\\#g' $GITHUB_ENV
 
     - name: Build
       run: |
