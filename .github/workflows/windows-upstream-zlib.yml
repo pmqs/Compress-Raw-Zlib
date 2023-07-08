@@ -26,9 +26,9 @@ jobs:
           - develop
 
 
-    defaults:
-      run:
-        shell: bash
+    # defaults:
+    #   run:
+    #     shell: bash
 
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
