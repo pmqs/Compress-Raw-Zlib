@@ -46,7 +46,7 @@ jobs:
         echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
         echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
         echo "LIBRARY_PATH=/"                                                                   >> $GITHUB_ENV
-        echo "DESTDIR=${{ env.zlib-install }}"                                                  >> $GITHUB_ENV
+        echo "DESTDIR=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"                 >> $GITHUB_ENV
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       uses: actions/checkout@v3
@@ -63,8 +63,6 @@ jobs:
         make -f win32/Makefile.gcc test
         make -f win32/Makefile.gcc install SHARED_MODE=1
       working-directory: ${{ env.zlib-source }}
-      env:
-        DESTDIR: ${{ env.zlib-install }}
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
@@ -81,7 +79,7 @@ jobs:
     - name: Build
       run: |
         perl.exe Makefile.PL && make
-      # shell: cmd
+      shell: cmd
 
 
     - name: Test
