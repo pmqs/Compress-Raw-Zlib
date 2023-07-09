@@ -92,7 +92,7 @@ jobs:
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source-unix }}
+      working-directory: ${{ env.zlib-source }}
       shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
@@ -102,7 +102,7 @@ jobs:
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source-unix }}
+      working-directory: ${{ env.zlib-source }}
       shell: bash
 
     - name: Show ${{ env.zlib-install }}
