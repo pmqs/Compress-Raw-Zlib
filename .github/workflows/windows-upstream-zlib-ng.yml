@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        shell: cmd
+        shell: bash
 
     strategy:
       matrix:
@@ -69,6 +69,12 @@ jobs:
     - name: Set Env
       run: |
         env | sort
+      shell: bash
+
+    - name: Set Env
+      run: |
+        set
+      shell: cmd
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
       uses: actions/checkout@v3
@@ -84,7 +90,7 @@ jobs:
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source-unix }}
+      working-directory: ${{ env.zlib-source }}
       shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
@@ -94,7 +100,7 @@ jobs:
         make
         make test
         make install
-      working-directory: ${{ env.zlib-source-unix }}
+      working-directory: ${{ env.zlib-source }}
       shell: bash
 
     - name: Show ${{ env.zlib-install }}
@@ -109,6 +115,7 @@ jobs:
 
     - name: Perl version
       run: perl -V
+      shell: cmd
 
     #- name: Install dependencies
     #  run: |
@@ -123,6 +130,16 @@ jobs:
         echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
         echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                                            >> $GITHUB_ENV
       shell: cmd
+
+    - name: Set Env
+      run: |
+        set
+      shell: cmd
+
+    - name: Set Env
+      run: |
+        env | sort
+      shell: bash
 
     - name: Build
       run: |
