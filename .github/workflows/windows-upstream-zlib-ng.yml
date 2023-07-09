@@ -50,10 +50,6 @@ jobs:
     #     echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
     #     echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
 
-    - name: Set DOLLAR
-      run: |
-        perl -e "$a = 1234; print qq[$a\n]"
-
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
         perl -e "$a = shift; $a =~ s#^(.):\\#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a]" ${GITHUB_WORKSPACE} >> $GITHUB_ENV
@@ -87,6 +83,7 @@ jobs:
         make test
         make install
       working-directory: ${{ env.zlib-source-unix }}
+      shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
       if: ${{ matrix.zlib-native }}
@@ -96,10 +93,12 @@ jobs:
         make test
         make install
       working-directory: ${{ env.zlib-source-unix }}
+      shell: bash
 
     - name: Show ${{ env.zlib-install }}
       run: |
         find ${{ env.zlib-install }}
+      shell: bash
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
