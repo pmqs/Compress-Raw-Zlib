@@ -160,7 +160,7 @@ jobs:
 
     - name: Show ${{ env.zlib-install }}
       run: |
-        find ${{ env.zlib-install }}
+        find ${{ env.zlib-install-unix }}
       shell: bash
 
     - name: Setup perl
