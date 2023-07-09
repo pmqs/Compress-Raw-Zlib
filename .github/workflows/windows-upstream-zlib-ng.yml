@@ -106,6 +106,8 @@ jobs:
       if: ${{ ! matrix.zlib-native }}
       run: |
         cmake -G Ninja -S . -B .  \
+          -DCMAKE_C_COMPILER=gcc \
+          -DCMAKE_CXX_COMPILER=g++ \
           -DCMAKE_BUILD_TYPE='Release' \
           -DBUILD_SHARED_LIBS='ON' \
           -DWITH_FUZZERS=OFF \
@@ -129,6 +131,8 @@ jobs:
       if: ${{ matrix.zlib-native }}
       run: |
         cmake -G Ninja -S . -B .  \
+          -DCMAKE_C_COMPILER=gcc \
+          -DCMAKE_CXX_COMPILER=g++ \
           -DCMAKE_BUILD_TYPE='Release' \
           -DBUILD_SHARED_LIBS='ON' \
           -DWITH_FUZZERS=OFF \
