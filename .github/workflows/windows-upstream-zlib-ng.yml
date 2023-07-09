@@ -106,6 +106,7 @@ jobs:
       if: ${{ ! matrix.zlib-native }}
       run: |
         cmake -G Ninja -S . -B .  \
+          --install-prefix=${{ env.zlib-install }} \
           -DCMAKE_C_COMPILER=gcc \
           -DCMAKE_CXX_COMPILER=g++ \
           -DCMAKE_BUILD_TYPE='Release' \
@@ -113,6 +114,8 @@ jobs:
           -DWITH_FUZZERS=OFF \
           -DWITH_MAINTAINER_WARNINGS=OFF \
           -DZLIB_COMPAT=ON
+        cmake --build . -t test
+        cmake --install .
       # env:
       #   CC: gccc
       #   CXX: g++
@@ -131,6 +134,7 @@ jobs:
       if: ${{ matrix.zlib-native }}
       run: |
         cmake -G Ninja -S . -B .  \
+          --install-prefix=${{ env.zlib-install }} \
           -DCMAKE_C_COMPILER=gcc \
           -DCMAKE_CXX_COMPILER=g++ \
           -DCMAKE_BUILD_TYPE='Release' \
@@ -138,6 +142,8 @@ jobs:
           -DWITH_FUZZERS=OFF \
           -DWITH_MAINTAINER_WARNINGS=OFF \
           -DZLIB_COMPAT=OFF
+        cmake --build . -t test
+        cmake --install .
       # env:
       #   CC: gccc
       #   CXX: g++
