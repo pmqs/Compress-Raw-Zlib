@@ -107,6 +107,8 @@ jobs:
       run: |
         cmake -G Ninja -S . -B .  \
           --install-prefix=${{ env.zlib-install }} \
+          -DCMAKE_C_COMPILER=gcc \
+          -DCMAKE_CXX_COMPILER=g++ \
           -DCMAKE_BUILD_TYPE='Release' \
           -DBUILD_SHARED_LIBS='ON' \
           -DWITH_FUZZERS=OFF \
@@ -114,9 +116,9 @@ jobs:
           -DZLIB_COMPAT=ON
         cmake --build .
         cmake --install .
-      env:
-        CC: gccc
-        CXX: g++
+      # env:
+      #   CC: gccc
+      #   CXX: g++
       # run: |
       #   pwd
       #   ls -l
@@ -126,13 +128,15 @@ jobs:
       #   make test
       #   make install
       working-directory: ${{ env.zlib-source }}
-      shell: cmd
+      shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib native mode
       if: ${{ matrix.zlib-native }}
       run: |
         cmake -G Ninja -S . -B .  \
           --install-prefix=${{ env.zlib-install }} \
+          -DCMAKE_C_COMPILER=gcc \
+          -DCMAKE_CXX_COMPILER=g++ \
           -DCMAKE_BUILD_TYPE='Release' \
           -DBUILD_SHARED_LIBS='ON' \
           -DWITH_FUZZERS=OFF \
@@ -140,9 +144,9 @@ jobs:
           -DZLIB_COMPAT=OFF
         cmake --build .
         cmake --install .
-      env:
-        CC: gccc
-        CXX: g++
+      # env:
+      #   CC: gccc
+      #   CXX: g++
       # run: |
       #   pwd
       #   ls -l
@@ -152,7 +156,7 @@ jobs:
       #   make test
       #   make install
       working-directory: ${{ env.zlib-source }}
-      shell: cmd
+      shell: bash
 
     - name: Show ${{ env.zlib-install }}
       run: |
