@@ -80,27 +80,75 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
+    # - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
+    #   if: ${{ ! matrix.zlib-native }}
+    #   run: |
+    #     pwd
+    #     ls -l
+    #     ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib  --zlib-compat
+    #     make
+    #     make test
+    #     make install
+    #   working-directory: ${{ env.zlib-source }}
+    #   shell: bash
+
+    # - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
+    #   if: ${{ matrix.zlib-native }}
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib
+    #     make
+    #     make test
+    #     make install
+    #   working-directory: ${{ env.zlib-source }}
+    #   shell: bash
+
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
       if: ${{ ! matrix.zlib-native }}
       run: |
-        pwd
-        ls -l
-        ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib  --zlib-compat
-        make
-        make test
-        make install
+        cmake -G ninja -S . -B .  \
+          -DCMAKE_BUILD_TYPE='Release' \
+          -DBUILD_SHARED_LIBS='ON' \
+          -DWITH_FUZZERS=OFF \
+          -DWITH_MAINTAINER_WARNINGS=OFF \
+          -DZLIB_COMPAT=ON
+      env:
+        CC: gccc
+        CXX: g++
+      # run: |
+      #   pwd
+      #   ls -l
+      #   cmake -G Ninja
+      #     --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib  --zlib-compat
+      #   make
+      #   make test
+      #   make install
       working-directory: ${{ env.zlib-source }}
       shell: bash
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
-      if: ${{ matrix.zlib-native }}
+    - name: Build zlib-ng ${{matrix.zlib-version}} in zlib native mode
+      if: ${{ ! matrix.zlib-native }}
       run: |
-        ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib
-        make
-        make test
-        make install
+        cmake -G ninja -S . -B .  \
+          -DCMAKE_BUILD_TYPE='Release' \
+          -DBUILD_SHARED_LIBS='ON' \
+          -DWITH_FUZZERS=OFF \
+          -DWITH_MAINTAINER_WARNINGS=OFF \
+          -DZLIB_COMPAT=OFF
+      env:
+        CC: gccc
+        CXX: g++
+      # run: |
+      #   pwd
+      #   ls -l
+      #   cmake -G Ninja
+      #     --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib  --zlib-compat
+      #   make
+      #   make test
+      #   make install
       working-directory: ${{ env.zlib-source }}
       shell: bash
+
+
 
     - name: Show ${{ env.zlib-install }}
       run: |
