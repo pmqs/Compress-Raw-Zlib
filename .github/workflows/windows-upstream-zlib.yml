@@ -64,6 +64,7 @@ jobs:
 
     - name: Perl version
       run: perl -V
+      shell: cmd
 
     #- name: Install dependencies
     #  run: |
@@ -82,7 +83,6 @@ jobs:
       run: |
         perl.exe Makefile.PL && make
       shell: cmd
-
 
     - name: Test
       run: make test
