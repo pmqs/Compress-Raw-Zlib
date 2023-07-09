@@ -52,7 +52,7 @@ jobs:
 
     - name: Set DOLLAR
       run: |
-        echo '$a = 1234; print "$a\n"'
+        perl -e "$a = 1234; print qq[$a\n]"
 
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
