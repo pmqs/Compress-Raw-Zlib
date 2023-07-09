@@ -50,6 +50,10 @@ jobs:
     #     echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
     #     echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
 
+    - name: Set DOLLAR
+      run: |
+        perl -e '$a = 1234; print "$a\n"'
+
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
         perl -e '$a = shift; $a =~ s#^(.):\\#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${GITHUB_WORKSPACE} >> $GITHUB_ENV
