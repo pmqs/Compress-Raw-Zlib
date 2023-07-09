@@ -113,9 +113,9 @@ jobs:
           -DWITH_FUZZERS=OFF \
           -DWITH_MAINTAINER_WARNINGS=OFF \
           -DZLIB_COMPAT=ON
-      env:
-        CC: gccc
-        CXX: g++
+      # env:
+      #   CC: gccc
+      #   CXX: g++
       # run: |
       #   pwd
       #   ls -l
@@ -138,9 +138,9 @@ jobs:
           -DWITH_FUZZERS=OFF \
           -DWITH_MAINTAINER_WARNINGS=OFF \
           -DZLIB_COMPAT=OFF
-      env:
-        CC: gccc
-        CXX: g++
+      # env:
+      #   CC: gccc
+      #   CXX: g++
       # run: |
       #   pwd
       #   ls -l
