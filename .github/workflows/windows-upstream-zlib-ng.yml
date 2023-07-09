@@ -105,7 +105,7 @@ jobs:
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
       if: ${{ ! matrix.zlib-native }}
       run: |
-        cmake -G ninja -S . -B .  \
+        cmake -G Ninja -S . -B .  \
           -DCMAKE_BUILD_TYPE='Release' \
           -DBUILD_SHARED_LIBS='ON' \
           -DWITH_FUZZERS=OFF \
@@ -128,7 +128,7 @@ jobs:
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib native mode
       if: ${{ ! matrix.zlib-native }}
       run: |
-        cmake -G ninja -S . -B .  \
+        cmake -G Ninja -S . -B .  \
           -DCMAKE_BUILD_TYPE='Release' \
           -DBUILD_SHARED_LIBS='ON' \
           -DWITH_FUZZERS=OFF \
