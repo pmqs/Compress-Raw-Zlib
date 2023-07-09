@@ -178,7 +178,7 @@ jobs:
 
     - name: Set Env Windows
       run: |
-        echo "ZLIB_LIB=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\lib"            >> $GITHUB_ENV
+        echo "ZLIB_LIB=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\bin"            >> $GITHUB_ENV
         echo "ZLIB_INCLUDE=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\include"    >> $GITHUB_ENV
         echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $GITHUB_ENV
         echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
