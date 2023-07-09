@@ -1,0 +1,22 @@
+name: FreeBSD
+
+# Test Disabled - not working
+
+on:
+    workflow_dispatch:
+    # push:
+    # pull_request:
+
+jobs:
+  freebsd:
+    runs-on: macos-10.15
+    steps:
+    - uses: actions/checkout@v1
+    - uses: vmactions/freebsd-vm@v0.1.6
+      with:
+        #prepare: pkg install -y p5-ExtUtils-PkgConfig
+        run: |
+            perl -V
+            perl Makefile.PL
+            make
+            prove -wlvmb t
