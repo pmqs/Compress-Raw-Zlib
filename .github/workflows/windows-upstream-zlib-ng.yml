@@ -33,7 +33,7 @@ jobs:
           # - '2.0.1'
           # - '2.0.0'
         zlib-native:
-          - 1
+          # - 1
           - 0
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
