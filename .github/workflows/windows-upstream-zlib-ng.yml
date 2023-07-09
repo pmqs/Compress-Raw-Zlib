@@ -126,7 +126,7 @@ jobs:
       shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib native mode
-      if: ${{ ! matrix.zlib-native }}
+      if: ${{ matrix.zlib-native }}
       run: |
         cmake -G Ninja -S . -B .  \
           -DCMAKE_BUILD_TYPE='Release' \
@@ -147,8 +147,6 @@ jobs:
       #   make install
       working-directory: ${{ env.zlib-source }}
       shell: bash
-
-
 
     - name: Show ${{ env.zlib-install }}
       run: |
