@@ -59,11 +59,8 @@ jobs:
       run: |
         echo "zlib-source=${GITHUB_WORKSPACE}\upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
         echo "zlib-source-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
-        echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
-        echo "DESTDIR=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"                 >> $GITHUB_ENV
-        echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
-        echo "INCLUDE_PATH=/"                                                                   >> $GITHUB_ENV
-        echo "LIBRARY_PATH=/"                                                                   >> $GITHUB_ENV
+        echo "zlib-install=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
+        echo "zlib-install-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
       shell: bash
 
     - name: Set Env
@@ -125,8 +122,8 @@ jobs:
 
     - name: Set Env Windows
       run: |
-        echo "ZLIB_LIB=${HOME}\upstream-zlib-install-${{ matrix.zlib-version }}\lib"            >> $GITHUB_ENV
-        echo "ZLIB_INCLUDE=${HOME}\upstream-zlib-install-${{ matrix.zlib-version }}\include"    >> $GITHUB_ENV
+        echo "ZLIB_LIB=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\lib"            >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\include"    >> $GITHUB_ENV
         echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $GITHUB_ENV
         echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
         echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
