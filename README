@@ -1,7 +1,7 @@
 
                             Compress-Raw-Zlib
 
-                              Version 2.205
+                         Version 2.205
 
                                16 July 2023
 
@@ -323,8 +323,7 @@ SUPPORT
 -------
 
 General feedback/questions/bug reports should be sent to
-https://github.com/pmqs/Compress-Raw-Zlib/issues (preferred) or
-https://rt.cpan.org/Public/Dist/Display.html?Name=Compress-Raw-Zlib.
+https://github.com/pmqs/Compress-Raw-Zlib/issues
 
 FEEDBACK
 --------
