@@ -33,7 +33,8 @@ jobs:
           - 0
 
     env:
-      zlib-source:      ${GITHUB_WORKSPACE}/upstream-zlib-source
+      # zlib-source:      ${GITHUB_WORKSPACE}/upstream-zlib-source
+      zlib-source:      ${{ env.GITHUB_WORKSPACE }}/upstream-zlib-source
       zlib-install:     ${HOME}/upstream-zlib-install
       ZLIB_LIB:         ${HOME}/upstream-zlib-install/lib
       ZLIB_INCLUDE:     ${HOME}/upstream-zlib-install/include
