@@ -30,7 +30,7 @@ jobs:
       run:
         shell: bash
 
-    name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
+    name: Perl ${{ matrix.perl }} with zlib ${{matrix.zlib-version}}
     steps:
     - uses: actions/checkout@v3
 
