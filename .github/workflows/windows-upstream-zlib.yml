@@ -39,17 +39,17 @@ jobs:
       uses: actions/cache@v3
       with:
         # NOTE: path doesn't expand variables!
-        path: ~/upstream-zlib-install
+        path: upstream-zlib-install
         key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
 
     - name: Set Env
       run: |
-        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source"  >> $GITHUB_ENV
-        echo "zlib-install=~/upstream-zlib-install"                  >> $GITHUB_ENV
-        echo "DESTDIR=~/upstream-zlib-install"                       >> $GITHUB_ENV
-        echo "INCLUDE_PATH=/"                                        >> $GITHUB_ENV
-        echo "INCLUDE_PATH=/"                                        >> $GITHUB_ENV
-        echo "LIBRARY_PATH=/"                                        >> $GITHUB_ENV
+        echo "zlib-source=${{ github.workspace }}/upstream-zlib-source"    >> $GITHUB_ENV
+        echo "zlib-install=${{ github.workspace }}/upstream-zlib-install"  >> $GITHUB_ENV
+        echo "DESTDIR=${{ github.workspace }}/upstream-zlib-install"       >> $GITHUB_ENV
+        echo "INCLUDE_PATH=/"                      >> $GITHUB_ENV
+        echo "INCLUDE_PATH=/"                      >> $GITHUB_ENV
+        echo "LIBRARY_PATH=/"                      >> $GITHUB_ENV
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
@@ -82,12 +82,12 @@ jobs:
 
     - name: Set Env Windows
       run: |
-        echo "ZLIB_LIB=~\upstream-zlib-install\lib"            >> $GITHUB_ENV
-        echo "ZLIB_INCLUDE=~\upstream-zlib-install\include"    >> $GITHUB_ENV
+        echo "ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\lib"            >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${{ github.workspace }}\upstream-zlib-install\include"    >> $GITHUB_ENV
         echo "ZLIB_VERSION=${{ matrix.zlib-version }}"         >> $GITHUB_ENV
         echo "BUILD_ZLIB=0"                                    >> $GITHUB_ENV
         echo "ZLIB_NG_PRESENT=0"                               >> $GITHUB_ENV
-        echo ~\upstream-zlib-install\lib                       >> $GITHUB_PATH
+        # echo ${{ github.workspace }}\upstream-zlib-install\lib                       >> $GITHUB_PATH
       shell: cmd
 
     - name: Build
