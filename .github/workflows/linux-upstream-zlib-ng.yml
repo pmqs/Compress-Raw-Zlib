@@ -32,21 +32,30 @@ jobs:
           - 1
           - 0
 
+    env:
+      zlib-source:      ${GITHUB_WORKSPACE}/upstream-zlib-source
+      zlib-install:     ${HOME}/upstream-zlib-install
+      ZLIB_LIB:         ${HOME}/upstream-zlib-install/lib
+      ZLIB_INCLUDE:     ${HOME}/upstream-zlib-install/include
+      ZLIB_VERSION:     ${{ matrix.zlib-version }}
+      BUILD_ZLIB:       0
+      ZLIB_NG_PRESENT:  1
+      USE_ZLIB_NG:      ${{ matrix.zlib-native }}
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set Env
-      run: |
-        echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source"  >> $GITHUB_ENV
-        echo "zlib-install=${HOME}/upstream-zlib-install"            >> $GITHUB_ENV
-        echo "ZLIB_LIB=${HOME}/upstream-zlib-install/lib"            >> $GITHUB_ENV
-        echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install/include"    >> $GITHUB_ENV
-        echo "ZLIB_VERSION=${{ matrix.zlib-version }}"               >> $GITHUB_ENV
-        echo "BUILD_ZLIB=0"                                          >> $GITHUB_ENV
-        echo "ZLIB_NG_PRESENT=1"                                     >> $GITHUB_ENV
-        echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                 >> $GITHUB_ENV
+    # - name: Set Env
+    #   run: |
+    #     echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source"  >> $GITHUB_ENV
+    #     echo "zlib-install=${HOME}/upstream-zlib-install"            >> $GITHUB_ENV
+    #     echo "ZLIB_LIB=${HOME}/upstream-zlib-install/lib"            >> $GITHUB_ENV
+    #     echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install/include"    >> $GITHUB_ENV
+    #     echo "ZLIB_VERSION=${{ matrix.zlib-version }}"               >> $GITHUB_ENV
+    #     echo "BUILD_ZLIB=0"                                          >> $GITHUB_ENV
+    #     echo "ZLIB_NG_PRESENT=1"                                     >> $GITHUB_ENV
+    #     echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                 >> $GITHUB_ENV
 
     - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
       id: cache-zlib
