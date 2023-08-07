@@ -5,10 +5,10 @@ name: Windows + upstream zlib-ng
 
 on:
   workflow_dispatch:
-  # push:
-  # pull_request:
-  # schedule:
-  #   - cron: '01 01 * * 6'    # Run every Saturday
+  push:
+  pull_request:
+  schedule:
+    - cron: '01 01 * * 6'    # Run every Saturday
 
 jobs:
   build:
@@ -42,6 +42,14 @@ jobs:
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
     steps:
     - uses: actions/checkout@v3
+
+    - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
+      id: cache-zlib
+      uses: actions/cache@v3
+      with:
+        # NOTE: path doesn't expand variables!
+        path: /home/runner/upstream-zlib-install
+        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
     # - name: Set Env
     #   run: |
@@ -77,6 +85,7 @@ jobs:
       shell: cmd
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
+      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       uses: actions/checkout@v3
       with:
         repository: zlib-ng/zlib-ng
@@ -106,7 +115,7 @@ jobs:
     #   shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      if: ${{ ! matrix.zlib-native }}
+      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && ! matrix.zlib-native
       run: |
         cmake -G Ninja -S . -B .  \
           --install-prefix=${{ env.zlib-install-unix }} \
@@ -134,7 +143,7 @@ jobs:
       shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib native mode
-      if: ${{ matrix.zlib-native }}
+      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && matrix.zlib-native
       run: |
         cmake -G Ninja -S . -B .  \
           --install-prefix=${{ env.zlib-install-unix }} \
