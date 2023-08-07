@@ -48,7 +48,16 @@ jobs:
         echo "ZLIB_NG_PRESENT=1"                                     >> $GITHUB_ENV
         echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                 >> $GITHUB_ENV
 
+    - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
+      id: cache-zlib
+      uses: actions/cache@v3
+      with:
+        # NOTE: path doesn't expand variables!
+        path: /home/runner/upstream-zlib-install
+        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
+
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
+      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       uses: actions/checkout@v3
       with:
         repository: zlib-ng/zlib-ng
@@ -56,7 +65,7 @@ jobs:
         path: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      if: ${{ ! matrix.zlib-native }}
+      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && ! matrix.zlib-native
       run: |
         ./configure --prefix ${{ env.zlib-install }} --zlib-compat
         make
@@ -65,7 +74,7 @@ jobs:
       working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
-      if: ${{ matrix.zlib-native }}
+      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && matrix.zlib-native
       run: |
         ./configure --prefix ${{ env.zlib-install }}
         make
