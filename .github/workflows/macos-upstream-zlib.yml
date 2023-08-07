@@ -33,7 +33,7 @@ jobs:
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  0
-      USE_ZLIB_NG:      ${{ matrix.zlib-native }}
+      USE_ZLIB_NG:      0
 
     name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
     steps:
