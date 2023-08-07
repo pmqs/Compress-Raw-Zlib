@@ -87,6 +87,11 @@ jobs:
       working-directory: ${{ env.zlib-source }}
       shell: bash
 
+    - name: find DESTDIR
+      run: |
+        find $DESTDIR
+      shell: bash
+
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
