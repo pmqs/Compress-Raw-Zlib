@@ -34,10 +34,10 @@ jobs:
 
     env:
       # zlib-source:      ${GITHUB_WORKSPACE}/upstream-zlib-source
-      zlib-source:      ${{ env.GITHUB_WORKSPACE }}/upstream-zlib-source
-      zlib-install:     ${HOME}/upstream-zlib-install
-      ZLIB_LIB:         ${HOME}/upstream-zlib-install/lib
-      ZLIB_INCLUDE:     ${HOME}/upstream-zlib-install/include
+      zlib-source:      ${{ github.workspace }}/upstream-zlib-source
+      zlib-install:     /home/runner/upstream-zlib-install
+      ZLIB_LIB:         /home/runner/upstream-zlib-install/lib
+      ZLIB_INCLUDE:     /home/runner/upstream-zlib-install/include
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
