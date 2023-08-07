@@ -60,8 +60,12 @@ jobs:
 
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
-        perl -e '$a = shift; $a =~ s#^(.):\\#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[DESTDIR=$a]' ${zlib-install} >> $GITHUB_ENV
-        perl -e '$a = shift; $a =~ s#^(.):\\#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[zlib-source-unix=$a]' ${zlib-source} >> $GITHUB_ENV
+        perl -e '$a = shift; $a =~ s#^(.):\\#q[/] . lc($1) . q[/]#e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a]' ${{ github.workspace }} >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set Unix Env
+      run: |
+        echo 'DESTDIR=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
       shell: bash
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
@@ -70,7 +74,7 @@ jobs:
       with:
         repository: madler/zlib
         ref: ${{ matrix.zlib-version }}
-        path: ${{ env.zlib-source-unix }}
+        path: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
@@ -78,7 +82,8 @@ jobs:
         make -f win32/Makefile.gcc
         make -f win32/Makefile.gcc test
         make -f win32/Makefile.gcc install SHARED_MODE=1
-      working-directory: ${{ env.zlib-source-unix }}
+      working-directory: ${{ env.zlib-source }}
+      shell: bash
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
@@ -106,7 +111,7 @@ jobs:
     - name: Build
       run: |
         perl Makefile.PL && make
-      shell: bash
+      shell: cmd
 
     - name: Test
       run: make test TEST_VERBOSE=1
