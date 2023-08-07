@@ -66,8 +66,8 @@ jobs:
     - name: Set Unix Env
       run: |
         echo 'DESTDIR=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
-        echo 'ZLIB_LIB=${{ github.workspace }}/upstream-zlib-install/lib'            >> $GITHUB_ENV
-        echo 'ZLIB_INCLUDE=${{ github.workspace }}/upstream-zlib-install/include'    >> $GITHUB_ENV
+        echo 'ZLIB_LIB=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install/lib'            >> $GITHUB_ENV
+        echo 'ZLIB_INCLUDE=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install/include'    >> $GITHUB_ENV
       shell: bash
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
