@@ -43,23 +43,23 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
-      id: cache-zlib
-      uses: actions/cache@v3
-      with:
-        # NOTE: path doesn't expand variables!
-        path: /home/runner/upstream-zlib-install
-        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
+    # - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
+    #   id: cache-zlib
+    #   uses: actions/cache@v3
+    #   with:
+    #     # NOTE: path doesn't expand variables!
+    #     path: /home/runner/upstream-zlib-install
+    #     key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
     # - name: Set Env
     #   run: |
-    #     echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
-    #     echo "zlib-install=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
-    #     echo "ZLIB_LIB=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/lib"            >> $GITHUB_ENV
-    #     echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install-${{ matrix.zlib-version }}/include"    >> $GITHUB_ENV
-    #     echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $GITHUB_ENV
-    #     echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
-    #     echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
+    #     echo "zlib-source=${GITHUB_WORKSPACE}/upstream-zlib-source"  >> $GITHUB_ENV
+    #     echo "zlib-install=${HOME}/upstream-zlib-install"            >> $GITHUB_ENV
+    #     echo "ZLIB_LIB=${HOME}/upstream-zlib-install/lib"            >> $GITHUB_ENV
+    #     echo "ZLIB_INCLUDE=${HOME}/upstream-zlib-install/include"    >> $GITHUB_ENV
+    #     echo "ZLIB_VERSION=${{ matrix.zlib-version }}"               >> $GITHUB_ENV
+    #     echo "BUILD_ZLIB=0"                                          >> $GITHUB_ENV
+    #     echo "ZLIB_NG_PRESENT=1"                                     >> $GITHUB_ENV
 
     - name: Set GITHUB_WORKSPACE_UNIX
       run: |
@@ -68,10 +68,10 @@ jobs:
 
     - name: Set Env
       run: |
-        echo "zlib-source=${GITHUB_WORKSPACE}\upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
-        echo "zlib-source-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-source-${{ matrix.zlib-version }}"  >> $GITHUB_ENV
-        echo "zlib-install=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
-        echo "zlib-install-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install-${{ matrix.zlib-version }}"            >> $GITHUB_ENV
+        echo "zlib-source=${GITHUB_WORKSPACE}\upstream-zlib-source"                     >> $GITHUB_ENV
+        echo "zlib-source-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-source"   >> $GITHUB_ENV
+        echo "zlib-install=${GITHUB_WORKSPACE}\upstream-zlib-install"                   >> $GITHUB_ENV
+        echo "zlib-install-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install" >> $GITHUB_ENV
       shell: bash
 
     - name: Set Env
@@ -85,7 +85,7 @@ jobs:
       shell: cmd
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
-      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+      # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       uses: actions/checkout@v3
       with:
         repository: zlib-ng/zlib-ng
@@ -115,7 +115,7 @@ jobs:
     #   shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && ! matrix.zlib-native
+      # if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && ! matrix.zlib-native
       run: |
         cmake -G Ninja -S . -B .  \
           --install-prefix=${{ env.zlib-install-unix }} \
@@ -143,7 +143,7 @@ jobs:
       shell: bash
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib native mode
-      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && matrix.zlib-native
+      # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && matrix.zlib-native
       run: |
         cmake -G Ninja -S . -B .  \
           --install-prefix=${{ env.zlib-install-unix }} \
@@ -190,12 +190,12 @@ jobs:
 
     - name: Set Env Windows
       run: |
-        echo "ZLIB_LIB=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\bin"            >> $GITHUB_ENV
-        echo "ZLIB_INCLUDE=${GITHUB_WORKSPACE}\upstream-zlib-install-${{ matrix.zlib-version }}\include"    >> $GITHUB_ENV
-        echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                                          >> $GITHUB_ENV
-        echo "BUILD_ZLIB=0"                                                                     >> $GITHUB_ENV
-        echo "ZLIB_NG_PRESENT=1"                                                                >> $GITHUB_ENV
-        echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                                            >> $GITHUB_ENV
+        echo "ZLIB_LIB=${GITHUB_WORKSPACE}\upstream-zlib-install\bin"            >> $GITHUB_ENV
+        echo "ZLIB_INCLUDE=${GITHUB_WORKSPACE}\upstream-zlib-install\include"    >> $GITHUB_ENV
+        echo "ZLIB_VERSION=${{ matrix.zlib-version }}"                           >> $GITHUB_ENV
+        echo "BUILD_ZLIB=0"                                                      >> $GITHUB_ENV
+        echo "ZLIB_NG_PRESENT=1"                                                 >> $GITHUB_ENV
+        echo "USE_ZLIB_NG=${{ matrix.zlib-native }}"                             >> $GITHUB_ENV
       shell: bash
 
     - name: Set Env
