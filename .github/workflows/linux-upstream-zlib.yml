@@ -2,10 +2,10 @@ name: Linux + upstream zlib
 
 on:
   workflow_dispatch:
-  push:
-  pull_request:
-  schedule:
-      - cron: '02 02 * * 6'    # Run every Saturday
+  # push:
+  # pull_request:
+  # schedule:
+  #     - cron: '02 02 * * 6'    # Run every Saturday
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
@@ -21,8 +21,8 @@ jobs:
           - '5.38'
         zlib-version:
           - v1.2.13
-          # - v1.2.12
-          # - v1.2.11
+          - v1.2.12
+          - v1.2.11
           - develop
 
     env:
