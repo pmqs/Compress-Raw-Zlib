@@ -2,10 +2,10 @@ name: MacOS + upstream zlib-ng
 
 on:
   workflow_dispatch:
-  push:
-  pull_request:
-  schedule:
-    - cron: '01 01 * * 6'    # Run every Saturday
+  # push:
+  # pull_request:
+  # schedule:
+  #   - cron: '01 01 * * 6'    # Run every Saturday
 
 jobs:
   build:
