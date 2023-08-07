@@ -35,7 +35,7 @@ SKIP:
 
     # Not github or not asking for explicit verson, so skip
     skip "Not github", 7
-        if ! (defined $ENV{GITHUB_ACTION} && defined $ENV{ZLIB_VERSION}) ;
+        if ! defined $ENV{GITHUB_ACTION} ;
 
     my $expected_version =  $ENV{ZLIB_VERSION} ;
     # zlib prefixes tags with a "v", so remove
