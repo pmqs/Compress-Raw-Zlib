@@ -28,7 +28,7 @@ jobs:
     env:
       zlib-source:      ${{ github.workspace }}\upstream-zlib-source
       zlib-install:     ${{ github.workspace }}\upstream-zlib-install
-      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\bin
+      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\lib
       ZLIB_INCLUDE:     ${{ github.workspace }}\upstream-zlib-install\include
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
