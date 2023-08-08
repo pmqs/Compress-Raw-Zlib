@@ -65,7 +65,7 @@ jobs:
 
     - name: Set Unix Env
       run: |
-        echo 'DESTDIR=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
+        # echo 'DESTDIR=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
         # echo 'ZLIB_LIB=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install/lib'            >> $GITHUB_ENV
         # echo 'ZLIB_INCLUDE=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install/include'    >> $GITHUB_ENV
       shell: bash
@@ -87,6 +87,9 @@ jobs:
     #   working-directory: ${{ env.zlib-source }}
     #   shell: bash
 
+    # -D CMAKE_C_COMPILER=gcc \
+    # -D BUILD_SHARED_LIBS='ON'
+
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
@@ -95,25 +98,17 @@ jobs:
           -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
           -D CMAKE_BUILD_TYPE=Release \
           -D BUILD_SHARED_LIBS='ON' \
-          -D CMAKE_C_COMPILER=gcc \
-          -D BUILD_SHARED_LIBS='ON'
 
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
+      working-directory: ${{ env.zlib-source }}
+      shell: bash
 
-        # --install-prefix=${{ env.DESTDIR }} \
-        # cmake -G Ninja -S . -B .  \
-        #   --install-prefix=${{ env.zlib-install-unix }} \
-        #   -DCMAKE_C_COMPILER=gcc \
-        #   -DCMAKE_CXX_COMPILER=g++ \
-        #   -DCMAKE_BUILD_TYPE='Release' \
-        #   -DBUILD_SHARED_LIBS='ON' \
-        #   -DWITH_FUZZERS=OFF \
-        #   -DWITH_MAINTAINER_WARNINGS=OFF \
-        #   -DZLIB_COMPAT=ON
-        # cmake --build .
-        # cmake --install .
+
+    - name: find zlib-source
+      run: |
+        find .
       working-directory: ${{ env.zlib-source }}
       shell: bash
 
