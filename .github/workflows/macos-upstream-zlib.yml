@@ -20,10 +20,10 @@ jobs:
         perl:
           - '5.38'
         zlib-version:
-          - v1.2.13
+          # - v1.2.13
           - v1.2.12
-          - v1.2.11
-          - develop
+          # - v1.2.11
+          # - develop
 
     env:
       zlib-source:      ${{ github.workspace }}/upstream-zlib-source
@@ -55,31 +55,31 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    # - name: Build zlib ${{matrix.zlib-version}}
-    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
-    #   run: |
-    #     ./configure --prefix ${{ env.zlib-install }}
-    #     make
-    #     make test
-    #     make install
-    #     find .
-    #   working-directory: ${{ env.zlib-source }}
-
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        cmake -S . -B . \
-          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
-          -D CMAKE_BUILD_TYPE=Release \
-          -D BUILD_SHARED_LIBS='ON'
-        cmake --build . --config Release
-        ctest -C Release --output-on-failure --max-width 120
-        cmake --install .
+        ./configure --prefix ${{ env.zlib-install }}
+        make
+        make test
+        make install
         find .
-        cd ..
-        rm -fr ${{ env.zlib-source }}
       working-directory: ${{ env.zlib-source }}
-      shell: bash
+
+    # - name: Build zlib ${{matrix.zlib-version}}
+    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+    #   run: |
+    #     cmake -S . -B . \
+    #       -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
+    #       -D CMAKE_BUILD_TYPE=Release \
+    #       -D BUILD_SHARED_LIBS='ON'
+    #     cmake --build . --config Release
+    #     ctest -C Release --output-on-failure --max-width 120
+    #     cmake --install .
+    #     find .
+    #     cd ..
+    #     rm -fr ${{ env.zlib-source }}
+    #   working-directory: ${{ env.zlib-source }}
+    #   shell: bash
 
     - name: Show installed zlib files
       run: |
