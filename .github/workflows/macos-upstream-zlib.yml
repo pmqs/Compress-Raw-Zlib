@@ -2,10 +2,10 @@ name: MacOS + upstream zlib
 
 on:
   workflow_dispatch:
-  # push:
-  # pull_request:
-  # schedule:
-  #     - cron: '02 02 * * 6'    # Run every Saturday
+  push:
+  pull_request:
+  schedule:
+      - cron: '02 02 * * 6'    # Run every Saturday
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
@@ -35,7 +35,7 @@ jobs:
       ZLIB_NG_PRESENT:  0
       USE_ZLIB_NG:      0
 
-    name: Perl ${{ matrix.perl }} with zlib :${{matrix.zlib-version}}
+    name: Perl ${{ matrix.perl }} with zlib ${{matrix.zlib-version}}
     steps:
     - uses: actions/checkout@v3
 
@@ -55,14 +55,29 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
+    # - name: Build zlib ${{matrix.zlib-version}}
+    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }}
+    #     make
+    #     make test
+    #     make install
+    #   working-directory: ${{ env.zlib-source }}
+
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        ./configure --prefix ${{ env.zlib-install }}
-        make
-        make test
-        make install
+        cmake -S . -B . \
+          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
+          -D CMAKE_BUILD_TYPE=Release \
+          -D BUILD_SHARED_LIBS='ON'
+        cmake --build . --config Release
+        ctest -C Release --output-on-failure --max-width 120
+        cmake --install .
+        cd ..
+        rm -fr ${{ env.zlib-source }}
       working-directory: ${{ env.zlib-source }}
+      shell: bash
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
