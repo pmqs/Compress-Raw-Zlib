@@ -28,7 +28,7 @@ jobs:
     env:
       zlib-source:      ${{ github.workspace }}\upstream-zlib-source
       zlib-install:     ${{ github.workspace }}\upstream-zlib-install
-      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\lib
+      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\bin
       ZLIB_INCLUDE:     ${{ github.workspace }}\upstream-zlib-install\include
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
@@ -50,6 +50,10 @@ jobs:
         # NOTE: path doesn't expand variables!
         path: upstream-zlib-install
         key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
+
+    - name: Set Path
+      run: |
+        echo '${{ github.workspace }}\upstream-zlib-install\bin'    >> $GITHUB_PATH
 
     # - name: Set Env
     #   run: |
@@ -104,6 +108,12 @@ jobs:
       run: |
         find .
       shell: bash
+      working-directory: ${{ env.zlib-install }}
+
+    - name: Show installed zlib files
+      run: |
+        dir /S
+      shell: cmd
       working-directory: ${{ env.zlib-install }}
 
     - name: Setup perl
