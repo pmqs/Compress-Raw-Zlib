@@ -106,13 +106,7 @@ jobs:
       shell: bash
 
 
-    - name: find zlib-source
-      run: |
-        find .
-      working-directory: ${{ env.zlib-source }}
-      shell: bash
-
-    - name: find DESTDIR
+     - name: find DESTDIR
       run: |
         find $DESTDIR
       shell: bash
