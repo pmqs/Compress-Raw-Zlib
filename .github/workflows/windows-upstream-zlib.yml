@@ -77,28 +77,16 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    # - name: Build zlib ${{matrix.zlib-version}}
-    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
-    #   run: |
-    #     make -f win32/Makefile.gcc
-    #     make -f win32/Makefile.gcc test
-    #     make -f win32/Makefile.gcc install SHARED_MODE=1
-    #   working-directory: ${{ env.zlib-source }}
-    #   shell: bash
-
-
     # -D CMAKE_C_COMPILER=gcc \
     # -D BUILD_SHARED_LIBS='ON'
+      # -G Ninja \
+      # -D CMAKE_BUILD_TYPE=Release \
+      # -D BUILD_SHARED_LIBS='ON' \
 
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        cmake -S . -B . \
-          -G Ninja \
-          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
-          -D CMAKE_BUILD_TYPE=Release \
-          -D BUILD_SHARED_LIBS='ON' \
-
+        cmake -S . -B . -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}'
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
@@ -122,16 +110,6 @@ jobs:
     #- name: Install dependencies
     #  run: |
     #    cpanm --verbose --installdeps --notest .
-
-    # - name: Set Env Windows
-    #   run: |
-    #     echo "ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\lib"            >> $GITHUB_ENV
-    #     echo "ZLIB_INCLUDE=${{ github.workspace }}\upstream-zlib-install\include"    >> $GITHUB_ENV
-    #     echo "ZLIB_VERSION=${{ matrix.zlib-version }}"         >> $GITHUB_ENV
-    #     echo "BUILD_ZLIB=0"                                    >> $GITHUB_ENV
-    #     echo "ZLIB_NG_PRESENT=0"                               >> $GITHUB_ENV
-    #     echo ${{ github.workspace }}\upstream-zlib-install\lib                       >> $GITHUB_PATH
-    #   shell: cmd
 
     - name: Build
       run: |
