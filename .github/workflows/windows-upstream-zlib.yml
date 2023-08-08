@@ -91,7 +91,7 @@ jobs:
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
         cmake -S . -B . \
-          --install-prefix=${{ env.zlib-install }} \
+          --install-prefix=${{ env.DESTDIR }} \
           -G Ninja \
           -D CMAKE_BUILD_TYPE=Release \
           -D BUILD_SHARED_LIBS='ON' \
