@@ -21,9 +21,9 @@ jobs:
           - '5.38'
         zlib-version:
           # - v1.2.13
-          # - v1.2.12
-          - v1.2.11
-          - develop
+          - v1.2.12
+          # - v1.2.11
+          # - develop
 
 
     defaults:
@@ -50,7 +50,7 @@ jobs:
         # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
         # echo 'LIBRARY_PATH=/'                      >> $GITHUB_ENV
 
-        echo 'ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\lib'         >> $GITHUB_ENV
+        echo 'ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\bin'         >> $GITHUB_ENV
         echo 'ZLIB_INCLUDE=${{ github.workspace }}\upstream-zlib-install\include' >> $GITHUB_ENV
         echo 'ZLIB_VERSION=${{ matrix.zlib-version }}'         >> $GITHUB_ENV
         echo 'BUILD_ZLIB=0'                                    >> $GITHUB_ENV
