@@ -23,7 +23,7 @@ jobs:
           # - v1.2.13
           # - v1.2.12
           - v1.2.11
-          - develop
+          # - develop
 
 
     defaults:
@@ -90,9 +90,10 @@ jobs:
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
+        # --install-prefix=${{ env.DESTDIR }} \
         cmake -S . -B . \
-          --install-prefix=${{ env.DESTDIR }} \
           -G Ninja \
+          -D CMAKE_INSTALL_PREFIX=${{ env.DESTDIR }} \
           -D CMAKE_BUILD_TYPE=Release \
           -D BUILD_SHARED_LIBS='ON' \
           -D CMAKE_C_COMPILER=gcc \
