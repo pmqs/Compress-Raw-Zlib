@@ -92,7 +92,7 @@ jobs:
       run: |
         cmake -S . -B . \
           -G Ninja \
-          -D CMAKE_INSTALL_PREFIX=${{ env.zlib-install }} \
+          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}'' \
           -D CMAKE_BUILD_TYPE=Release \
           -D BUILD_SHARED_LIBS='ON' \
           -D CMAKE_C_COMPILER=gcc \
