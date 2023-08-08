@@ -74,10 +74,17 @@ jobs:
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
+        find
         cd ..
         rm -fr ${{ env.zlib-source }}
       working-directory: ${{ env.zlib-source }}
       shell: bash
+
+    - name: Show installed zlib files
+      run: |
+        find .
+      shell: bash
+      working-directory: ${{ env.zlib-install }}
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
