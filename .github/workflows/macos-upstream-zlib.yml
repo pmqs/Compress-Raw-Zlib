@@ -20,10 +20,10 @@ jobs:
         perl:
           - '5.38'
         zlib-version:
-          # - v1.2.13
+          - v1.2.13
           - v1.2.12
-          # - v1.2.11
-          # - develop
+          - v1.2.11
+          - develop
 
     env:
       zlib-source:      ${{ github.workspace }}/upstream-zlib-source
