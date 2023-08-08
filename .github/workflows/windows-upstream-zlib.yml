@@ -90,20 +90,19 @@ jobs:
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        # --install-prefix=${{ env.DESTDIR }} \
         cmake -S . -B . \
           -G Ninja \
-          -D CMAKE_INSTALL_PREFIX=${{ env.DESTDIR }} \
+          -D CMAKE_INSTALL_PREFIX=${{ env.zlib-install }} \
           -D CMAKE_BUILD_TYPE=Release \
           -D BUILD_SHARED_LIBS='ON' \
           -D CMAKE_C_COMPILER=gcc \
-          -D CMAKE_CXX_COMPILER=g++ \
           -D BUILD_SHARED_LIBS='ON'
 
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
 
+        # --install-prefix=${{ env.DESTDIR }} \
         # cmake -G Ninja -S . -B .  \
         #   --install-prefix=${{ env.zlib-install-unix }} \
         #   -DCMAKE_C_COMPILER=gcc \
@@ -116,7 +115,6 @@ jobs:
         # cmake --build .
         # cmake --install .
       working-directory: ${{ env.zlib-source }}
-
       shell: bash
 
     - name: find DESTDIR
