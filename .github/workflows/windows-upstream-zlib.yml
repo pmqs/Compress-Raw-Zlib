@@ -110,12 +110,6 @@ jobs:
       shell: bash
       working-directory: ${{ env.zlib-install }}
 
-    - name: Show installed zlib files
-      run: |
-        dir /S
-      shell: cmd
-      working-directory: ${{ env.zlib-install }}
-
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
@@ -133,6 +127,11 @@ jobs:
       run: |
         perl Makefile.PL && make
       shell: cmd
+
+    - name: Show installed zlib files
+      run: |
+        cat Makefile
+      shell: bash
 
     - name: Test
       run: make test TEST_VERBOSE=1
