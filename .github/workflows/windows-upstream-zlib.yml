@@ -90,7 +90,15 @@ jobs:
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        cmake -S . -B . -D CMAKE_BUILD_TYPE=Release --install-prefix=${{ env.DESTDIR }}
+        cmake -S . -B . \
+          --install-prefix=${{ env.zlib-install }} \
+          -G Ninja \
+          -D CMAKE_BUILD_TYPE=Release \
+          -D BUILD_SHARED_LIBS='ON' \
+          -D CMAKE_C_COMPILER=gcc \
+          -D CMAKE_CXX_COMPILER=g++ \
+          -D BUILD_SHARED_LIBS='ON'
+
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
@@ -107,8 +115,6 @@ jobs:
         # cmake --build .
         # cmake --install .
       working-directory: ${{ env.zlib-source }}
-      env:
-        CC: gcc
 
       shell: bash
 
