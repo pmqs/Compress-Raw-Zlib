@@ -25,6 +25,15 @@ jobs:
           # - v1.2.11
           # - develop
 
+    env:
+      zlib-source:      ${{ github.workspace }}\upstream-zlib-source
+      zlib-install:     ${{ github.workspace }}\upstream-zlib-install
+      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\lib
+      ZLIB_INCLUDE:     ${{ github.workspace }}\upstream-zlib-install\include
+      ZLIB_VERSION:     ${{ matrix.zlib-version }}
+      BUILD_ZLIB:       0
+      ZLIB_NG_PRESENT:  0
+      USE_ZLIB_NG:      0
 
     defaults:
       run:
@@ -42,32 +51,30 @@ jobs:
         path: upstream-zlib-install
         key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
 
-    - name: Set Env
-      run: |
-        echo 'zlib-source=${{ github.workspace }}\upstream-zlib-source'    >> $GITHUB_ENV
-        echo 'zlib-install=${{ github.workspace }}\upstream-zlib-install'  >> $GITHUB_ENV
-        # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
-        # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
-        # echo 'LIBRARY_PATH=/'                      >> $GITHUB_ENV
+    # - name: Set Env
+    #   run: |
+    #     echo 'zlib-source=${{ github.workspace }}\upstream-zlib-source'    >> $GITHUB_ENV
+    #     echo 'zlib-install=${{ github.workspace }}\upstream-zlib-install'  >> $GITHUB_ENV
+    #     # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
+    #     # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
+    #     # echo 'LIBRARY_PATH=/'                      >> $GITHUB_ENV
 
-        echo 'ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\bin'         >> $GITHUB_ENV
-        echo 'ZLIB_INCLUDE=${{ github.workspace }}\upstream-zlib-install\include' >> $GITHUB_ENV
-        echo 'ZLIB_VERSION=${{ matrix.zlib-version }}'         >> $GITHUB_ENV
-        echo 'BUILD_ZLIB=0'                                    >> $GITHUB_ENV
-        echo 'ZLIB_NG_PRESENT=0'                               >> $GITHUB_ENV
-      shell: bash
+    #     echo 'ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\bin'         >> $GITHUB_ENV
+    #     echo 'ZLIB_INCLUDE=${{ github.workspace }}\upstream-zlib-install\include' >> $GITHUB_ENV
+    #     echo 'ZLIB_VERSION=${{ matrix.zlib-version }}'         >> $GITHUB_ENV
+    #     echo 'BUILD_ZLIB=0'                                    >> $GITHUB_ENV
+    #     echo 'ZLIB_NG_PRESENT=0'                               >> $GITHUB_ENV
+    #   shell: bash
 
-    - name: Set GITHUB_WORKSPACE_UNIX
-      run: |
-        perl -e '$a = shift; $a =~ s#^(.):#q[/] . lc($1) #e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a\n]' '${{ github.workspace }}' >> $GITHUB_ENV
-      shell: bash
+    # - name: Set GITHUB_WORKSPACE_UNIX
+    #   run: |
+    #     perl -e '$a = shift; $a =~ s#^(.):#q[/] . lc($1) #e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a\n]' '${{ github.workspace }}' >> $GITHUB_ENV
+    #   shell: bash
 
-    - name: Set Unix Env
-      run: |
-        echo 'zlib-install-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
-        # echo 'ZLIB_LIB=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install/lib'            >> $GITHUB_ENV
-        # echo 'ZLIB_INCLUDE=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install/include'    >> $GITHUB_ENV
-      shell: bash
+    # - name: Set Unix Env
+    #   run: |
+    #     echo 'zlib-install-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
+    #   shell: bash
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
@@ -77,7 +84,6 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    # -D CMAKE_C_COMPILER=gcc \
     # -D BUILD_SHARED_LIBS='ON'
       # -G Ninja \
       # -D CMAKE_BUILD_TYPE=Release \
@@ -86,7 +92,7 @@ jobs:
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        cmake -S . -B . -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}'
+        cmake -S . -B . -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' -D CMAKE_C_COMPILER=gcc
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
@@ -95,8 +101,9 @@ jobs:
 
     - name: Show installed zlib files
       run: |
-        find ${{ env.zlib-install-unix }}
+        find .
       shell: bash
+      working-directory: ${{ env.zlib-install }}
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
