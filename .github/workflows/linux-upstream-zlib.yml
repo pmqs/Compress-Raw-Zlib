@@ -27,9 +27,9 @@ jobs:
 
     env:
       zlib-source:      ${{ github.workspace }}/upstream-zlib-source
-      zlib-install:     /home/runner/upstream-zlib-install
-      ZLIB_LIB:         /home/runner/upstream-zlib-install/lib
-      ZLIB_INCLUDE:     /home/runner/upstream-zlib-install/include
+      zlib-install:     ${{ github.workspace }}/upstream-zlib-install
+      ZLIB_LIB:         ${{ github.workspace }}/upstream-zlib-install/lib
+      ZLIB_INCLUDE:     ${{ github.workspace }}/upstream-zlib-install/include
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  0
@@ -63,6 +63,21 @@ jobs:
         make test
         make install
       working-directory: ${{ env.zlib-source }}
+
+    - name: Build zlib ${{matrix.zlib-version}}
+      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+      run: |
+        cmake -S . -B . \
+          -G Ninja \
+          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
+          -D CMAKE_BUILD_TYPE=Release \
+          -D BUILD_SHARED_LIBS='ON' \
+
+        cmake --build . --config Release
+        ctest -C Release --output-on-failure --max-width 120
+        cmake --install .
+      working-directory: ${{ env.zlib-source }}
+      shell: bash
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
