@@ -74,6 +74,8 @@ jobs:
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
+        cd ..
+        rm -fr ${{ env.zlib-source }}
       working-directory: ${{ env.zlib-source }}
       shell: bash
 
