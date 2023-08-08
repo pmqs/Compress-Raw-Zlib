@@ -128,7 +128,7 @@ jobs:
         perl Makefile.PL && make
       shell: cmd
 
-    - name: Show installed zlib files
+    - name: cat Makefile
       run: |
         cat Makefile
       shell: bash

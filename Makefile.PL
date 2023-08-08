@@ -74,7 +74,7 @@ UpDowngrade(getPerlFiles('MANIFEST'))
 
 my $OPT_Z_PREFIX =  '-DZ_PREFIX' ;
 my $OPT_ZLIB_INCLUDE = "-I$ZLIB_INCLUDE";
-my $OPT_ZLIB_LIB = "-L$ZLIB_LIB" ;
+my $OPT_ZLIB_LIB = qq[-L"$ZLIB_LIB"] ;
 my $OPT_SOLO = '-DZ_SOLO';
 my $OPT_USE_ZLIB_NG = "";
 
