@@ -55,14 +55,14 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    - name: Build zlib ${{matrix.zlib-version}}
-      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
-      run: |
-        ./configure --prefix ${{ env.zlib-install }}
-        make
-        make test
-        make install
-      working-directory: ${{ env.zlib-source }}
+    # - name: Build zlib ${{matrix.zlib-version}}
+    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }}
+    #     make
+    #     make test
+    #     make install
+    #   working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
