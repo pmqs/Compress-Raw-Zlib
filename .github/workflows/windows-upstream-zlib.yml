@@ -88,11 +88,12 @@ jobs:
       # -G Ninja \
       # -D CMAKE_BUILD_TYPE=Release \
       # -D BUILD_SHARED_LIBS='ON' \
+      # -D CMAKE_C_COMPILER=gcc
 
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        cmake -S . -B . -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' -D CMAKE_C_COMPILER=gcc
+        cmake -S . -B . -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}'
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
