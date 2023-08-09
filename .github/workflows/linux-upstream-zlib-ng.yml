@@ -34,24 +34,37 @@ jobs:
 
     env:
       zlib-source:      ${{ github.workspace }}/upstream-zlib-source
-      zlib-install:     /home/runner/upstream-zlib-install
-      ZLIB_LIB:         /home/runner/upstream-zlib-install/lib
-      ZLIB_INCLUDE:     /home/runner/upstream-zlib-install/include
+      zlib-install:     ${{ github.workspace }}/upstream-zlib-install
+      ZLIB_LIB:         ${{ github.workspace }}/upstream-zlib-install/lib
+      ZLIB_INCLUDE:     ${{ github.workspace }}/upstream-zlib-install/include
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
       USE_ZLIB_NG:      ${{ matrix.zlib-native }}
 
+    defaults:
+      run:
+        working-directory: repo
+
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
     steps:
+
     - uses: actions/checkout@v3
+      with:
+        path: repo
+
+    - name: Make Paths
+      run: |
+        mkdir -p ${{ env.zlib-source }}
+        mkdir -p ${{ env.zlib-install }}
+        mkdir -p ${{ github.workspace }}/repo
 
     - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
       id: cache-zlib
       uses: actions/cache@v3
       with:
         # NOTE: path doesn't expand variables!
-        path: /home/runner/upstream-zlib-install
+        path: upstream-zlib-install
         key: ${{ runner.os }}-zlib-ng-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
