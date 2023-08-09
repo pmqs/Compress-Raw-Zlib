@@ -52,13 +52,13 @@ jobs:
         mkdir -p ${{ env.zlib-install }}
         mkdir -p ${{ github.workspace }}/repo
 
-    - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
+    - name: Cache zlib ${{matrix.zlib-version}}
       id: cache-zlib
       uses: actions/cache@v3
       with:
         # NOTE: path doesn't expand variables!
         path: upstream-zlib-install
-        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
+        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
@@ -68,29 +68,28 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    # - name: Build zlib ${{matrix.zlib-version}}
-    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
-    #   run: |
-    #     ./configure --prefix ${{ env.zlib-install }}
-    #     make
-    #     make test
-    #     make install
-    #     find .
-    #   working-directory: ${{ env.zlib-source }}
-
     - name: Build zlib ${{matrix.zlib-version}}
       if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
       run: |
-        cmake -S . -B . \
-          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
-          -D CMAKE_BUILD_TYPE=Release \
-          -D BUILD_SHARED_LIBS='ON'
-        cmake --build . --config Release
-        ctest -C Release --output-on-failure --max-width 120
-        cmake --install .
+        ./configure --prefix ${{ env.zlib-install }}
+        make
+        make test
+        make install
         find .
       working-directory: ${{ env.zlib-source }}
-      shell: bash
+
+    # - name: Build zlib ${{matrix.zlib-version}}
+    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+    #   run: |
+    #     cmake -S . -B . \
+    #       -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
+    #       -D CMAKE_BUILD_TYPE=Release \
+    #       -D BUILD_SHARED_LIBS='ON'
+    #     cmake --build . --config Release
+    #     ctest -C Release --output-on-failure --max-width 120
+    #     cmake --install .
+    #   working-directory: ${{ env.zlib-source }}
+    #   shell: bash
 
     - name: Show installed zlib files
       run: |
