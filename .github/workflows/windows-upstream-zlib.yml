@@ -28,7 +28,7 @@ jobs:
     env:
       zlib-source:      ${{ github.workspace }}\upstream-zlib-source
       zlib-install:     ${{ github.workspace }}\upstream-zlib-install
-      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\bin
+      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\lib
       ZLIB_INCLUDE:     ${{ github.workspace }}\upstream-zlib-install\include
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
@@ -136,7 +136,7 @@ jobs:
     # dirty great hack!
     - name: Zap Makefile
       run: |
-        perl -i -pe "s#C:\\strawberry\\c\\lib\\libzlib.a#$ENV{ZLIB_LIB}\\zlib.dll#" Makefile
+        perl -i -pe "s#C:\\strawberry\\c\\lib\\libzlib.a#$ENV{ZLIB_LIB}\\zlib.lib#" Makefile
       shell: cmd
 
     - name: cat Makefile after
