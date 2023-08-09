@@ -2,8 +2,8 @@ name: Linux 32-bit
 
 on:
   workflow_dispatch:
-  # push:
-  # pull_request:
+  push:
+  pull_request:
 
 
 jobs:
