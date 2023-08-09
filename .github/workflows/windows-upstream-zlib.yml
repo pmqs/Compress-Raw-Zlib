@@ -1,11 +1,13 @@
 name: Windows + upstream zlib
 
+# Disabled - strawberry perl always uses system zlib
+
 on:
   workflow_dispatch:
-  push:
-  pull_request:
-  schedule:
-      - cron: '02 02 * * 6'    # Run every Saturday
+  # push:
+  # pull_request:
+  # schedule:
+  #     - cron: '02 02 * * 6'    # Run every Saturday
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
@@ -20,10 +22,10 @@ jobs:
         perl:
           - '5.38'
         zlib-version:
-          # - v1.2.13
+          - v1.2.13
           - v1.2.12
-          # - v1.2.11
-          # - develop
+          - v1.2.11
+          - develop
 
     env:
       zlib-source:      ${{ github.workspace }}\upstream-zlib-source
@@ -133,16 +135,16 @@ jobs:
         cat Makefile
       shell: bash
 
-    # dirty great hack!
-    - name: Zap Makefile
-      run: |
-        perl -i -pe "s#C:\\strawberry\\c\\lib\\libzlib.a#$ENV{ZLIB_LIB}\\zlib.lib#" Makefile
-      shell: cmd
+    # # dirty great hack that doesn't work
+    # - name: Zap Makefile
+    #   run: |
+    #     perl -i -pe "s#C:\\strawberry\\c\\lib\\libzlib.a#$ENV{ZLIB_LIB}\\zlib.lib#" Makefile
+    #   shell: cmd
 
-    - name: cat Makefile after
-      run: |
-        cat Makefile
-      shell: bash
+    # - name: cat Makefile after
+    #   run: |
+    #     cat Makefile
+    #   shell: bash
 
     - name: Build
       run: |

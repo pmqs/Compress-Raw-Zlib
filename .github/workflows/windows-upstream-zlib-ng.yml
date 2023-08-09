@@ -2,6 +2,7 @@
 name: Windows + upstream zlib-ng
 
 # DISABLED for all automatic execution
+# Disabled - strawberry perl always uses system zlib
 
 on:
   workflow_dispatch:
@@ -26,17 +27,17 @@ jobs:
         zlib-version:
           - 'develop'
           - '2.1.3'
-          # - '2.1.2'
-          # - '2.0.7'
-          # - '2.0.6'
-          # - '2.0.5'
-          # - '2.0.4'
-          # - '2.0.3'
-          # - '2.0.2'
-          # - '2.0.1'
-          # - '2.0.0'
+          - '2.1.2'
+          - '2.0.7'
+          - '2.0.6'
+          - '2.0.5'
+          - '2.0.4'
+          - '2.0.3'
+          - '2.0.2'
+          - '2.0.1'
+          - '2.0.0'
         zlib-native:
-          # - 1
+          - 1
           - 0
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
