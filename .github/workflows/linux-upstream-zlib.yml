@@ -84,14 +84,14 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    - name: Show upstream-source
-      run: |
-        pwd
-        echo =========
-        ls
-        echo =========
-        ls CMake*
-      working-directory: ${{ env.zlib-source }}
+    # - name: Show upstream-source
+    #   run: |
+    #     pwd
+    #     echo =========
+    #     ls
+    #     echo =========
+    #     ls CMake*
+    #   working-directory: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
     #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
