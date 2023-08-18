@@ -78,6 +78,9 @@ my $OPT_ZLIB_LIB = "-L$ZLIB_LIB" ;
 my $OPT_SOLO = '-DZ_SOLO';
 my $OPT_USE_ZLIB_NG = "";
 
+# For C++ only
+my $OPT_CXX_DEFINES = '-Dregister=' ; # for https://github.com/pmqs/Compress-Raw-Zlib/issues/23
+
 if (! $BUILD_ZLIB)
 {
     # When using  the system supplied zlib, we don't want to use our bespoke prefix
@@ -102,7 +105,7 @@ WriteMakefile(
     NAME         => 'Compress::Raw::Zlib',
     VERSION_FROM => 'lib/Compress/Raw/Zlib.pm',
     INC          => $OPT_ZLIB_INCLUDE ,
-    DEFINE       => "-DNO_VIZ $OPT_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX $OPT_USE_ZLIB_NG -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB" ,
+    DEFINE       => "-DNO_VIZ $OPT_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX $OPT_USE_ZLIB_NG -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB $OPT_CXX_DEFINES" ,
     XS           => { 'Zlib.xs' => 'Zlib.c'},
     'depend'     => { 'Makefile'   => 'config.in' },
     'clean'      => { FILES        => '*.c constants.h constants.xs' },
