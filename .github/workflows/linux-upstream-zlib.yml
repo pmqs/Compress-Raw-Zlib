@@ -5,7 +5,8 @@ on:
   push:
   pull_request:
   schedule:
-      - cron: '02 02 * * 6'    # Run every Saturday
+      # - cron: '02 02 * * 6'    # Run every Saturday
+      - cron: '50 14 * * 5'    # Run every FRiday
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
@@ -24,7 +25,7 @@ jobs:
           - v1.2.13
           - v1.2.12
           - v1.2.11
-          # - v1.2.10
+          - v1.2.10
           # - v1.2.9
           # - v1.2.8
           # - v1.2.7.3
@@ -83,15 +84,6 @@ jobs:
         repository: madler/zlib
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
-
-    # - name: Show upstream-source
-    #   run: |
-    #     pwd
-    #     echo =========
-    #     ls
-    #     echo =========
-    #     ls CMake*
-    #   working-directory: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
     #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
