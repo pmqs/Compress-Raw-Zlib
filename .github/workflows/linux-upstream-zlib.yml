@@ -88,6 +88,7 @@ jobs:
       run: |
         pwd
         find .
+      working-directory: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
     #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
