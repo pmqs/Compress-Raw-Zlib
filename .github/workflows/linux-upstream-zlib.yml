@@ -6,7 +6,7 @@ on:
   pull_request:
   schedule:
       # - cron: '02 02 * * 6'    # Run every Saturday
-      - cron: '50 14 * * 5'    # Run every FRiday
+      - cron: '55 14 * * 5'    # Run every FRiday
 
 # upstream build derived from https://github.com/madler/zlib/pull/506
 
