@@ -20,7 +20,7 @@ jobs:
         perl:
           - '5.38'
         zlib-version:
-          - v1.2.3
+          - v1.3
           - v1.2.13
           - v1.2.12
           - v1.2.11
@@ -87,7 +87,10 @@ jobs:
     - name: Show upstream-source
       run: |
         pwd
-        find .
+        echo =========
+        ls
+        echo =========
+        ls CMake*
       working-directory: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
