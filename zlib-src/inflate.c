@@ -1462,8 +1462,8 @@ int ZEXPORT inflateCopy(z_streamp dest, z_streamp source) {
     }
 
     /* copy state */
-    zmemcpy((voidpf)dest, (voidpf)source, sizeof(z_stream));
-    zmemcpy((voidpf)copy, (voidpf)state, sizeof(struct inflate_state));
+    zmemcpy((Bytef*)dest, (Bytef*)source, sizeof(z_stream));
+    zmemcpy((Bytef*)copy, (Bytef*)state, sizeof(struct inflate_state));
     copy->strm = dest;
     if (state->lencode >= state->codes &&
         state->lencode <= state->codes + ENOUGH - 1) {
