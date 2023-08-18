@@ -44,6 +44,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Cancel if Scheduled Job and not running the 'develop' branch
+      if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
+      run: |
+        gh run cancel ${{ github.run_id }}
+        gh run watch  ${{ github.run_id }}
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     # - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
     #   id: cache-zlib
     #   uses: actions/cache@v3
