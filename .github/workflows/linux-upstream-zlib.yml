@@ -24,13 +24,13 @@ jobs:
           - v1.2.13
           - v1.2.12
           - v1.2.11
-          - v1.2.10
-          - v1.2.9
-          - v1.2.8
-          - v1.2.7.3
-          - v1.2.7.2
-          - v1.2.7.1
-          - v1.2.7
+          # - v1.2.10
+          # - v1.2.9
+          # - v1.2.8
+          # - v1.2.7.3
+          # - v1.2.7.2
+          # - v1.2.7.1
+          # - v1.2.7
           - develop
 
     env:
@@ -54,7 +54,7 @@ jobs:
       with:
         path: repo
 
-    - name: Cancel if scheduled and not develop branch
+    - name: Cancel if Scheduled Job and not running the 'develop' branch
       if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
       run: |
         gh run cancel ${{ github.run_id }}
@@ -83,6 +83,11 @@ jobs:
         repository: madler/zlib
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
+
+    - name: Show upstream-source
+      run: |
+        pwd
+        find .
 
     # - name: Build zlib ${{matrix.zlib-version}}
     #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
