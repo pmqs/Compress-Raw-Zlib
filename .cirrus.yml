@@ -10,11 +10,10 @@ task:
     - pkg install -y gcc
     - pkg install -y perl5
     - perl -V
-    - echo|cpan App::cpanminus
+    # - echo|cpan App::cpanminus
+    - pkg install -y p5-App-cpanminusminus
     - cpanm --installdeps .
   build_script:
     - perl Makefile.PL
   test_script:
     - make test
-
-
