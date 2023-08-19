@@ -11,10 +11,11 @@ use warnings;
 
 use Test::More ;
 
+my $extra = 0;
+
 BEGIN
 {
     # use Test::NoWarnings, if available
-    my $extra = 0 ;
     $extra = 1
         if eval { require Test::NoWarnings ;  import Test::NoWarnings; 1 };
 
@@ -37,9 +38,15 @@ my $len   = length $hello ;
 test_zlib_header_matches_library();
 
 
+SKIP:
 {
     title 'non-PV dictionary';
     # ==============================
+
+    # temp workaround for
+    # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
+    skip "skipping tests for Perl 5.6.*", 7
+        if $] < 5.008 ;
 
     my $dictionary = *hello ;
 
@@ -61,10 +68,16 @@ test_zlib_header_matches_library();
 
 }
 
+SKIP:
 {
 
     title  "deflate/inflate - non-PV buffers";
     # ==============================
+
+    # temp workaround for
+    # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
+    skip "skipping tests for Perl 5.6.*", 27
+        if $] < 5.008 ;
 
     my $hello = *hello ;
     my ($err, $x, $X, $status);
