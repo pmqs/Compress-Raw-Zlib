@@ -726,9 +726,15 @@ foreach (1 .. 2)
 
 }
 
+SKIP: {
 if ($] >= 5.005)
 {
     title 'test inflate input parameter via substr';
+
+    # temp workaround for
+    # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
+    skip "skipping substr tests for Perl 5.6.*", 11
+        if $] < 5.008 ;
 
     my $hello = "I am a HAL 9000 computer" ;
     my $data = $hello ;
@@ -765,6 +771,7 @@ if ($] >= 5.005)
     ok $hello eq $Z ;
     is $X, $keep;
 
+}
 }
 
 {

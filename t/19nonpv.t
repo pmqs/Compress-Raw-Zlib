@@ -11,11 +11,10 @@ use warnings;
 
 use Test::More ;
 
-my $extra = 0;
-
 BEGIN
 {
     # use Test::NoWarnings, if available
+    my $extra = 0;
     $extra = 1
         if eval { require Test::NoWarnings ;  import Test::NoWarnings; 1 };
 
