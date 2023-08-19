@@ -1227,6 +1227,13 @@ deflate (s, buf, output)
   CODE:
     bufinc = s->bufsize;
 
+    if (trace) {
+        printf("\nDEFLATE Before deRef of input buffer\n");
+        printf("\nPerl_sv_dump\n");
+        Perl_sv_dump(buf);
+        printf("\n");
+    }
+
     /* If the input buffer is a reference, dereference it */
     buf = deRef(buf, "deflate") ;
 
@@ -1237,6 +1244,14 @@ deflate (s, buf, output)
 #endif
     s->stream.next_in = (Bytef*)SvPV_nomg(buf, origlen) ;
     s->stream.avail_in = origlen;
+
+    if (trace) {
+        printf("\nDEFLATE Starts\n");
+        DispStream(s, "START");
+        printf("\nPerl_sv_dump\n");
+        Perl_sv_dump(buf);
+        printf("\n");
+    }
 
     if (s->flags & FLAG_CRC32)
         s->crc32 = CRZ_crc32(s->crc32, s->stream.next_in, s->stream.avail_in) ;
