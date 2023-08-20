@@ -42,10 +42,10 @@ SKIP:
     title 'non-PV dictionary';
     # ==============================
 
-    # temp workaround for
-    # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
-    skip "skipping tests for Perl 5.6.*", 7
-        if $] < 5.008 ;
+    # # temp workaround for
+    # # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
+    # skip "skipping tests for Perl 5.6.*", 7
+    #     if $] < 5.008 ;
 
     my $dictionary = *hello ;
 
@@ -73,10 +73,10 @@ SKIP:
     title  "deflate/inflate - non-PV buffers";
     # ==============================
 
-    # temp workaround for
-    # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
-    skip "skipping tests for Perl 5.6.*", 27
-        if $] < 5.008 ;
+    # # temp workaround for
+    # # https://github.com/pmqs/Compress-Raw-Zlib/issues/27
+    # skip "skipping tests for Perl 5.6.*", 27
+    #     if $] < 5.008 ;
 
     my $hello = *hello ;
     my ($err, $x, $X, $status);
