@@ -214,6 +214,22 @@
 #  define NEED_sv_2pv_nolen
 #  define NEED_sv_pvn_force_flags
 #  include "ppport.h"
+
+/* Proposed fix for https://github.com/Dual-Life/Devel-PPPort/issues/231 */
+
+#  if PERL_VERSION < 18
+#    ifdef sv_2pv
+#   undef sv_2pv
+#  endif
+
+#  if defined(__GNUC__) && !defined(PERL_GCC_BRACE_GROUPS_FORBIDDEN)
+#    define sv_2pv(sv, lp) ({ SV *_sv_2pv = (sv); SvPOKp(_sv_2pv) ? ((*(lp) = SvCUR(_sv_2pv)), SvPVX(_sv_2pv)) : Perl_sv_2pv(aTHX_ _sv_2pv, (lp)); })
+#  else
+#    define sv_2pv(sv, lp) (SvPOKp(sv) ? ((*(lp) = SvCUR(sv)), SvPVX(sv)) : Perl_sv_2pv(aTHX_ (sv), (lp)))
+#  endif
+
+#endif
+
 #endif
 
 #if PERL_REVISION == 5 && PERL_VERSION == 9
