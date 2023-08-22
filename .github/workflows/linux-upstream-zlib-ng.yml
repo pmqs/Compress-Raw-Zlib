@@ -90,6 +90,7 @@ jobs:
         make
         make test
         make install
+        rm -fr ${{ env.zlib-install }}/share
       working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
@@ -99,6 +100,7 @@ jobs:
         make
         make test
         make install
+        rm -fr ${{ env.zlib-install }}/share
       working-directory: ${{ env.zlib-source }}
 
     - name: Setup perl
