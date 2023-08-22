@@ -103,6 +103,12 @@ jobs:
         rm -fr ${{ env.zlib-install }}/share
       working-directory: ${{ env.zlib-source }}
 
+    - name: Show installed zlib files
+      run: |
+        find .
+      shell: bash
+      working-directory: ${{ env.zlib-install }}
+
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
