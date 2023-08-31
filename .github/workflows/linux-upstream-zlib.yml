@@ -48,19 +48,22 @@ jobs:
         working-directory: repo
 
     name: Perl ${{ matrix.perl }} with zlib ${{matrix.zlib-version}}
+
+    if: github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' )
+
     steps:
 
     - uses: actions/checkout@v3
       with:
         path: repo
 
-    - name: Cancel if Scheduled Job and not running the 'develop' branch
-      if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
-      run: |
-        gh run cancel ${{ github.run_id }}
-        gh run watch  ${{ github.run_id }}
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Cancel if Scheduled Job and not running the 'develop' branch
+    #   if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
+    #   run: |
+    #     gh run cancel ${{ github.run_id }}
+    #     gh run watch  ${{ github.run_id }}
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Make Paths
       run: |
@@ -77,7 +80,7 @@ jobs:
         key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
-      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+      if: matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false'
       uses: actions/checkout@v3
       with:
         repository: madler/zlib
@@ -85,7 +88,7 @@ jobs:
         path: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
-    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' )
     #   run: |
     #     ./configure --prefix ${{ env.zlib-install }}
     #     make
@@ -95,7 +98,7 @@ jobs:
     #   working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
-      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+      if: matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false'
       run: |
         cmake -S . -B . \
           -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \

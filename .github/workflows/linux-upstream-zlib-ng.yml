@@ -47,19 +47,22 @@ jobs:
         working-directory: repo
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
+
+    if: github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' )
+
     steps:
 
     - uses: actions/checkout@v3
       with:
         path: repo
 
-    - name: Cancel if Scheduled Job and not running the 'develop' branch
-      if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
-      run: |
-        gh run cancel ${{ github.run_id }}
-        gh run watch  ${{ github.run_id }}
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Cancel if Scheduled Job and not running the 'develop' branch
+    #   if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
+    #   run: |
+    #     gh run cancel ${{ github.run_id }}
+    #     gh run watch  ${{ github.run_id }}
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Make Paths
       run: |
@@ -76,7 +79,7 @@ jobs:
         key: ${{ runner.os }}-zlib-ng-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
-      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' )
+      if:  matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false'
       uses: actions/checkout@v3
       with:
         repository: zlib-ng/zlib-ng
@@ -84,7 +87,7 @@ jobs:
         path: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && ! matrix.zlib-native
+      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
       run: |
         ./configure --prefix ${{ env.zlib-install }} --zlib-compat
         make
@@ -94,7 +97,7 @@ jobs:
       working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
-      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit != 'true' ) && matrix.zlib-native
+      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
       run: |
         ./configure --prefix ${{ env.zlib-install }}
         make
