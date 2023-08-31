@@ -69,13 +69,14 @@ jobs:
     #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Make Paths
-      if: ${{ env.STEP_ENABLED }} == 'true'
+      if: env.STEP_ENABLED
       run: |
         mkdir -p ${{ env.zlib-source }}
         mkdir -p ${{ env.zlib-install }}
         mkdir -p ${{ github.workspace }}/repo
 
     - name: Cache zlib ${{matrix.zlib-version}}
+      if: matrix.zlib-version != 'develop'
       id: cache-zlib
       uses: actions/cache@v3
       with:
@@ -128,24 +129,24 @@ jobs:
       working-directory: ${{ env.zlib-install }}
 
     - name: Setup perl
-      if: ${{ env.STEP_ENABLED }} == 'true'
+      if: env.STEP_ENABLED
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
 
     - name: Perl version
-      if: ${{ env.STEP_ENABLED }} == 'true'
+      if: env.STEP_ENABLED
       run: perl -V
 
     #- name: Install dependencies
-    # if: ${{ env.STEP_ENABLED }} == 'true'
+    # if: env.STEP_ENABLED
     #  run: |
     #    cpanm --verbose --installdeps --notest .
 
     - name: Build
-      if: ${{ env.STEP_ENABLED }} == 'true'
+      if: env.STEP_ENABLED
       run: perl Makefile.PL && make
 
     - name: Test
-      if: ${{ env.STEP_ENABLED }} == 'true'
+      if: env.STEP_ENABLED
       run: make test
