@@ -76,7 +76,6 @@ jobs:
         mkdir -p ${{ github.workspace }}/repo
 
     - name: Cache zlib ${{matrix.zlib-version}}
-      if: matrix.zlib-version != 'develop'
       id: cache-zlib
       uses: actions/cache@v3
       with:
@@ -90,7 +89,7 @@ jobs:
         echo steps.cache-zlib.outputs.cache-hit [${{ steps.cache-zlib.outputs.cache-hit }}]
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
-      if: env.STEP_ENABLED == 'true' && steps.cache-zlib.outputs.cache-hit == 'false'
+      if: env.STEP_ENABLED && ! steps.cache-zlib.outputs.cache-hit
       uses: actions/checkout@v3
       with:
         repository: madler/zlib
@@ -98,7 +97,7 @@ jobs:
         path: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
-    #   if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' )
+    #   if: env.STEP_ENABLED  && ! steps.cache-zlib.outputs.cache-hit
     #   run: |
     #     ./configure --prefix ${{ env.zlib-install }}
     #     make
@@ -108,7 +107,6 @@ jobs:
     #   working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
-      # if: env.STEP_ENABLED == 'true' && steps.cache-zlib.outputs.cache-hit == 'false'
       if: env.STEP_ENABLED  && ! steps.cache-zlib.outputs.cache-hit
       run: |
         cmake -S . -B . \
