@@ -89,7 +89,7 @@ jobs:
         echo steps.cache-zlib.outputs.cache-hit [${{ steps.cache-zlib.outputs.cache-hit }}]
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
-      if: env.STEP_ENABLED && ! steps.cache-zlib.outputs.cache-hit
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       uses: actions/checkout@v3
       with:
         repository: madler/zlib
@@ -97,7 +97,7 @@ jobs:
         path: ${{ env.zlib-source }}
 
     # - name: Build zlib ${{matrix.zlib-version}}
-    #   if: env.STEP_ENABLED  && ! steps.cache-zlib.outputs.cache-hit
+    #   if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
     #   run: |
     #     ./configure --prefix ${{ env.zlib-install }}
     #     make
@@ -107,7 +107,7 @@ jobs:
     #   working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
-      if: env.STEP_ENABLED  && ! steps.cache-zlib.outputs.cache-hit
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       run: |
         cmake -S . -B . \
           -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
