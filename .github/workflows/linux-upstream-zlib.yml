@@ -69,7 +69,7 @@ jobs:
     #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Make Paths
-      if: ${{ env.STEP_ENABLED }}
+      if: ${{ env.STEP_ENABLED }} == 'true'
       run: |
         mkdir -p ${{ env.zlib-source }}
         mkdir -p ${{ env.zlib-install }}
@@ -89,7 +89,7 @@ jobs:
         echo steps.cache-zlib.outputs.cache-hit [${{ steps.cache-zlib.outputs.cache-hit }}]
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
-      if: ${{ env.STEP_ENABLED }} && steps.cache-zlib.outputs.cache-hit == 'false'
+      if: ${{ env.STEP_ENABLED }} == 'true' && steps.cache-zlib.outputs.cache-hit == 'false'
       uses: actions/checkout@v3
       with:
         repository: madler/zlib
@@ -107,7 +107,7 @@ jobs:
     #   working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib ${{matrix.zlib-version}}
-      if: ${{ env.STEP_ENABLED }} && steps.cache-zlib.outputs.cache-hit == 'false'
+      if: ${{ env.STEP_ENABLED }} == 'true' && steps.cache-zlib.outputs.cache-hit == 'false'
       run: |
         cmake -S . -B . \
           -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
@@ -121,30 +121,30 @@ jobs:
       shell: bash
 
     - name: Show installed zlib files
-      if: ${{ env.STEP_ENABLED }}
+      if: ${{ env.STEP_ENABLED }} == 'true'
       run: find .
       shell: bash
       working-directory: ${{ env.zlib-install }}
 
     - name: Setup perl
-      if: ${{ env.STEP_ENABLED }}
+      if: ${{ env.STEP_ENABLED }} == 'true'
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
 
     - name: Perl version
-      if: ${{ env.STEP_ENABLED }}
+      if: ${{ env.STEP_ENABLED }} == 'true'
       run: perl -V
 
     #- name: Install dependencies
-    # if: ${{ env.STEP_ENABLED }}
+    # if: ${{ env.STEP_ENABLED }} == 'true'
     #  run: |
     #    cpanm --verbose --installdeps --notest .
 
     - name: Build
-      if: ${{ env.STEP_ENABLED }}
+      if: ${{ env.STEP_ENABLED }} == 'true'
       run: perl Makefile.PL && make
 
     - name: Test
-      if: ${{ env.STEP_ENABLED }}
+      if: ${{ env.STEP_ENABLED }} == 'true'
       run: make test
