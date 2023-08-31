@@ -42,13 +42,16 @@ jobs:
       ZLIB_NG_PRESENT:  1
       USE_ZLIB_NG:      ${{ matrix.zlib-native }}
 
+      # Run each step if
+      # 1. Not a scheduled job
+      # 2. Is sheduled AND zlib 'develop'
+      STEP_ENABLED:     ${{ github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) }}
+
     defaults:
       run:
         working-directory: repo
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
-
-    if: github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' )
 
     steps:
 
@@ -65,6 +68,7 @@ jobs:
     #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Make Paths
+      if: env.STEP_ENABLED
       run: |
         mkdir -p ${{ env.zlib-source }}
         mkdir -p ${{ env.zlib-install }}
@@ -78,8 +82,14 @@ jobs:
         path: upstream-zlib-install
         key: ${{ runner.os }}-zlib-ng-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
+    - name: Wipe develop cached files, if found
+      if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hi
+      run: |
+        rm -fr ${{ env.zlib-install }}
+        mkdir -p ${{ env.zlib-install }}
+
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
-      if:  matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false'
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       uses: actions/checkout@v3
       with:
         repository: zlib-ng/zlib-ng
@@ -87,7 +97,8 @@ jobs:
         path: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
+      # if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && ! matrix.zlib-native
       run: |
         ./configure --prefix ${{ env.zlib-install }} --zlib-compat
         make
@@ -97,7 +108,8 @@ jobs:
       working-directory: ${{ env.zlib-source }}
 
     - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
-      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
+      # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && matrix.zlib-native
       run: |
         ./configure --prefix ${{ env.zlib-install }}
         make
@@ -107,17 +119,20 @@ jobs:
       working-directory: ${{ env.zlib-source }}
 
     - name: Show installed zlib files
+      if: env.STEP_ENABLED
       run: |
         find .
       shell: bash
       working-directory: ${{ env.zlib-install }}
 
     - name: Setup perl
+      if: env.STEP_ENABLED
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
 
     - name: Perl version
+      if: env.STEP_ENABLED
       run: perl -V
 
     #- name: Install dependencies
@@ -125,8 +140,10 @@ jobs:
     #    cpanm --verbose --installdeps --notest .
 
     - name: Build
+      if: env.STEP_ENABLED
       run: |
         perl Makefile.PL && make
 
     - name: Test
+      if: env.STEP_ENABLED
       run: make test

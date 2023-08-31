@@ -83,7 +83,7 @@ jobs:
         path: upstream-zlib-install
         key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
 
-    - name: Wip develop cached files, if found
+    - name: Wipe develop cached files, if found
       if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hit
       run: |
         rm -fr ${{ env.zlib-install }}
