@@ -41,7 +41,7 @@ jobs:
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
       USE_ZLIB_NG:      ${{ matrix.zlib-native }}
-      ZLIB_COMPAT_FLAG: ${{ matrix.zlib-native == '1' ?? 'ON' || 'OFF' }}
+      ZLIB_COMPAT_FLAG: ${{ matrix.zlib-native == 1 ?? 'ON' || 'OFF' }}
 
       # Run each step if
       # 1. Not a scheduled job
