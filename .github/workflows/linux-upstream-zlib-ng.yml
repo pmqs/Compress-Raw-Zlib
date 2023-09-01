@@ -41,6 +41,7 @@ jobs:
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
       USE_ZLIB_NG:      ${{ matrix.zlib-native }}
+      ZLIB_COMPAT_FLAG: ${{ matrix.zlib-native == "1" ?? "ON" || "OFF" }}
 
       # Run each step if
       # 1. Not a scheduled job
@@ -51,7 +52,7 @@ jobs:
       run:
         working-directory: repo
 
-    name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
+    name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ env.ZLIB_COMPAT_FLAG }}
 
     steps:
 
@@ -96,27 +97,39 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      # if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
-      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && ! matrix.zlib-native
+    - name: Build zlib-ng ${{matrix.zlib-version}} zlib-compat mode ${{ env.ZLIB_COMPAT_FLAG }}
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       run: |
-        ./configure --prefix ${{ env.zlib-install }} --zlib-compat
-        make
-        make test
-        make install
-        rm -fr ${{ env.zlib-install }}/share
+        mkdir build
+        cd build
+        cmake .. -DZLIB_COMPAT=${{ env.ZLIB_COMPAT_FLAG }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF 
+        make instaall
+        # cmake .. -DZLIB_COMPAT=${{ env.ZLIB_COMPAT_FLAG }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF  -G Ninja
+        # ninja
+        # ninja install
       working-directory: ${{ env.zlib-source }}
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
-      # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
-      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && matrix.zlib-native
-      run: |
-        ./configure --prefix ${{ env.zlib-install }}
-        make
-        make test
-        make install
-        rm -fr ${{ env.zlib-install }}/share
-      working-directory: ${{ env.zlib-source }}
+    # - name: Build zlib-ng ${{matrix.zlib-version}} zlib-compat mode ${{ env.ZLIB_COMPAT_FLAG }}
+    #   # if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
+    #   if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && ! matrix.zlib-native
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }} --zlib-compat
+    #     make
+    #     make test
+    #     make install
+    #     rm -fr ${{ env.zlib-install }}/share
+    #   working-directory: ${{ env.zlib-source }}
+
+    # - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
+    #   # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
+    #   if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && matrix.zlib-native
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }}
+    #     make
+    #     make test
+    #     make install
+    #     rm -fr ${{ env.zlib-install }}/share
+    #   working-directory: ${{ env.zlib-source }}
 
     - name: Show installed zlib files
       if: env.STEP_ENABLED
