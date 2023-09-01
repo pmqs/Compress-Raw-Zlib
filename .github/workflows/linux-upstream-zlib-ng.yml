@@ -102,7 +102,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DZLIB_COMPAT=${{ matrix.zlib-native }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF
-        make instaall
+        make install
         # cmake .. -DZLIB_COMPAT=${{ matrix.zlib-native }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF  -G Ninja
         # ninja
         # ninja install
