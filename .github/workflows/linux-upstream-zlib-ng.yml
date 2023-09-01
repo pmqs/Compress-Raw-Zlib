@@ -40,7 +40,7 @@ jobs:
       ZLIB_VERSION:     ${{ matrix.zlib-version }}
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
-      USE_ZLIB_NG:      ${{ matrix.zlib-native }}
+      USE_ZLIB_NG:      ${{ ! matrix.zlib-native }}
 
       # Run each step if
       # 1. Not a scheduled job
