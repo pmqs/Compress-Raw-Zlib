@@ -41,7 +41,7 @@ jobs:
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
       USE_ZLIB_NG:      ${{ matrix.zlib-native }}
-      ZLIB_COMPAT_FLAG: ${{ matrix.zlib-native == "1" ?? "ON" || "OFF" }}
+      ZLIB_COMPAT_FLAG: ${{ matrix.zlib-native == '1' ?? 'ON' || 'OFF' }}
 
       # Run each step if
       # 1. Not a scheduled job
@@ -102,7 +102,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DZLIB_COMPAT=${{ env.ZLIB_COMPAT_FLAG }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF 
+        cmake .. -DZLIB_COMPAT=${{ env.ZLIB_COMPAT_FLAG }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF
         make instaall
         # cmake .. -DZLIB_COMPAT=${{ env.ZLIB_COMPAT_FLAG }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF  -G Ninja
         # ninja
