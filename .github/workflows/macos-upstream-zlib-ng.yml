@@ -46,8 +46,7 @@ jobs:
       # Run each step if
       # 1. Not a scheduled job
       # 2. Is sheduled AND zlib 'develop'
-      # STEP_ENABLED:     ${{ ( github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
-      STEP_ENABLED:     ${{ ( github.event_name != 'workflow_dispatch' || ( github.event_name == 'workflow_dispatch' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
+      STEP_ENABLED:     ${{ ( github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
 
     defaults:
       run:
@@ -103,7 +102,13 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DZLIB_COMPAT=${{ env.NG_COMPAT_MODE }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF
+        cmake .. \
+          -DZLIB_COMPAT=${{ env.NG_COMPAT_MODE }} \
+          -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} \
+          -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF \
+          -DZLIB_ENABLE_TESTS=OFF \
+          -DZLIBNG_ENABLE_TESTS=OFF \
+          -DWITH_OPTIM=OFF
         make install
       working-directory: ${{ env.zlib-source }}
 
@@ -130,6 +135,7 @@ jobs:
     #   working-directory: ${{ env.zlib-source }}
 
     - name: Show ${{ env.zlib-install }}
+      if: env.STEP_ENABLED
       run: |
         find ${{ env.zlib-install }}
 
