@@ -42,8 +42,6 @@ jobs:
 
     name: Perl ${{ matrix.perl }} with zlib-ng ${{matrix.zlib-version}}  USE_ZLIB_NG=${{ matrix.zlib-native }}
 
-    if: github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' )
-
     steps:
     - uses: actions/checkout@v3
 

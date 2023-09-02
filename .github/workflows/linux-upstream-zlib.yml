@@ -46,7 +46,8 @@ jobs:
       # Run each step if
       # 1. Not a scheduled job
       # 2. Is sheduled AND zlib 'develop'
-      STEP_ENABLED:     ${{ github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) }}
+      # STEP_ENABLED:     ${{ ( github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
+      STEP_ENABLED:     ${{ ( github.event_name != 'workflow_dispatch' || ( github.event_name == 'workflow_dispatch' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
 
     defaults:
       run:
