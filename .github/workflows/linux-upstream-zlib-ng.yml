@@ -75,7 +75,7 @@ jobs:
         mkdir -p ${{ env.zlib-install }}
         mkdir -p ${{ github.workspace }}/repo
 
-    - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
+    - name: Cache zlib ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       id: cache-zlib
       uses: actions/cache@v3
       with:
@@ -89,7 +89,7 @@ jobs:
         rm -fr ${{ env.zlib-install }}
         mkdir -p ${{ env.zlib-install }}
 
-    - name: Checkout upstream zlib-ng ${{matrix.zlib-version}}
+    - name: Checkout upstream zlib-ng ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       uses: actions/checkout@v3
       with:
@@ -97,7 +97,7 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} zlib-compat mode ${{ matrix.zlib-native }}
+    - name: Build zlib-ng ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       run: |
         mkdir build
@@ -146,6 +146,7 @@ jobs:
       run: perl -V
 
     #- name: Install dependencies
+    #  if: env.STEP_ENABLED
     #  run: |
     #    cpanm --verbose --installdeps --notest .
 

@@ -41,6 +41,7 @@ jobs:
       BUILD_ZLIB:       0
       ZLIB_NG_PRESENT:  1
       USE_ZLIB_NG:      ${{ matrix.zlib-native }}
+      NG_COMPAT_MODE:   ${{ matrix.zlib-native == 1 && 'OFF' || 'ON' }}
 
       # Run each step if
       # 1. Not a scheduled job
@@ -74,7 +75,7 @@ jobs:
         mkdir -p ${{ env.zlib-install }}
         mkdir -p ${{ github.workspace }}/repo
 
-    - name: Cache zlib ${{matrix.zlib-version}} ${{ matrix.zlib-native }}
+    - name: Cache zlib ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       id: cache-zlib
       uses: actions/cache@v3
       with:
@@ -83,7 +84,7 @@ jobs:
         key: ${{ runner.os }}-zlib-ng-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
     - name: Wipe develop cached files, if found
-      if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hi
+      if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hit
       run: |
         rm -fr ${{ env.zlib-install }}
         mkdir -p ${{ env.zlib-install }}
@@ -96,27 +97,36 @@ jobs:
         ref: ${{ matrix.zlib-version }}
         path: ${{ env.zlib-source }}
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
-      # if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
-      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && ! matrix.zlib-native
+    - name: Build zlib-ng ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
       run: |
-        ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib  --zlib-compat
-        make
-        make test
+        mkdir build
+        cd build
+        cmake .. -DZLIB_COMPAT=${{ env.NG_COMPAT_MODE }} -DCMAKE_INSTALL_PREFIX=${{ env.zlib-install }} -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GZFILEOP=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_OPTIM=OFF
         make install
-        rm -fr ${{ env.zlib-install }}/share
       working-directory: ${{ env.zlib-source }}
 
-    - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
-      # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
-      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && matrix.zlib-native
-      run: |
-        ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib
-        make
-        make test
-        make install
-        rm -fr ${{ env.zlib-install }}/share
-      working-directory: ${{ env.zlib-source }}
+    # - name: Build zlib-ng ${{matrix.zlib-version}} in zlib-compat mode
+    #   # if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && ! matrix.zlib-native
+    #   if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && ! matrix.zlib-native
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib  --zlib-compat
+    #     make
+    #     make test
+    #     make install
+    #     rm -fr ${{ env.zlib-install }}/share
+    #   working-directory: ${{ env.zlib-source }}
+
+    # - name: Build zlib-ng ${{matrix.zlib-version}} zlib native mode
+    #   # if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' ) && matrix.zlib-native
+    #   if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit ) && matrix.zlib-native
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }} --libdir ${{ env.zlib-install }}/lib
+    #     make
+    #     make test
+    #     make install
+    #     rm -fr ${{ env.zlib-install }}/share
+    #   working-directory: ${{ env.zlib-source }}
 
     - name: Show ${{ env.zlib-install }}
       run: |
@@ -133,6 +143,7 @@ jobs:
       run: perl -V
 
     #- name: Install dependencies
+    #  if: env.STEP_ENABLED
     #  run: |
     #    cpanm --verbose --installdeps --notest .
 
