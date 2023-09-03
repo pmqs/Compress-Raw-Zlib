@@ -25,9 +25,6 @@ if ($Config{'gccversion'} and $OPTIMIZE =~ /-g (gdb)? 3/x) {
 # Windows uses a different name for the zlib library
 my $ZLIB_LIBRARY_NAME = $^O eq 'MSWin32' ? 'zlib' : 'z' ;
 
-#$WALL = ' -pedantic ' if $Config{'cc'} =~ /gcc/ ;
-#$WALL = ' -Wall -Wno-comment ' if $Config{'cc'} =~ /gcc/ ;
-
 # Ticket #18986 says that ExtUtils::Install 1.39 fixes the in-use issue
 # on win32/cygwin, so make the code below conditional on the version of
 # ExtUtils::Install.
@@ -277,11 +274,22 @@ sub getBoolean
     my $name = shift ;
     my $info = shift;
 
+    my $x = getConfigValue($name, $info);
+
+    return ($x =~ /^yes|on|true|1$/i) ? 1 : 0;
+}
+
+sub getConfigValue
+{
+    my $name = shift ;
+    my $info = shift;
+
+    # Environment variable takes priority
     my $x = defined $ENV{$name}
                 ? $ENV{$name}
                 : $info->{$name} ;
 
-    return ($x =~ /^yes|on|true|1$/i) ? 1 : 0;
+    return $x;
 }
 
 sub ParseCONFIG
@@ -289,7 +297,7 @@ sub ParseCONFIG
     my ($k, $v) ;
     my @badkey = () ;
     my %Info = () ;
-    my @Options = qw( INCLUDE LIB BUILD_ZLIB OLD_ZLIB GZIP_OS_CODE USE_ZLIB_NG) ;
+    my @Options = qw( ZLIB_INCLUDE ZLIB_LIB BUILD_ZLIB OLD_ZLIB GZIP_OS_CODE USE_ZLIB_NG) ;
     my %ValidOption = map {$_, 1} @Options ;
     my %Parsed = %ValidOption ;
     my $CONFIG = 'config.in' ;
@@ -322,56 +330,44 @@ sub ParseCONFIG
     die "The following keys are missing from $CONFIG  [@missing]\n"
         if @missing = keys %Parsed ;
 
-    $ZLIB_INCLUDE = defined $ENV{'ZLIB_INCLUDE'}
-                        ? $ENV{'ZLIB_INCLUDE'}
-                        : $Info{'INCLUDE'} ;
+    $ZLIB_INCLUDE = getConfigValue('ZLIB_INCLUDE',  \%Info);
+    $ZLIB_LIB     = getConfigValue('ZLIB_LIB',      \%Info);
+    $GZIP_OS_CODE = getConfigValue('GZIP_OS_CODE',  \%Info);
 
-    $ZLIB_LIB = defined $ENV{'ZLIB_LIB'}
-                    ?$ENV{'ZLIB_LIB'}
-                    : $Info{'LIB'} ;
-
-    $USE_ZLIB_NG = getBoolean('USE_ZLIB_NG', \%Info);
+    $BUILD_ZLIB   = getBoolean('BUILD_ZLIB',        \%Info);
+    $USE_ZLIB_NG  = getBoolean('USE_ZLIB_NG',       \%Info);
+    $OLD_ZLIB     = getBoolean('OLD_ZLIB',          \%Info);
 
     if ($^O eq 'VMS') {
         $ZLIB_INCLUDE = VMS::Filespec::vmspath($ZLIB_INCLUDE);
         $ZLIB_LIB = VMS::Filespec::vmspath($ZLIB_LIB);
     }
 
-    $OLD_ZLIB = '-DOLD_ZLIB'
-        if getBoolean('OLD_ZLIB', \%Info);
-
-    $BUILD_ZLIB = getBoolean('BUILD_ZLIB', \%Info);
+    $OLD_ZLIB = $OLD_ZLIB
+                    ?'-DOLD_ZLIB'
+                    : '';
 
     if ($BUILD_ZLIB ) {
 
+        die "Cannot have USE_ZLIB_NG when BUILD_ZLIBis true\n"
+            if $USE_ZLIB_NG ;
+
         # ZLIB_LIB & ZLIB_INCLUDE must point to the same place when
         # BUILD_ZLIB is specified.
-        die "INCLUDE & LIB must be the same when BUILD_ZLIB is True\n"
+        die "ZLIB_INCLUDE & ZLIB_LIB must be the same when BUILD_ZLIB is True\n"
             if $ZLIB_LIB ne $ZLIB_INCLUDE ;
 
         # Check the zlib source directory exists
-        die "LIB/INCLUDE directory '$ZLIB_LIB' does not exits\n"
+        die "ZLIB_LIB/ZLIB_INCLUDE directory '$ZLIB_LIB' does not exits\n"
             unless -d $ZLIB_LIB ;
 
         # check for a well known file
-        if ($USE_ZLIB_NG)
-        {
-            die "LIB/INCLUDE directory, '$ZLIB_LIB', doesn't seem to have the zlib-ng source files\n"
-                unless -e catfile($ZLIB_LIB, 'zlib-ng.h') ;
-        }
-        else
-        {
-            die "LIB/INCLUDE directory, '$ZLIB_LIB', doesn't seem to have the zlib source files\n"
-                unless -e catfile($ZLIB_LIB, 'zlib.h') ;
-        }
+        die "ZLIB_LIB/ZLIB_INCLUDE directory, '$ZLIB_LIB', doesn't seem to have the zlib source files\n"
+            unless -e catfile($ZLIB_LIB, 'zlib.h') ;
 
         # write the Makefile
-        print "Building Zlib enabled\n" ;
+        print "Building Zlib is enabled\n" ;
     }
-
-    $GZIP_OS_CODE = defined $ENV{'GZIP_OS_CODE'}
-                          ? $ENV{'GZIP_OS_CODE'}
-                          : $Info{'GZIP_OS_CODE'} ;
 
     die "GZIP_OS_CODE not 'AUTO_DETECT' or a number between 0 and 255\n"
        unless uc $GZIP_OS_CODE eq 'AUTO_DETECT'
