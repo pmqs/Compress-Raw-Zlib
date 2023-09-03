@@ -56,14 +56,13 @@ EOM
 
     if ($answer =~ /^yes|y/i)
     {
-	print "continuing...\n"
+        print "continuing...\n"
     }
     else
     {
-	print "exiting...\n" ;
-	exit 1 ;
+        print "exiting...\n" ;
+        exit 1 ;
     }
-
 
 }
 
@@ -107,9 +106,12 @@ WriteMakefile(
     INC          => $OPT_ZLIB_INCLUDE ,
     DEFINE       => "-DNO_VIZ $OPT_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX $OPT_USE_ZLIB_NG -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB $OPT_CXX_DEFINES" ,
     XS           => { 'Zlib.xs' => 'Zlib.c'},
-    'depend'     => { 'Makefile'   => 'config.in' },
-    'clean'      => { FILES        => '*.c constants.h constants.xs' },
-    'dist'       => { COMPRESS     => 'gzip',
+    depend       => { 'Makefile'   => 'config.in',
+                      'manifypods' => 'READMEmd'
+                    },
+    # postamble    => { dep => 'lib/Compress/Raw/Zlib.pm'},
+    clean        => { FILES        => '*.c constants.h constants.xs' },
+    dist         => { COMPRESS     => 'gzip',
                       TARFLAGS     => '-chvf',
                       SUFFIX       => 'gz',
                       DIST_DEFAULT => 'MyTrebleCheck tardist',
@@ -290,24 +292,24 @@ sub ParseCONFIG
 
     open(F, "<$CONFIG") or die "Cannot open file $CONFIG: $!\n" ;
     while (<F>) {
-	s/^\s*|\s*$//g ;
-	next if /^\s*$/ or /^\s*#/ ;
-	s/\s*#\s*$// ;
+        s/^\s*|\s*$//g ;
+        next if /^\s*$/ or /^\s*#/ ;
+        s/\s*#\s*$// ;
 
-	($k, $v) = split(/\s+=\s+/, $_, 2) ;
-	$k = uc $k ;
-	if ($ValidOption{$k}) {
-	    delete $Parsed{$k} ;
-	    $Info{$k} = $v ;
-	}
-	else {
-	    push(@badkey, $k) ;
-	}
+        ($k, $v) = split(/\s+=\s+/, $_, 2) ;
+        $k = uc $k ;
+        if ($ValidOption{$k}) {
+            delete $Parsed{$k} ;
+            $Info{$k} = $v ;
+        }
+        else {
+            push(@badkey, $k) ;
+        }
     }
     close F ;
 
     print "Unknown keys in $CONFIG ignored [@badkey]\n"
-	if @badkey ;
+        if @badkey ;
 
     # check parsed values
     my @missing = () ;
@@ -365,9 +367,9 @@ sub ParseCONFIG
                           ? $ENV{'GZIP_OS_CODE'}
                           : $Info{'GZIP_OS_CODE'} ;
 
-	die "GZIP_OS_CODE not 'AUTO_DETECT' or a number between 0 and 255\n"
-	   unless uc $GZIP_OS_CODE eq 'AUTO_DETECT'
-                    || ( $GZIP_OS_CODE =~ /^(\d+)$/ && $1 >= 0 && $1 <= 255) ;
+    die "GZIP_OS_CODE not 'AUTO_DETECT' or a number between 0 and 255\n"
+       unless uc $GZIP_OS_CODE eq 'AUTO_DETECT'
+                || ( $GZIP_OS_CODE =~ /^(\d+)$/ && $1 >= 0 && $1 <= 255) ;
 
     if (uc $GZIP_OS_CODE eq 'AUTO_DETECT')
     {
@@ -405,24 +407,24 @@ sub zlib_files
         # zlib 1.2.0 or greater
         #
         @h_files = qw(crc32.h    inffast.h inflate.h  trees.h    zconf.in.h
-    	              zutil.h    deflate.h inffixed.h inftrees.h zconf.h
-    		      zlib.h
-    		 );
+                      zutil.h    deflate.h inffixed.h inftrees.h zconf.h
+                      zlib.h
+                    );
         @c_files = qw(adler32  crc32   infback  inflate  uncompr
-    		      compress deflate inffast  inftrees
-    		      trees    zutil
-    		 );
+                     compress deflate inffast  inftrees
+                     trees    zutil
+                    );
     }
     else {
         # zlib 1.1.x
 
         @h_files = qw(deflate.h  infcodes.h inftrees.h zconf.h zutil.h
-    		      infblock.h inffast.h  infutil.h  zlib.h
-    		 );
+                     infblock.h inffast.h  infutil.h  zlib.h
+             );
         @c_files = qw(adler32  compress crc32    uncompr
-    		      deflate  trees    zutil    inflate infblock
-    		      inftrees infcodes infutil  inffast
-    		 );
+                      deflate  trees    zutil    inflate infblock
+                      inftrees infcodes infutil  inffast
+                  );
     }
 
     @h_files = map { catfile($dir, $_)  } @h_files ;
@@ -434,7 +436,7 @@ sub zlib_files
 
     return (
         #'H'         =>  [ @h_files ],
-    	'C'         =>  [ @c_files ] ,
+        'C'         =>  [ @c_files ] ,
         #'OBJECT'    => qq[ @o_files ],
         'OBJECT'    => q[ $(O_FILES) ],
 
