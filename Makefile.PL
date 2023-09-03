@@ -80,9 +80,9 @@ my $OPT_USE_ZLIB_NG = "";
 # For C++ only
 my $OPT_CXX_DEFINES = '-Dregister=' ; # for https://github.com/pmqs/Compress-Raw-Zlib/issues/23
 
-if (! $BUILD_ZLIB)
+if (!$BUILD_ZLIB)
 {
-    # When using  the system supplied zlib, we don't want to use our bespoke prefix
+    # When using the system supplied zlib, we don't want to use our bespoke prefix
     $OPT_Z_PREFIX =  '';
 
     $OPT_ZLIB_INCLUDE = ''
@@ -100,7 +100,8 @@ if ( $USE_ZLIB_NG)
     $ZLIB_LIBRARY_NAME = $^O eq 'MSWin32' ? 'zlib-ng' : 'z-ng' ;
 }
 
-WriteMakefile(
+my %WriteMakefileArgs = (
+
     NAME         => 'Compress::Raw::Zlib',
     VERSION_FROM => 'lib/Compress/Raw/Zlib.pm',
     INC          => $OPT_ZLIB_INCLUDE ,
@@ -109,7 +110,6 @@ WriteMakefile(
     depend       => { 'Makefile'   => 'config.in',
                       'manifypods' => 'READMEmd'
                     },
-    # postamble    => { dep => 'lib/Compress/Raw/Zlib.pm'},
     clean        => { FILES        => '*.c constants.h constants.xs' },
     dist         => { COMPRESS     => 'gzip',
                       TARFLAGS     => '-chvf',
@@ -122,14 +122,15 @@ WriteMakefile(
         ? zlib_files($ZLIB_LIB)
         : (LIBS => [ "$OPT_ZLIB_LIB -l$ZLIB_LIBRARY_NAME " ])
     ),
+
     OPTIMIZE => $OPTIMIZE,
+    LICENSE  => 'perl',
 
     INSTALLDIRS => ($] >= 5.009 && $] < 5.011 ? 'perl' : 'site'),
 
-     ( eval { ExtUtils::MakeMaker->VERSION(6.46) }
-        ? ( META_MERGE  => {
+     META_MERGE  => {
 
-                "meta-spec" => { version => 2 },
+                'meta-spec' => { version => 2 },
 
                 no_index => {
                     directory => [ 't', 'private' ],
@@ -149,15 +150,20 @@ WriteMakefile(
                         web     => 'https://github.com/pmqs/Compress-Raw-Zlib',
                     },
                 },
-              }
-            )
-        : ()
-    ),
-
-    ((ExtUtils::MakeMaker->VERSION() gt '6.30') ?
-        ('LICENSE'  => 'perl')         : ()),
+              },
 
 ) ;
+
+delete $WriteMakefileArgs{LICENSE}
+    unless eval { ExtUtils::MakeMaker->VERSION(6.30) } ;
+
+delete $WriteMakefileArgs{META_MERGE}
+    unless eval { ExtUtils::MakeMaker->VERSION(6.46) } ;
+
+delete $WriteMakefileArgs{BUILD_REQUIRES}
+    unless eval { ExtUtils::MakeMaker->VERSION(6.55_03) } ;
+
+WriteMakefile(%WriteMakefileArgs);
 
 sub version_Macro
 {
@@ -435,12 +441,8 @@ sub zlib_files
       { copy(catfile($dir, $file), '.') }
 
     return (
-        #'H'         =>  [ @h_files ],
-        'C'         =>  [ @c_files ] ,
-        #'OBJECT'    => qq[ @o_files ],
-        'OBJECT'    => q[ $(O_FILES) ],
-
-
+            'C'         =>  [ @c_files ] ,
+            'OBJECT'    => q[ $(O_FILES) ],
            ) ;
 }
 
