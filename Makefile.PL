@@ -105,7 +105,7 @@ my %WriteMakefileArgs = (
     DEFINE       => "-DNO_VIZ $OPT_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX $OPT_USE_ZLIB_NG -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB $OPT_CXX_DEFINES" ,
     XS           => { 'Zlib.xs' => 'Zlib.c'},
     depend       => { 'Makefile'   => 'config.in',
-                      'manifypods' => 'READMEmd'
+                      #'manifypods' => 'READMEmd'
                     },
     clean        => { FILES        => '*.c constants.h constants.xs' },
     dist         => { COMPRESS     => 'gzip',
