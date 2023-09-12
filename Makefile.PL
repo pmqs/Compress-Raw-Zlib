@@ -104,8 +104,11 @@ my %WriteMakefileArgs = (
     INC          => $OPT_ZLIB_INCLUDE ,
     DEFINE       => "-DNO_VIZ $OPT_SOLO $OLD_ZLIB $WALL $OPT_Z_PREFIX $OPT_USE_ZLIB_NG -DGZIP_OS_CODE=$GZIP_OS_CODE $USE_PPPORT_H -DPerl_crz_BUILD_ZLIB=$BUILD_ZLIB $OPT_CXX_DEFINES" ,
     XS           => { 'Zlib.xs' => 'Zlib.c'},
-    depend       => { 'Makefile'   => 'config.in',
-                      #'manifypods' => 'READMEmd'
+    OPTIMIZE     => $OPTIMIZE,
+    LICENSE      => 'perl',
+
+    depend       => { Makefile     => 'config.in',
+                      manifypods   => 'READMEmd'
                     },
     clean        => { FILES        => '*.c constants.h constants.xs' },
     dist         => { COMPRESS     => 'gzip',
@@ -120,10 +123,7 @@ my %WriteMakefileArgs = (
         : (LIBS => [ "$OPT_ZLIB_LIB -l$ZLIB_LIBRARY_NAME " ])
     ),
 
-    OPTIMIZE => $OPTIMIZE,
-    LICENSE  => 'perl',
-
-    INSTALLDIRS => ($] >= 5.009 && $] < 5.011 ? 'perl' : 'site'),
+    INSTALLDIRS  => ($] >= 5.009 && $] < 5.011 ? 'perl' : 'site'),
 
      META_MERGE  => {
 
