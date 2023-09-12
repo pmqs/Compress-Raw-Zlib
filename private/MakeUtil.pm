@@ -72,29 +72,6 @@ MyTrebleCheck:
     {
         $postamble .= <<EOM;
 
-READMEmd: .github/README.md
-
-.github/README.md: $params{VERSION_FROM} .github/badges
-	\@echo Creating .github/README.md from $params{VERSION_FROM}
-	\$(NOECHO) \$(RM_F) .github/README.md
-	\$(NOECHO) \$(TOUCH) .github/README.md
-	\$(NOECHO) \$(CP_NONEMPTY) .github/badges .github/README.md \$(PERM_RW)
-	\$(NOECHO) pod2markdown $params{VERSION_FROM} >>.github/README.md
-
-EOM
-    }
-    else
-    {
-        $postamble .= <<EOM;
-
-READMEmd:
-EOM
-    }
-
-    if (-e '.github')
-    {
-        $postamble .= <<EOM;
-
 READMEmd: .github/Zlib.pod
 
 .github/Zlib.pod: lib/Compress/Raw/Zlib.pm
