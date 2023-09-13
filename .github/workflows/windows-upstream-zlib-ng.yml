@@ -71,6 +71,7 @@ jobs:
             cmake
             make
             perl
+            find
             mingw-w64-ucrt-x86_64-gcc
 
       - name: Make Paths
@@ -122,7 +123,7 @@ jobs:
         if: env.STEP_ENABLED
         run: |
           find .
-        shell: bash
+        # shell: bash
         working-directory: ${{ env.zlib-install }}
 
       # - name: Setup perl
