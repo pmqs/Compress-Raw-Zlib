@@ -119,12 +119,12 @@ jobs:
           make install
         working-directory: ${{ env.zlib-source }}
 
-      - name: Show installed zlib files
-        if: env.STEP_ENABLED
-        run: |
-          find .
-        # shell: bash
-        working-directory: ${{ env.zlib-install }}
+      # - name: Show installed zlib files
+      #   if: env.STEP_ENABLED
+      #   run: |
+      #     find .
+      #   # shell: bash
+      #   working-directory: ${{ env.zlib-install }}
 
       # - name: Setup perl
       #   if: env.STEP_ENABLED
