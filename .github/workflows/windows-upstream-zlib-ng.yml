@@ -67,7 +67,7 @@ jobs:
         with:
           msystem: UCRT64
           update: false
-          install: mingw-w64-ucrt-x86_64-gcc
+          install: cmake mingw-w64-ucrt-x86_64-gcc
 
       - name: Make Paths
         if: env.STEP_ENABLED
