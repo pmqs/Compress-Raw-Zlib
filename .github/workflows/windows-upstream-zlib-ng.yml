@@ -70,7 +70,7 @@ jobs:
           install: >-
             cmake
             make
-            perl
+            mingw-w64-x86_64-perl
             mingw-w64-ucrt-x86_64-gcc
 
       - name: Make Paths
