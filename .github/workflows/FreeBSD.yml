@@ -1,6 +1,6 @@
 name: FreeBSD
 
-# Test Disabled - not working
+# very slow - so only run on demand
 
 on:
     workflow_dispatch:
@@ -9,7 +9,6 @@ on:
 
 jobs:
   freebsd:
-    # runs-on: macos-10.15
     runs-on: ubuntu-22.04
 
     steps:
@@ -20,8 +19,7 @@ jobs:
           pkg install -y perl5.38
         usesh: true
         run: |
-            pkg search perl | grep ^perl
-            perl -V
-            perl Makefile.PL
+            perl5.38.1 -V
+            perl5.38.1 Makefile.PL
             make
-            prove -wlvmb t
+            prove5.38.1 -wlvmb t
