@@ -9,10 +9,11 @@ on:
 
 jobs:
   freebsd:
-    runs-on: macos-10.15
+    # runs-on: macos-10.15
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v1
-    - uses: vmactions/freebsd-vm@v0.1.6
+    - uses: actions/checkout@v4
+    - uses: vmactions/freebsd-vm@v1
       with:
         #prepare: pkg install -y p5-ExtUtils-PkgConfig
         run: |
