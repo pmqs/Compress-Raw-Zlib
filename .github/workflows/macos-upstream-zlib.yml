@@ -20,6 +20,7 @@ jobs:
         perl:
           - '5.38'
         zlib-version:
+          - v1.3.1
           - v1.3
           - v1.2.13
           - v1.2.12
