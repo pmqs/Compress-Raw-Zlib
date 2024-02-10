@@ -1,7 +1,7 @@
 ---
-abstract: unknown
+abstract: Perl interface to zlib/zlib-ng compression libraries
 author:
-  - unknown
+  - Paul Marquess <pmqs@cpan.org>
 build_requires:
   ExtUtils::MakeMaker: '0'
 configure_requires:
