@@ -101,16 +101,16 @@ before running
 
   For option 2, fetch a copy of the zlib source distribution from
   http://www.zlib.org and unpack it into the Compress-Raw-Zlib source
-  directory. Assuming you have fetched zlib 1.3,
-  it will create a directory called zlib-1.3.
+  directory. Assuming you have fetched zlib 1.3.1,
+  it will create a directory called zlib-1.3.1.
 
   Now set the configuration variables as follows (if the version you have
   fetched isn't 1.3, change the ZLIB_INCLUDE and ZLIB_LIB
   variables appropriately):
 
       BUILD_ZLIB=True
-      ZLIB_INCLUDE=./zlib-1.3
-      ZLIB_LIB=./zlib-1.3
+      ZLIB_INCLUDE=./zlib-1.3.1
+      ZLIB_LIB=./zlib-1.3.1
       OLD_ZLIB=False
       GZIP_OS_CODE=AUTO_DETECT
       USE_ZLIB_NG=False
