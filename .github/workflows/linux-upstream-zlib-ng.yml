@@ -80,7 +80,7 @@ jobs:
 
     - name: Cache zlib ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       id: cache-zlib
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         # NOTE: path doesn't expand variables!
         path: upstream-zlib-install
@@ -94,7 +94,7 @@ jobs:
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: zlib-ng/zlib-ng
         ref: ${{ matrix.zlib-version }}
