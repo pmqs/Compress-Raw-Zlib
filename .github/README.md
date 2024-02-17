@@ -6,7 +6,7 @@
 [![FreeBSD](https://api.cirrus-ci.com/github/pmqs/Compress-Raw-Zlib.svg?task=FreeBSD)](https://cirrus-ci.com/github/pmqs/Compress-Raw-Zlib?task=FreeBSD)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/pmqs/Compress-Raw-Zlib?svg=true)](https://ci.appveyor.com/project/pmqs/Compress-Raw-Zlib)
 
-Upstream Testing
+**Upstream Testing**
 
 [![Linux + upstream zlib](https://github.com/pmqs/Compress-Raw-Zlib/actions/workflows/linux-upstream-zlib.yml/badge.svg)](https://github.com/pmqs/Compress-Raw-Zlib/actions/workflows/linux-upstream-zlib.yml)
 [![Linux + upstream zlib-ng](https://github.com/pmqs/Compress-Raw-Zlib/actions/workflows/linux-upstream-zlib-ng.yml/badge.svg)](https://github.com/pmqs/Compress-Raw-Zlib/actions/workflows/linux-upstream-zlib-ng.yml)
@@ -22,3 +22,14 @@ For details of building and installing this module see the file [README](../READ
 API Documentation is in [Zlib.pod](Zlib.pod).
 
 This module is also available on [metacpan](https://metacpan.org/) at [Compress::Raw::Zlib](https://metacpan.org/pod/Compress::Raw::Zlib)
+
+General feedback/questions/bug reports should be reported in the [issues](https://github.com/pmqs/Compress-Raw-Zlib/issues) page.
+
+
+Copyright (c) 2009-2024 Paul Marquess. All rights reserved.
+
+This program is free software; you can redistribute it
+and/or modify it under the same terms as Perl itself.
+
+
+Paul Marquess <pmqs@cpan.org>

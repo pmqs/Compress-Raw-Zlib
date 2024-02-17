@@ -111,6 +111,7 @@ my %WriteMakefileArgs = (
     depend       => { Makefile     => 'config.in',
                       manifypods   => 'READMEmd'
                     },
+    postamble    => { name => 'Zlib' },
     clean        => { FILES        => '*.c constants.h constants.xs' },
     dist         => { COMPRESS     => 'gzip',
                       TARFLAGS     => '-chvf',

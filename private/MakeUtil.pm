@@ -44,10 +44,18 @@ sub MY::libscan
 
 sub MY::postamble
 {
-    my %params = %{ $_[0] };
+    my $self = shift ;
+    my %params = @_ ;
 
-    return ''
-        if $ENV{PERL_CORE} ;
+    if ($ENV{PERL_CORE} )
+    {
+        return <<EOM;
+
+READMEmd:
+
+EOM
+
+    }
 
     my @files = getPerlFiles('MANIFEST');
 
@@ -68,23 +76,16 @@ MyTrebleCheck:
 
 ';
 
-    if (-e '.github')
+    if (-e '.github' && exists $params{name})
     {
-        $postamble .= <<EOM;
+        my $name = $params{name};
+        $postamble .= <<"EOM";
 
-READMEmd: .github/Zlib.pod
+READMEmd: .github/$name.pod
 
-.github/Zlib.pod: lib/Compress/Raw/Zlib.pm
-	\@echo Creating .github/Zlib.pod from Zlib.pm
-	\$(NOECHO) perl -ne 'print unless 1 .. /^__END__/' lib/Compress/Raw/Zlib.pm >.github/Zlib.pod
-
-EOM
-    }
-    else
-    {
-        $postamble .= <<EOM;
-
-READMEmd:
+.github/$name.pod: lib/Compress/Raw/$name.pm
+	\@echo Creating .github/$name.pod from $name.pm
+	\$(NOECHO) perl -ne 'print unless 1 .. /^__END__/' lib/Compress/Raw/$name.pm >.github/$name.pod
 
 EOM
     }
