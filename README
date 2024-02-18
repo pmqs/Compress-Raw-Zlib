@@ -1,16 +1,16 @@
 
                             Compress-Raw-Zlib
 
-                              Version 2.206
+                              Version 2.207
 
-                               25 July 2023
+                               18 February 2024
 
-        Copyright (c) 2005-2023 Paul Marquess. All rights reserved.
+        Copyright (c) 2005-2024 Paul Marquess. All rights reserved.
           This program is free software; you can redistribute it
            and/or modify it under the same terms as Perl itself.
 
-             The directory zlib-src contains a subset of source
-                  files copied from zlib version 1.3.1
+              The directory zlib-src contains a subset of the
+             source files copied directly from zlib version 1.3.1.
                   These files are Copyright(C) 1995-2024
                      Jean-loup Gailly and Mark Adler.
              Full source for the zlib library is available at
@@ -31,10 +31,11 @@ installed on your system:
 
     * Perl 5.006 or better.
 
-By default, Compress-Raw-Zlib will build its own private copy of the zlib
-library. If you want to use a different version of zlib or use the zlib-ng
-library, follow the instructions in the section called "Controlling the
-version of zlib/zlib-ng used by Compress-Raw-Zlib" later in this document.
+By default, Compress-Raw-Zlib will build its own private copy of the
+zlib library. If you want to use a different version of
+zlib or use the zlib-ng library, follow the instructions in the section called
+"Controlling the version of zlib/zlib-ng used by Compress-Raw-Zlib"
+later in this document.
 
 BUILDING THE MODULE
 -------------------
@@ -57,8 +58,8 @@ Controlling the version of zlib/zlib-ng used by Compress-Raw-Zlib
 --------------------------------------------------------------------
 
 Compress-Raw-Zlib interfaces to the zlib or zlib-ng compression libraries.
-There are a number of options available to control which version/instance
-of the zlib/zlib-ng library is used:
+There are a number of options available to control which version/instance of
+the zlib/zlib-ng library is used:
 
     1. Build a private copy of the zlib library using the
        zlib library source that is included with this module.
@@ -70,14 +71,13 @@ of the zlib/zlib-ng library is used:
 
     3. Use a pre-built zlib or zlib-ng library.
 
-If you intend to use the zlib library with either Option 2 or 3, you need
-to have zlib version 1.2.0 or better.  Any version of zlib-ng is
-acceptable.
+If you intend to use the zlib library with either Option 2 or 3,
+you need to have zlib version 1.2.0 or better.
+Any version of zlib-ng is acceptable.
 
-The configuration for this module is controlled by a series of
-variable/value pairs.  These can either be set as environment variables or
-stored in the file config.in.  The environment variables will silently take
-presedence if both are present.
+The configuration for this module is controlled by a series of variable/value pairs.
+These can either be set as environment variables or stored in the file config.in.
+The environment variables will silently take presedence if both are present.
 
 Make sure you have set the environment variables or updated config.in
 before running
@@ -104,7 +104,7 @@ before running
   directory. Assuming you have fetched zlib 1.3.1,
   it will create a directory called zlib-1.3.1.
 
-  Now set the configuration variable/value pairs  (if the version you have
+  Now set the configuration variables as follows (if the version you have
   fetched isn't 1.3.1, change the ZLIB_INCLUDE and ZLIB_LIB
   variables appropriately):
 
@@ -118,7 +118,7 @@ before running
   Option 3a - Using zlib
   ----------------------
 
-  Before using this option you need to find out where the zlib files are stored
+  For this option you need to find out where the zlib files are stored
   on your system.  There are two parts to this.
 
   First, find the directory where the zlib library is stored (a
@@ -148,11 +148,11 @@ before running
   Option 3b - Using zlib-ng
   -------------------------
 
-   Before using this option you need to find out where the zlib-ng files are stored
+  For this option you need to find out where the zlib-ng files are stored
   on your system.  There are two parts to this.
 
   First, find the directory where the zlib-ng library is stored (some
-  common names for the the zlib-ng library are libz-ng.so on Unix/Linux derived systems).
+  common names for the the zlib-ng library are  libz-ng.so on Unix/Linux derived systems).
   Set the ZLIB_LIB configuration variable that directory.
 
   Secondly, find the directory where the file zlib-ng.h is stored. Now set
@@ -176,15 +176,14 @@ Setting the Gzip OS Code
 ------------------------
 
 Every gzip stream stores a byte in its header to identify the Operating
-System that was used to create the gzip stream. When you build
-Compress-Raw-Zlib it will attempt to determine the value that is correct
-for your Operating System. This will then be used by IO::Compress::Gzip as
-the default value for the OS byte in all gzip headers it creates.
+System that was used to create the gzip stream. When you build Compress-Raw-Zlib it will attempt to determine the value that is correct for
+your Operating System. This will then be used by IO::Compress::Gzip as the
+default value for the OS byte in all gzip headers it creates.
 
-The configuration variable GZIP_OS_CODE controls the setting of this value
-when building Compress-Raw-Zlib. If GZIP_OS_CODE is set to AUTO_DETECT,
-Compress-Raw-Zlib will attempt to determine the correct value for your
-Operating System.
+The configuration variable GZIP_OS_CODE controls the setting of
+this value when building Compress-Raw-Zlib. If GZIP_OS_CODE is set to
+AUTO_DETECT, Compress-Raw-Zlib will attempt to determine the correct value for
+your Operating System.
 
 Alternatively, you can override auto-detection of the default OS code and
 explicitly set it yourself. Set the GZIP_OS_CODE configuration variable to
@@ -197,8 +196,8 @@ See RFC 1952 for valid OS codes that can be used.
 If you are running one of the less popular Operating Systems, it is
 possible that the default value picked by this module is incorrect or the
 default value (3) is used when there is a better value available. When
-Compress-Raw-Zlib cannot determine what operating system you are running,
-it will use the default value 3 for the OS code.
+Compress-Raw-Zlib cannot determine what operating system you are running, it
+will use the default value 3 for the OS code.
 
 If you find you have to change this value, because you think the value auto
 detected is incorrect, please take a few moments to contact the author of
@@ -211,8 +210,8 @@ Undefined Symbol gzsetparams
 ----------------------------
 
 If you get the error shown below when you run the Compress-Raw-Zlib test
-harness it probably means you are running a copy of zlib that is version
-1.0.5 or older.
+harness it probably means you are running a copy of zlib that is
+version 1.0.5 or older.
 
 t/01version.........Can't load 'blib/arch/auto/Compress/Zlib/Zlib.so' for
                     module Compress::Raw::Zlib: blib/arch/auto/Compress/Raw/Zlib/Zlib.so:
@@ -226,10 +225,9 @@ There are two ways to fix this problem:
 
 Test Harness 01version fails
 ----------------------------
-
 If the 01version test harness fails, and the problem isn't covered by the
-scenario above, it probably means that you have two versions of zlib
-installed on your system.
+scenario above, it probably means that you have two versions of
+zlib installed on your system.
 
 Run the command below to see if this is indeed the case
 
@@ -240,39 +238,39 @@ Try removing the one you don't want to use and rebuild.
 Solaris build fails with "language optional software package not installed"
 ---------------------------------------------------------------------------
 
-If you are trying to build this module under Solaris and you get an error
-message like this
+If you are trying to build this module under Solaris and you get an
+error message like this
 
     /usr/ucb/cc: language optional software package not installed
 
 it means that Perl cannot find the C compiler on your system. The cryptic
-message is just Sun's way of telling you that you haven't bought their C
-compiler.
+message is just Sun's way of telling you that you haven't bought their
+C compiler.
 
-When you build a Perl module that needs a C compiler, the Perl build system
-tries to use the same C compiler that was used to build perl itself. In
-this case your Perl binary was built with a C compiler that lived in
-/usr/ucb.
+When you build a Perl module that needs a C compiler, the Perl build
+system tries to use the same C compiler that was used to build perl
+itself. In this case your Perl binary was built with a C compiler that
+lived in /usr/ucb.
 
-To continue with building this module, you need to get a C compiler, or
-tell Perl where your C compiler is, if you already have one.
+To continue with building this module, you need to get a C compiler,
+or tell Perl where your C compiler is, if you already have one.
 
 Assuming you have now got a C compiler, what you do next will be dependent
-on what C compiler you have installed. If you have just installed Sun's C
-compiler, you shouldn't have to do anything. Just try rebuilding this
-module.
+on what C compiler you have installed. If you have just installed Sun's
+C compiler, you shouldn't have to do anything. Just try rebuilding
+this module.
 
 If you have installed another C compiler, say gcc, you have to tell perl
 how to use it instead of /usr/ucb/cc.
 
-This set of options seems to work if you want to use gcc. Your mileage may
-vary.
+This set of options seems to work if you want to use gcc. Your mileage
+may vary.
 
     perl Makefile.PL CC=gcc CCCDLFLAGS=-fPIC OPTIMIZE=" "
     make test
 
-If that doesn't work for you, it's time to make changes to the Makefile by
-hand. Good luck!
+If that doesn't work for you, it's time to make changes to the Makefile
+by hand. Good luck!
 
 Solaris build fails with "gcc: unrecognized option `-KPIC'"
 -----------------------------------------------------------
@@ -285,10 +283,10 @@ build this Perl module
 This symptom usually means that you are using a Perl binary that has been
 built with the Sun C compiler, but you are using gcc to build this module.
 
-When Perl builds modules that need a C compiler, it will attempt to use the
-same C compiler and command line options that was used to build perl
-itself. In this case "-KPIC" is a valid option for the Sun C compiler, but
-not for gcc. The equivalent option for gcc is "-fPIC".
+When Perl builds modules that need a C compiler, it will attempt to use
+the same C compiler and command line options that was used to build perl
+itself. In this case "-KPIC" is a valid option for the Sun C compiler,
+but not for gcc. The equivalent option for gcc is "-fPIC".
 
 The solution is either:
 
@@ -308,13 +306,14 @@ HP-UX Notes
 -----------
 
 I've had a report that when building Compress-Raw-Zlib under HP-UX that it
-is necessary to have first built the zlib library with the -fpic option.
+is necessary to have first built the zlib library with the -fpic
+option.
 
 Linux Notes
 -----------
 
-Although most Linux distributions already come with zlib, some people
-report getting this error when they try to build this module:
+Although most Linux distributions already come with zlib, some
+people report getting this error when they try to build this module:
 
 $ make
 cp Zlib.pm blib/lib/Compress/Zlib.pm
@@ -331,21 +330,23 @@ distribution.
 Win32 Notes
 -----------
 
-If you are running Activestate Perl (from http://www.activestate.com), it
-ships with a pre-compiled version of Compress-Raw-Zlib. To check if a newer
-version of Compress-Raw-Zlib is available run this from the command prompt
+If you are running Activestate Perl (from http://www.activestate.com),
+it ships with a pre-compiled version of Compress-Raw-Zlib. To check if a
+newer version of Compress-Raw-Zlib is available run this from the command
+prompt
 
     C:\> ppm verify -upgrade Compress-Raw-Zlib
 
-If you are not running Activestate Perl and you don't have access to a C
-compiler, you will not be able to build and install this module.
+If you are not running Activestate Perl and you don't have access
+to a C compiler, you will not be able to build and install this module.
 
 Win32 & Cygwin Notes
 --------------------
 
-It is not possible to install Compress-Raw-Zlib using the CPAN shell.  This
-is because the Compress-Raw-Zlib DLL is itself used by the CPAN shell and
-it is impossible to remove a DLL while it is already loaded under Windows.
+It is not possible to install Compress-Raw-Zlib using the CPAN shell.
+This is because the Compress-Raw-Zlib DLL is itself used by the CPAN shell
+and it is impossible to remove a DLL while it is already loaded under
+Windows.
 
 The workaround is to install Compress-Raw-Zlib manually using the
 instructions given at the start of this file.
@@ -389,7 +390,7 @@ To help me help you, I need all of the following information:
         If you haven't installed Compress-Raw-Zlib then search Compress::Raw::Zlib.pm
         for a line like this:
 
-          $VERSION = "2.206" ;
+          $VERSION = "2.207" ;
 
      c. The version of zlib you have used.
         If you have successfully installed Compress-Raw-Zlib, this one-liner
