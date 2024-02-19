@@ -1,6 +1,12 @@
 CHANGES
 -------
 
+  2.208 18 February 2024
+
+      * #30 Fix for READMEmd target
+        Mon Feb 19 09:09:05 2024 +0000
+        6945e13819aa525ab1e5d61362e171011aae9e7b
+
   2.207 18 February 2024
 
       * #28 use zlib 1.3.1 in examples
