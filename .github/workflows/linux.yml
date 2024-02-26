@@ -54,6 +54,6 @@ jobs:
       run: perl Makefile.PL && make
       env:
         BUILD_ZLIB: ${{matrix.build-zlib}}
-        PERL_MM_OPT: CCFLAGS="-Werror ${{matrix.cc-opts}}"
+        PERL_MM_OPT: CCFLAGS='-Werror ${{matrix.cc-opts}}'
     - name: Test
       run: make test
