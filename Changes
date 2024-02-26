@@ -1,6 +1,16 @@
 CHANGES
 -------
 
+  2.209 26 February 2024
+
+      * version 2.209
+        Mon Feb 26 15:54:39 2024 +0000
+        b8c062949b7e89a2f1643825f6b66f79b2ba3b68
+
+      * #31 Fix build failure with "c++-compat" warnings
+        Mon Feb 26 15:20:07 2024 +0000
+        d9af6f896accf755fa1ef486cf128fdf66314213
+
   2.208 18 February 2024
 
       * #30 Fix for READMEmd target
