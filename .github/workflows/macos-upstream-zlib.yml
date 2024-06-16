@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         perl:
-          - '5.38'
+          - latest
         zlib-version:
           - v1.3.1
           - v1.3
@@ -82,7 +82,7 @@ jobs:
       with:
         # NOTE: path doesn't expand variables!
         path: upstream-zlib-install
-        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
+        key: ${{ runner.os }}-${{runner.arch}}-zlib-${{ matrix.zlib-version }}
 
     - name: Wipe develop cached files, if found
       if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hit
