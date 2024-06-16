@@ -102,4 +102,4 @@ jobs:
         BUILD_ZLIB: ${{matrix.build-zlib}}
 
     - name: Test
-      run: make test}
+      run: make test
