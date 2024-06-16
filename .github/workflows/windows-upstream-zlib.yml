@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         perl:
-          - '5.38'
+          - latest
         zlib-version:
           - v1.2.13
           - v1.2.12

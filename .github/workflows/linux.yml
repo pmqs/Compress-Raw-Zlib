@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         perl:
+          - '5.40'
           - '5.38'
           - '5.36'
           - '5.34'
@@ -36,24 +37,74 @@ jobs:
           - 1
 
         cc-opts:
-            - ""
-            - -Wc++-compat
+            - -Werror
+            - -Werror -Wc++-compat
 
     name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} ${{matrix.cc-opts}}
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: ${{ matrix.perl }}
+
     - name: Perl version
       run: perl -V
+
     - name: Install dependencies
       run: cpanm --quiet --installdeps --notest .
+
     - name: Build
-      run: perl Makefile.PL && make
+      run: |
+        flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
+        perl Makefile.PL CCFLAGS="$flags ${{matrix.cc-opts}}" && make
       env:
         BUILD_ZLIB: ${{matrix.build-zlib}}
-        PERL_MM_OPT: CCFLAGS=-Werror ${{matrix.cc-opts}}
+
+    - name: Test
+      run: make test
+
+
+
+  werror:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl:
+          - latest
+
+        compiler:
+          - gcc
+          - g++
+
+        build-zlib:
+          - 0
+          - 1
+
+    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} ${{matrix.compiler}}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+
+    - name: Perl version
+      run: perl -V
+
+    - name: Install dependencies
+      run: cpanm --quiet --installdeps --notest .
+
+    - name: Build
+      run: |
+        flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
+        perl Makefile.PL CCFLAGS="$flags -Werror" CC=${{matrix.compiler}} && make
+      env:
+        BUILD_ZLIB: ${{matrix.build-zlib}}
+
     - name: Test
       run: make test
