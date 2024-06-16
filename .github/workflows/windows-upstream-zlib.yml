@@ -58,7 +58,7 @@ jobs:
       with:
         # NOTE: path doesn't expand variables!
         path: upstream-zlib-install
-        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
+        key: ${{ runner.os }}-${{ runner.arch }}-zlib-${{ matrix.zlib-version }}
 
     # - name: Cancel if Scheduled Job and not running the 'develop' branch
     #   if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'

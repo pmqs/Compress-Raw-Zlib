@@ -89,7 +89,7 @@ jobs:
         with:
           # NOTE: path doesn't expand variables!
           path: upstream-zlib-install
-          key: ${{ runner.os }}-zlib-ng-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
+          key: ${{ runner.os }}-${{ runner.arch }}-zlib-ng-${{ matrix.zlib-version }}-${{ matrix.zlib-native }}
 
       - name: Wipe develop cached files, if found
         if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hit
