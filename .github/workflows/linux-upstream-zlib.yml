@@ -1,0 +1,152 @@
+name: Linux + upstream zlib
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+  schedule:
+      - cron: '02 02 * * 6'    # Run every Saturday
+
+# upstream build derived from https://github.com/madler/zlib/pull/506
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl:
+          - '5.38'
+        zlib-version:
+          - v1.3.1
+          - v1.3
+          - v1.2.13
+          - v1.2.12
+          - v1.2.11
+          - v1.2.10
+          # - v1.2.9
+          # - v1.2.8
+          # - v1.2.7.3
+          # - v1.2.7.2
+          # - v1.2.7.1
+          # - v1.2.7
+          - develop
+
+    env:
+      zlib-source:      ${{ github.workspace }}/upstream-zlib-source
+      zlib-install:     ${{ github.workspace }}/upstream-zlib-install
+      ZLIB_LIB:         ${{ github.workspace }}/upstream-zlib-install/lib
+      ZLIB_INCLUDE:     ${{ github.workspace }}/upstream-zlib-install/include
+      ZLIB_VERSION:     ${{ matrix.zlib-version }}
+      BUILD_ZLIB:       0
+      ZLIB_NG_PRESENT:  0
+      USE_ZLIB_NG:      0
+
+      # Run each step if
+      # 1. Not a scheduled job
+      # 2. Is sheduled AND zlib 'develop'
+      STEP_ENABLED:     ${{ ( github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
+
+    defaults:
+      run:
+        working-directory: repo
+
+    name: Perl ${{ matrix.perl }} with zlib ${{matrix.zlib-version}}
+
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        path: repo
+
+    # - name: Cancel if Scheduled Job and not running the 'develop' branch
+    #   if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
+    #   run: |
+    #     gh run cancel ${{ github.run_id }}
+    #     gh run watch  ${{ github.run_id }}
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Make Paths
+      if: env.STEP_ENABLED
+      run: |
+        mkdir -p ${{ env.zlib-source }}
+        mkdir -p ${{ env.zlib-install }}
+        mkdir -p ${{ github.workspace }}/repo
+
+    - name: Cache zlib ${{matrix.zlib-version}}
+      id: cache-zlib
+      uses: actions/cache@v4
+      with:
+        # NOTE: path doesn't expand variables!
+        path: upstream-zlib-install
+        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
+
+    - name: Wipe develop cached files, if found
+      if: env.STEP_ENABLED && matrix.zlib-version == 'develop' && steps.cache-zlib.outputs.cache-hit
+      run: |
+        rm -fr ${{ env.zlib-install }}
+        mkdir -p ${{ env.zlib-install }}
+
+    - name: Checkout upstream zlib ${{matrix.zlib-version}}
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
+      uses: actions/checkout@v4
+      with:
+        repository: madler/zlib
+        ref: ${{ matrix.zlib-version }}
+        path: ${{ env.zlib-source }}
+
+    # - name: Build zlib ${{matrix.zlib-version}}
+    #   if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
+    #   run: |
+    #     ./configure --prefix ${{ env.zlib-install }}
+    #     make
+    #     make test
+    #     make install
+        # rm -fr ${{ env.zlib-install }}/share
+    #   working-directory: ${{ env.zlib-source }}
+
+    - name: Build zlib ${{matrix.zlib-version}}
+      if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
+      run: |
+        cmake -S . -B . \
+          -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
+          -D CMAKE_BUILD_TYPE=Release \
+          -D BUILD_SHARED_LIBS='ON'
+        cmake --build . --config Release
+        ctest -C Release --output-on-failure --max-width 120
+        cmake --install .
+        rm -fr ${{ env.zlib-install }}/share
+      working-directory: ${{ env.zlib-source }}
+      shell: bash
+
+    - name: Show installed zlib files
+      if: env.STEP_ENABLED
+      run: find .
+      shell: bash
+      working-directory: ${{ env.zlib-install }}
+
+    - name: Setup perl
+      if: env.STEP_ENABLED
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+
+    - name: Perl version
+      if: env.STEP_ENABLED
+      run: perl -V
+
+    #- name: Install dependencies
+    # if: env.STEP_ENABLED
+    #  run: |
+    #    cpanm --verbose --installdeps --notest .
+
+    - name: Build
+      if: env.STEP_ENABLED
+      run: perl Makefile.PL && make
+
+    - name: Test
+      if: env.STEP_ENABLED
+      run: make test

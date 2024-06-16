@@ -1,6 +1,236 @@
 CHANGES
 -------
 
+  2.212 27 April 2024
+
+      * no functional changes
+
+  2.211 6 April 2024
+
+      * version 2.211
+        Sat Apr 6 14:17:42 2024 +0100
+        f14a09ae54eb45c7904aa0b1c22ff3314f8d18a1
+
+  2.209 26 February 2024
+
+      * version 2.209
+        Mon Feb 26 15:54:39 2024 +0000
+        b8c062949b7e89a2f1643825f6b66f79b2ba3b68
+
+      * #31 Fix build failure with "c++-compat" warnings
+        Mon Feb 26 15:20:07 2024 +0000
+        d9af6f896accf755fa1ef486cf128fdf66314213
+
+  2.208 18 February 2024
+
+      * #30 Fix for READMEmd target
+        Mon Feb 19 09:09:05 2024 +0000
+        6945e13819aa525ab1e5d61362e171011aae9e7b
+
+  2.207 18 February 2024
+
+      * #28 use zlib 1.3.1 in examples
+        Tue Feb 13 09:34:23 2024 +0000
+        4292a3b6e2151404b8b544c20b7e54512ca2852f
+
+      * #28 include zlib-1.3.1 source
+        Tue Feb 13 09:31:12 2024 +0000
+        e2bd28778a465ce8205233a3ec0e8c2f4c28f705
+
+      * #29 Add author & absrtract to Makefile.PL & meta.*
+        Sat Feb 10 16:17:15 2024 +0000
+        0d4b451e1788300f3ffa21b3bf76e0ac26bcc32c
+
+      * #28 upgrade to zlib 1.3.1 for upstream testing
+        Thu Jan 25 09:56:35 2024 +0000
+        6c0ab334eacaf26203efccbb491d1ae86221cf3e
+
+  2.206 25 July 2023
+
+      * 2.206
+        Tue, 25 Jul 2023 16:18:52 +0100
+        b74db6a4557769233f1504bc94fbc4bafb0efc8a
+
+      * drop rt.cpan from SUPPORT section
+        Tue, 18 Jul 2023 09:22:34 +0100
+        a2c231b7e3e178c150c614bad7dc4d8a91fa4b8a
+
+  2.205 16 July 2023
+
+      * 2.205
+        Sun, 16 Jul 2023 16:11:31 +0100
+        3effdb9dbaa9bedfff3cad44902e515409ffae78
+
+      * Test::More::isn't warns in perl 5.38
+        Sun, 9 Jul 2023 21:38:15 +0100
+        928bbc6ddc5178621fb477b38a1b4b4de38866cf
+
+      * add zlib-ng 2.1.3
+        Thu, 29 Jun 2023 19:51:58 +0100
+        b1aa2583b4c114c2194890a0e015fdc439928c31
+
+      * add zlib-ng 2.1.2
+        Fri, 9 Jun 2023 14:51:17 +0100
+        0d505d9156ca7e9cac15e2d6e574099300f91a14
+
+      * Change storage of ZLIBNG_VER_STATUS from IV to PV https://github.com/pmqs/Compress-Raw-Zlib/issues/24
+        Fri, 9 Jun 2023 14:30:36 +0100
+        0a8fb7141a43b8e49609fb06f05fad5150a97c2a
+
+      * Fix to allow building with C++17 register keyword not allowed in C++17 https://github.com/pmqs/Compress-Raw-Zlib/issues/23
+        Mon, 22 May 2023 12:42:51 +0100
+        a7c12acdd4ce7fdc070f50ac78e68e04c8699c81
+
+      * Change while loop for `LimitOutput`  example https://github.com/pmqs/Compress-Raw-Zlib/issues/21
+        Sun, 21 May 2023 21:32:19 +0100
+        972f03b5b0bf06d44991bbee2d2c9216e4175154
+
+      * [doc] zlib.h: Remove duplicate "the" (#22)
+        Mon, 1 May 2023 22:46:39 +0200
+        89b43e6978d8e9b16801f48881cadf822585be0d
+
+      * Add zlib compat version for 2.0.7
+        Sat, 18 Mar 2023 08:42:59 +0000
+        e7d79cbd5924fbdcd3515fb3b0ad171c7720105c
+
+  2.204 8 February 2023
+      * Update zlib sources to zlib-1.2.13
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/20
+        eafe29c85437582d16c6bda16449ea2dea534266
+
+      * Use GIMME_V instead of the deprecated GIMME
+        https://github.com/pmqs/Compress-Raw-Zlib/pull/19
+        7a7b045d9d8729a6c82a78039dab5decf7e65907
+
+
+  2.202 27 June 2022
+
+      * Z_NULL should be 'UV' rather than 'PV'
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/17
+        Sun Jun 26 22:02:04 2022 +0100
+        de28f0335d3d605d696b19d43fc48de42272455c
+
+  2.201 25 June 2022
+
+      * 2.021
+        Sat Jun 25 08:42:46 2022 +0100
+        85416cab509c18c5fa3f923de7b45b6c7c0f7a6f
+
+      * 2.201
+        Sat Jun 25 08:39:26 2022 +0100
+        b3d63862b2ff4ac9d28e23be500c0d32ad69dd11
+
+      * More zlib-ng updates
+        Thu Jun 23 22:42:13 2022 +0100
+        313f626425181702b5fc80af2b6ea7eed41d5a9d
+
+      * Fix test count regression in t/07bufsize.t (#16)
+        Wed Jun 22 09:45:11 2022 +0100
+        98dc5b4a2b30c26752b6f686462b06b8db72a5e4
+
+  2.200 21 June 2022
+
+      * Added zlib-ng support
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/9
+
+      * Only set Z_SOLO when building zlib sources https://github.com/pmqs/Compress-Raw-Zlib/issues/12
+        Tue Jun 7 10:13:00 2022 +0100
+        c44e0b732e214b7f77d42a3af6ae64ef944cee90
+
+  2.105 14 April 2022
+
+      * Add Compress::Raw::Zlib::VERSION to output
+        Sat May 14 15:16:57 2022 +0100
+        3e22c93169a67986017f64d9a2e5085c417d8624
+
+      * Dump version info when running test harness
+        Sat May 14 15:10:17 2022 +0100
+        ca9f33ba0323d0abc91a83800636f180b2b44162
+
+      * Fix use of ZLIB_INCLUDE/LIB
+        Sat May 14 09:01:38 2022 +0100
+        8a7d4a97d7441b61a8a888342766419044fa5a33
+
+      * More fixes for BUILD_ZLIB off
+        Sat May 14 08:54:04 2022 +0100
+        2d9650094dab90858ef58bfbda62f3bc60e159e4
+
+      * Add BUILD_ZLIB to the matrix
+        Sat May 14 08:31:54 2022 +0100
+        b61b92fc9d06bf04f1adec337357ffbd39535901
+
+      * Merge branch 'master' of https://github.com/pmqs/Compress-Raw-Zlib
+        Sat May 14 08:27:14 2022 +0100
+        3ac7d0d3d45ae263402fab1ebb3835e2ae16c5a6
+
+      * Fix for BUILD_ZLIB disabled
+        Sat May 14 08:25:34 2022 +0100
+        b0f04e37fb58a34ef01767ad16a8f63ca868eec6
+
+      * Add BUILD_ZLIB to the matrix
+        Sat May 14 08:22:56 2022 +0100
+        aa8f5ff981c7305c995d4e2f798ae0d7d45866a5
+
+  2.104 13 April 2022
+
+      * Merge pull request #11 from monkburger/symbol_fix_2
+        Fri May 13 07:17:19 2022 +0100
+        64aea2d3f78946d7df4096eadfa0d7267f4439a5
+
+      * perl_crz -> Perl_crz
+        Tue May 3 18:19:24 2022 +0000
+        20502e6c2eba8ddcad80b20574e840457c0cb369
+
+      * This is a slightly different way to fix https://github.com/pmqs/Compress-Raw-Zlib/issues/8
+        Tue May 3 18:06:48 2022 +0000
+        d9cd27fb212da7455b6ba44729ca11bb441f3950
+
+      * add tests for crc32/adler32_combine
+        Mon May 2 16:18:13 2022 +0100
+        dcfe9ef439790f1a4fae81cf3eac38cfeb848294
+
+  2.103 3 April 2022
+
+      * Sync upstream fix for CVE-2018-25032
+        https://github.com/advisories/GHSA-jc36-42cf-vqwj
+
+        Update to Zlib 1.2.12
+        d507f527768f6cbab5831ed3ec17fe741163785c
+
+        Fix for inflateSync return code change
+        f47ea5f36c40fe19efe404dd75fd790b115de596
+
+        Fix for incorrect CRC from zlib 1.2.12.1
+        https://github.com/madler/zlib/commit/ec3df00224d4b396e2ac6586ab5d25f673caa4c2
+        60104e3a162a116548303861ae0811fb850e65fd
+
+      * AUTHOR doesn't contain the stated information
+        bf5a03c1b440c8d9e41cffb344bf889794cc532b
+
+
+  2.101 20 February 2021
+
+      * fix version numbers in meta files
+
+  2.100 7 January 2021
+
+      * trim whitespace
+        5de62cd3987c736c14d1aa804936808fbc1fe9cb
+
+  2.096 31 July 2020
+
+      * No changes
+
+  2.095 19 July 2020
+
+      * No changes
+
+  2.094 13 July 2020
+
+      * Issue with Append mode & SvOOK
+        https://github.com/pmqs/Compress-Raw-Zlib/issues/3
+        80ee0524012f46c5984c2d57649af0b07f82c750
+
   2.093 7 December 2019
 
       * No Changes
@@ -8,7 +238,7 @@ CHANGES
   2.092 4 December 2019
 
       * No Changes
-      
+
   2.091 23 November 2019
 
       * Silence "macro expands to multiple statements" warning
@@ -547,4 +777,3 @@ CHANGES
   2.000_00 21 August 2005
 
       * First Beta relase of Compress::zlib rewrite.
-

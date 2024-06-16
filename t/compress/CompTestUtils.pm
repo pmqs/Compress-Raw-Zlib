@@ -9,13 +9,13 @@ use bytes;
 #use lib qw(t t/compress);
 
 use Carp ;
-#use Test::More ; 
+#use Test::More ;
 
 
 
 sub title
 {
-    #diag "" ; 
+    #diag "" ;
     ok(1, $_[0]) ;
     #diag "" ;
 }
@@ -26,10 +26,51 @@ sub like_eval
 }
 
 BEGIN {
-    eval { 
+    eval {
        require File::Temp;
      } ;
 
+}
+
+sub test_zlib_header_matches_library
+{
+SKIP: {
+    skip "TEST_SKIP_VERSION_CHECK is set", 1
+        if $ENV{TEST_SKIP_VERSION_CHECK};
+
+    if (Compress::Raw::Zlib::is_zlibng_native())
+    {
+        my $zlibng_h = Compress::Raw::Zlib::ZLIBNG_VERSION ;
+        my $libzng   = Compress::Raw::Zlib::zlibng_version();
+        is($zlibng_h, $libzng, "ZLIBNG_VERSION ($zlibng_h) matches Compress::Raw::Zlib::zlibng_version")
+            or diag <<EOM;
+
+The version of zlib-ng.h does not match the version of libz-ng
+
+You have zlib-ng.h version $zlibng_h
+     and libz-ng   version $libzng
+
+You probably have two versions of zlib-ng installed on your system.
+Try removing the one you don't want to use and rebuild.
+EOM
+    }
+    else
+    {
+        my $zlib_h = ZLIB_VERSION ;
+        my $libz   = Compress::Raw::Zlib::zlib_version();
+        is($zlib_h, $libz, "ZLIB_VERSION ($zlib_h) matches Compress::Raw::Zlib::zlib_version")
+            or diag <<EOM;
+
+The version of zlib.h does not match the version of libz
+
+You have zlib.h version $zlib_h
+     and libz   version $libz
+
+You probably have two versions of zlib installed on your system.
+Try removing the one you don't want to use and rebuild.
+EOM
+    }
+    }
 }
 
 
@@ -38,7 +79,7 @@ BEGIN {
 
     our ($index);
     $index = '00000';
-    
+
     sub new
     {
         my $self = shift ;
@@ -72,7 +113,7 @@ BEGIN {
     $index = '00000';
     our ($useTempFile);
     our ($useTempDir);
-    
+
     sub new
     {
         my $self = shift ;
@@ -115,11 +156,11 @@ BEGIN {
                 # autogenerate the name if none supplied
                 $_ = "tmpdir" . $$ . "X" . $index ++ . ".tmp" ;
             }
-            foreach (@_) 
-            { 
+            foreach (@_)
+            {
                 rmtree $_, {verbose => 0, safe => 1}
-                    if -d $_; 
-                mkdir $_, 0777 
+                    if -d $_;
+                mkdir $_, 0777
             }
             bless [ @_ ], $self ;
         }
@@ -131,10 +172,10 @@ BEGIN {
         if (! $useTempFile)
         {
             my $self = shift ;
-            foreach (@$self) 
-            { 
+            foreach (@$self)
+            {
                 rmtree $_, {verbose => 0, safe => 1}
-                    if -d $_ ; 
+                    if -d $_ ;
             }
         }
     }
@@ -150,15 +191,15 @@ sub readFile
     {
         my $pos = tell($f);
         seek($f, 0,0);
-        @strings = <$f> ;	
+        @strings = <$f> ;
         seek($f, 0, $pos);
     }
     else
     {
-        open (F, "<$f") 
+        open (F, "<$f")
             or croak "Cannot open $f: $!\n" ;
         binmode F;
-        @strings = <F> ;	
+        @strings = <F> ;
         close F ;
     }
 
@@ -175,7 +216,7 @@ sub writeFile
 {
     my($filename, @strings) = @_ ;
     1 while unlink $filename ;
-    open (F, ">$filename") 
+    open (F, ">$filename")
         or croak "Cannot open $filename: $!\n" ;
     binmode F;
     foreach (@strings) {
@@ -191,10 +232,10 @@ sub GZreadFile
 
     my ($uncomp) = "" ;
     my $line = "" ;
-    my $fil = gzopen($filename, "rb") 
+    my $fil = gzopen($filename, "rb")
         or croak "Cannopt open '$filename': $Compress::Zlib::gzerrno" ;
 
-    $uncomp .= $line 
+    $uncomp .= $line
         while $fil->gzread($line) > 0;
 
     $fil->gzclose ;
@@ -248,7 +289,7 @@ sub readHeaderInfo
 some text
 EOM
 
-    ok my $x = new IO::Compress::Gzip $name, %opts 
+    ok my $x = new IO::Compress::Gzip $name, %opts
         or diag "GzipError is $IO::Compress::Gzip::GzipError" ;
     ok $x->write($string) ;
     ok $x->close ;
@@ -562,9 +603,9 @@ sub anyUncompress
     }
 
     my $out = '';
-    my $o = new IO::Uncompress::AnyUncompress \$data, 
-                    Append => 1, 
-                    Transparent => 0, 
+    my $o = new IO::Uncompress::AnyUncompress \$data,
+                    Append => 1,
+                    Transparent => 0,
                     RawInflate => 1,
                     UnLzma     => 1,
                     @opts
@@ -622,10 +663,10 @@ sub getHeaders
     }
 
     my $out = '';
-    my $o = new IO::Uncompress::AnyUncompress \$data, 
-                MultiStream => 1, 
-                Append => 1, 
-                Transparent => 0, 
+    my $o = new IO::Uncompress::AnyUncompress \$data,
+                MultiStream => 1,
+                Append => 1,
+                Transparent => 0,
                 RawInflate => 1,
                 UnLzma     => 1,
                 @opts

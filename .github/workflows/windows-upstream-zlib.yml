@@ -1,0 +1,172 @@
+name: Windows + upstream zlib
+
+# Disabled - strawberry perl always uses system zlib
+
+on:
+  workflow_dispatch:
+  # push:
+  # pull_request:
+  # schedule:
+  #     - cron: '02 02 * * 6'    # Run every Saturday
+
+# upstream build derived from https://github.com/madler/zlib/pull/506
+
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        perl:
+          - '5.38'
+        zlib-version:
+          - v1.2.13
+          - v1.2.12
+          - v1.2.11
+          - develop
+
+    env:
+      zlib-source:      ${{ github.workspace }}\upstream-zlib-source
+      zlib-install:     ${{ github.workspace }}\upstream-zlib-install
+      ZLIB_LIB:         ${{ github.workspace }}\upstream-zlib-install\lib
+      ZLIB_INCLUDE:     ${{ github.workspace }}\upstream-zlib-install\include
+      ZLIB_VERSION:     ${{ matrix.zlib-version }}
+      BUILD_ZLIB:       0
+      ZLIB_NG_PRESENT:  0
+      USE_ZLIB_NG:      0
+
+      # Run each step if
+      # 1. Not a scheduled job
+      # 2. Is sheduled AND zlib 'develop'
+      # STEP_ENABLED:     ${{ ( github.event_name != 'schedule' || ( github.event_name == 'schedule' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
+      STEP_ENABLED:     ${{ ( github.event_name != 'workflow_dispatch' || ( github.event_name == 'workflow_dispatch' &&  matrix.zlib-version == 'develop' ) ) && true || '' }}
+
+    defaults:
+      run:
+        shell: bash
+
+    name: Perl ${{ matrix.perl }} with zlib ${{matrix.zlib-version}}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache zlib ${{matrix.zlib-version}}
+      id: cache-zlib
+      uses: actions/cache@v4
+      with:
+        # NOTE: path doesn't expand variables!
+        path: upstream-zlib-install
+        key: ${{ runner.os }}-zlib-${{ matrix.zlib-version }}
+
+    # - name: Cancel if Scheduled Job and not running the 'develop' branch
+    #   if: github.event_name == 'schedule' &&  matrix.zlib-version != 'develop'
+    #   run: |
+    #     gh run cancel ${{ github.run_id }}
+    #     gh run watch  ${{ github.run_id }}
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set Path
+      run: |
+        echo '${{ github.workspace }}\upstream-zlib-install\bin'    >> $GITHUB_PATH
+
+    # - name: Set Env
+    #   run: |
+    #     echo 'zlib-source=${{ github.workspace }}\upstream-zlib-source'    >> $GITHUB_ENV
+    #     echo 'zlib-install=${{ github.workspace }}\upstream-zlib-install'  >> $GITHUB_ENV
+    #     # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
+    #     # echo 'INCLUDE_PATH=/'                      >> $GITHUB_ENV
+    #     # echo 'LIBRARY_PATH=/'                      >> $GITHUB_ENV
+
+    #     echo 'ZLIB_LIB=${{ github.workspace }}\upstream-zlib-install\bin'         >> $GITHUB_ENV
+    #     echo 'ZLIB_INCLUDE=${{ github.workspace }}\upstream-zlib-install\include' >> $GITHUB_ENV
+    #     echo 'ZLIB_VERSION=${{ matrix.zlib-version }}'         >> $GITHUB_ENV
+    #     echo 'BUILD_ZLIB=0'                                    >> $GITHUB_ENV
+    #     echo 'ZLIB_NG_PRESENT=0'                               >> $GITHUB_ENV
+    #   shell: bash
+
+    # - name: Set GITHUB_WORKSPACE_UNIX
+    #   run: |
+    #     perl -e '$a = shift; $a =~ s#^(.):#q[/] . lc($1) #e; $a =~ s#\\#/#g; print qq[GITHUB_WORKSPACE_UNIX=$a\n]' '${{ github.workspace }}' >> $GITHUB_ENV
+    #   shell: bash
+
+    # - name: Set Unix Env
+    #   run: |
+    #     echo 'zlib-install-unix=${{ env.GITHUB_WORKSPACE_UNIX }}/upstream-zlib-install'       >> $GITHUB_ENV
+    #   shell: bash
+
+    - name: Checkout upstream zlib ${{matrix.zlib-version}}
+      if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' )
+      uses: actions/checkout@v4
+      with:
+        repository: madler/zlib
+        ref: ${{ matrix.zlib-version }}
+        path: ${{ env.zlib-source }}
+
+    # -D BUILD_SHARED_LIBS='ON'
+      # -G Ninja \
+      # -D CMAKE_BUILD_TYPE=Release \
+      # -D BUILD_SHARED_LIBS='ON' \
+      # -D CMAKE_C_COMPILER=gcc
+
+    - name: Build zlib ${{matrix.zlib-version}}
+      if: ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' )
+      run: |
+        cmake -S . -B . -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}'
+        cmake --build . --config Release
+        ctest -C Release --output-on-failure --max-width 120
+        cmake --install .
+      working-directory: ${{ env.zlib-source }}
+      shell: bash
+
+    - name: Show installed zlib files
+      run: |
+        find .
+      shell: bash
+      working-directory: ${{ env.zlib-install }}
+
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+
+    - name: Perl version
+      run: perl -V
+      shell: cmd
+
+    #- name: Install dependencies
+    #  run: |
+    #    cpanm --verbose --installdeps --notest .
+
+    - name: Create Mafefile
+      run: |
+        perl Makefile.PL
+      shell: cmd
+
+    - name: cat Makefile
+      run: |
+        cat Makefile
+      shell: bash
+
+    # # dirty great hack that doesn't work
+    # - name: Zap Makefile
+    #   run: |
+    #     perl -i -pe "s#C:\\strawberry\\c\\lib\\libzlib.a#$ENV{ZLIB_LIB}\\zlib.lib#" Makefile
+    #   shell: cmd
+
+    # - name: cat Makefile after
+    #   run: |
+    #     cat Makefile
+    #   shell: bash
+
+    - name: Build
+      run: |
+        make
+      shell: cmd
+
+    - name: Test
+      run: |
+        make test TEST_VERBOSE=1
+      shell: cmd

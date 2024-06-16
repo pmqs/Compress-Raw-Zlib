@@ -1,0 +1,22 @@
+name: Solaris
+
+# Long running - only run on demand
+
+on:
+    workflow_dispatch:
+    # push:
+    # pull_request:
+
+jobs:
+  solaris:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: vmactions/solaris-vm@v1
+      with:
+        usesh: true
+        run: |
+            perl -V
+            perl Makefile.PL
+            make
+            make test
