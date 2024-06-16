@@ -70,7 +70,7 @@ jobs:
           - latest
 
         compiler:
-          - clan
+          - clang
           - clang++
 
         build-zlib:
