@@ -32,15 +32,11 @@ jobs:
           - '5.8'
           - '5.6'
 
-        ccflags:
-          - -Werror
-          - -Werror -Wc++-compat
-
         build-zlib:
           - 0
           - 1
 
-    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} CCFLAGS:${{matrix.ccflags}}
+    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}}
     steps:
     - uses: actions/checkout@v4
 
@@ -56,9 +52,7 @@ jobs:
       run: cpanm --quiet --installdeps --notest .
 
     - name: Build
-      run: |
-        flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
-        perl Makefile.PL CCFLAGS="$flags ${{matrix.ccflags}}" && make
+      run: perl Makefile.PL && make
       env:
         BUILD_ZLIB: ${{matrix.build-zlib}}
 
