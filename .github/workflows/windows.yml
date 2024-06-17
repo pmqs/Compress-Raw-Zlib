@@ -72,14 +72,17 @@ jobs:
           - latest
 
         compiler:
-          - gcc
-          - g++
+          - name: gcc
+            ccflags: -Werror
+
+          - name: g++
+            ccflags: -Werror -xc++
 
         build-zlib:
           - 0
           - 1
 
-    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} ${{matrix.compiler}}
+    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} ${{matrix.compiler.name}}
     steps:
     - uses: actions/checkout@v4
 
@@ -97,7 +100,7 @@ jobs:
     - name: Build
       run: |
         flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
-        perl Makefile.PL CCFLAGS="$flags -Werror" CC=${{matrix.compiler}} && make
+        perl Makefile.PL CCFLAGS="$flags ${{matrix.compiler.ccflags}}" CC=${{matrix.compiler.name}} && make
       env:
         BUILD_ZLIB: ${{matrix.build-zlib}}
 
