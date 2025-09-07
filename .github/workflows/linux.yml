@@ -43,7 +43,7 @@ jobs:
 
     name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} CCFLAGS:${{matrix.ccflags}}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
@@ -90,7 +90,7 @@ jobs:
 
     name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} ${{matrix.compiler.name}}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Setup perl
       uses: shogo82148/actions-setup-perl@v1
