@@ -50,7 +50,7 @@ jobs:
     name: Perl ${{ matrix.perl }} with zlib ${{matrix.zlib-version}}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Cache zlib ${{matrix.zlib-version}}
       id: cache-zlib
@@ -99,7 +99,7 @@ jobs:
 
     - name: Checkout upstream zlib ${{matrix.zlib-version}}
       if:  ( matrix.zlib-version == 'develop' || steps.cache-zlib.outputs.cache-hit == 'false' )
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: madler/zlib
         ref: ${{ matrix.zlib-version }}
