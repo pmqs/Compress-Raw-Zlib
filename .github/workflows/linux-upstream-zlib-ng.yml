@@ -67,7 +67,7 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         path: repo
 
@@ -102,7 +102,7 @@ jobs:
 
     - name: Checkout upstream zlib-ng ${{matrix.zlib-version}} USE_ZLIB_NG=${{ matrix.zlib-native }}
       if: env.STEP_ENABLED && ( matrix.zlib-version == 'develop' || ! steps.cache-zlib.outputs.cache-hit )
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         repository: zlib-ng/zlib-ng
         ref: ${{ matrix.zlib-version }}
