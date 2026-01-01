@@ -78,7 +78,7 @@ jobs:
 
     - name: Cache zlib ${{matrix.zlib-version}}
       id: cache-zlib
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         # NOTE: path doesn't expand variables!
         path: upstream-zlib-install
