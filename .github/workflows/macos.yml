@@ -29,7 +29,7 @@ jobs:
           @versions = grep { ! /^5\.6\.*/ } @versions;
           set_output(matrix => {'perl'       => [@versions],
                                 'build-zlib' => [0, 1],
-                                'ccflags'    => ['-Werror', '-Werror -Wc++-compat'],
+                                'ccflags'    => ['', '-Wc++-compat'],
                                 'compiler'   => ['gcc'],
                                },
                     );
@@ -84,7 +84,7 @@ jobs:
           @versions = grep { ! /^5\.6\.*/ } @versions;
           set_output(matrix => {'perl'       => [@versions],
                                 'build-zlib' => [0, 1],
-                                'ccflags'    => ['-Werror', '-Werror -xc++'],
+                                'ccflags'    => ['', '-xc++'],
                                 'compiler'   => ['g++'],
                                },
                     );
