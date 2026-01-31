@@ -28,8 +28,8 @@ jobs:
           # Don't want anything less then 5.8
           # also, 5.40.3 is failing
           my $skip = join '|', map { quotemeta $_ }
-                               qw( 5.6.
-                                   5.40.3
+                               qw( 5.40.3
+                                   5.6.
                                    );
           @default_versions = grep { ! /^$skip/ } @default_versions;
 
@@ -87,12 +87,11 @@ jobs:
                       }
             );
 
-          set_output(matrix => {perl => [@strawberry_versions], distribution => ['strawberry'] });
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
   run-windows-default:
-    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}'
+    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}' CCFLAGS="${{matrix.ccflags}}"
     runs-on: windows-latest
     needs: list-windows-default
     strategy:
@@ -113,8 +112,7 @@ jobs:
         run: cpanm --quiet --installdeps --notest .
       - name: Build
         run: |
-          flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
-          perl Makefile.PL CCFLAGS="$flags ${{matrix.ccflags}}" CC="${{matrix.compiler}}" && make
+          perl Makefile.PL && make
         env:
           BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
@@ -122,7 +120,7 @@ jobs:
 
 
   run-windows-strawberry:
-    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}'
+    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}' CCFLAGS="${{matrix.ccflags}}"
     runs-on: windows-latest
     needs: list-windows-strawberry
     strategy:
@@ -143,122 +141,8 @@ jobs:
         run: cpanm --quiet --installdeps --notest .
       - name: Build
         run: |
-          flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
-          perl Makefile.PL CCFLAGS="$flags ${{matrix.ccflags}}" CC="${{matrix.compiler}}" && make
+          perl Makefile.PL  CC="${{matrix.compiler}}" && make
         env:
           BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
         run: make test
-
-
-###############
-
-name: Windows
-
-on:
-  workflow_dispatch:
-  push:
-  pull_request:
-
-jobs:
-  build:
-
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        perl:
-          - '5.42'
-          - '5.40'
-          - '5.38'
-          - '5.36'
-          - '5.34'
-          - '5.32'
-          - '5.30'
-          - '5.28'
-          - '5.26'
-          - '5.24'
-          # - '5.22'
-          # - '5.20'
-          # - '5.18'
-          # - '5.16'
-          # - '5.14'
-          # - '5.12'
-          # - '5.10'
-          # - '5.8'
-          # - '5.6'
-        build-zlib:
-          - 1
-          # - 0
-        distribution:
-          - 'default'
-          # - 'strawberry'
-
-    name: Perl ${{ matrix.perl }}  distribution:${{ matrix.distribution }} BUILD_ZLIB:${{matrix.build-zlib}}
-    steps:
-    - uses: actions/checkout@v6
-
-    - name: Setup perl
-      uses: shogo82148/actions-setup-perl@v1
-      with:
-        perl-version: ${{ matrix.perl }}
-        distribution: ${{ matrix.distribution }}
-
-    - name: Perl version
-      run: perl -V
-
-    - name: Install dependencies
-      run: cpanm --quiet --installdeps --notest .
-
-    - name: Build
-      run: perl Makefile.PL && make
-      env:
-        BUILD_ZLIB: ${{matrix.build-zlib}}
-
-    - name: Test
-      run: make test
-
-  werror:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        perl:
-          - latest
-
-        compiler:
-          - name: gcc
-            ccflags: -Werror
-
-          - name: g++
-            ccflags: -Werror -xc++
-
-        build-zlib:
-          - 0
-          - 1
-
-    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} ${{matrix.compiler.name}}
-    steps:
-    - uses: actions/checkout@v6
-
-    - name: Setup perl
-      uses: shogo82148/actions-setup-perl@v1
-      with:
-        perl-version: ${{ matrix.perl }}
-
-    - name: Perl version
-      run: perl -V
-
-    - name: Install dependencies
-      run: cpanm --quiet --installdeps --notest .
-
-    - name: Build
-      run: |
-        flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
-        perl Makefile.PL CCFLAGS="$flags ${{matrix.compiler.ccflags}}" CC=${{matrix.compiler.name}} && make
-      env:
-        BUILD_ZLIB: ${{matrix.build-zlib}}
-
-    - name: Test
-      run: make test

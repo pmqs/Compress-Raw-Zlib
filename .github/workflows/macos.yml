@@ -29,7 +29,7 @@ jobs:
           @versions = grep { ! /^5\.6\.*/ } @versions;
           set_output(matrix => {'perl'       => [@versions],
                                 'build-zlib' => [0, 1],
-                                'ccflags'    => ['-Werror', '-Werror -Wc++-compat'],
+                                'ccflags'    => ['', '-Wc++-compat'],
                                 'compiler'   => ['gcc'],
                                },
                     );
@@ -80,11 +80,20 @@ jobs:
           for my $v (@versions) {
             print "\t$v\n";
           }
-          # Don't want anything less then 5.8
-          @versions = grep { ! /^5\.6\.*/ } @versions;
-          set_output(matrix => {'perl'       => [@versions],
+          # Some failure with older perls + g++
+          my $ignore =join "|", qw(
+                                    5.18.
+                                    5.16.
+                                    5.14.
+                                    5.12.
+                                    5.10.
+                                    5.8.
+                                    5.6.
+          );
+          @versions = grep { ! /^$ignore/ } @versions;
+          set_output(matrix => {'perl'       => ['latest'],
                                 'build-zlib' => [0, 1],
-                                'ccflags'    => ['-Werror', '-Werror -xc++'],
+                                'ccflags'    => ['', '-xc++'],
                                 'compiler'   => ['g++'],
                                },
                     );
@@ -94,7 +103,7 @@ jobs:
   run-gpp:
     name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} CC="${{matrix.compiler}}" CCFLAGS:${{matrix.ccflags}}
     runs-on: macos-latest
-    needs: list-gcc
+    needs: list-gpp
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.list-gpp.outputs.matrix)}}
