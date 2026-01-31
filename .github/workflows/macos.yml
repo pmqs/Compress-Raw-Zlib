@@ -28,7 +28,7 @@ jobs:
           # Don't want anything less then 5.8
           @versions = grep { ! /^5\.6\.*/ } @versions;
           set_output(matrix => {'perl'       => [@versions],
-                                'build-bzip2' => [0, 1],
+                                'build-zlib' => [0, 1],
                                 'ccflags'    => ['', '-Wc++-compat'],
                                 'compiler'   => ['gcc'],
                                },
@@ -37,7 +37,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
   run-gcc:
-    name: Perl ${{ matrix.perl }} BUILD_BZIP2:${{matrix.build-bzip2}} CC="${{matrix.compiler}}" CCFLAGS:${{matrix.ccflags}}
+    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} CC="${{matrix.compiler}}" CCFLAGS:${{matrix.ccflags}}
     runs-on: macos-latest
     needs: list-gcc
     strategy:
@@ -58,7 +58,7 @@ jobs:
           flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
           perl Makefile.PL CCFLAGS="$flags ${{matrix.ccflags}}" CC="${{matrix.compiler}}" && make
         env:
-          BUILD_BZIP2: ${{matrix.build-bzip2}}
+          BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
         run: make test
 
@@ -92,7 +92,7 @@ jobs:
           );
           @versions = grep { ! /^$ignore/ } @versions;
           set_output(matrix => {'perl'       => ['latest'],
-                                'build-bzip2' => [0, 1],
+                                'build-zlib' => [0, 1],
                                 'ccflags'    => ['', '-xc++'],
                                 'compiler'   => ['g++'],
                                },
@@ -101,7 +101,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
   run-gpp:
-    name: Perl ${{ matrix.perl }} BUILD_BZIP2:${{matrix.build-bzip2}} CC="${{matrix.compiler}}" CCFLAGS:${{matrix.ccflags}}
+    name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} CC="${{matrix.compiler}}" CCFLAGS:${{matrix.ccflags}}
     runs-on: macos-latest
     needs: list-gpp
     strategy:
@@ -122,6 +122,6 @@ jobs:
           flags=$( perl -MConfig -e 'print $Config::Config{ccflags}' )
           perl Makefile.PL CCFLAGS="$flags ${{matrix.ccflags}}" CC="${{matrix.compiler}}" && make
         env:
-          BUILD_BZIP2: ${{matrix.build-bzip2}}
+          BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
         run: make test
