@@ -87,7 +87,6 @@ jobs:
                       }
             );
 
-          set_output(matrix => {perl => [@strawberry_versions], distribution => ['strawberry'] });
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
