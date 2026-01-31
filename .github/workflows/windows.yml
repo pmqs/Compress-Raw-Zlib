@@ -28,8 +28,8 @@ jobs:
           # Don't want anything less then 5.8
           # also, 5.40.3 is failing
           my $skip = join '|', map { quotemeta $_ }
-                               qw( 5.6.
-                                   5.40.3
+                               qw( 5.40.3
+                                   5.6.
                                    );
           @default_versions = grep { ! /^$skip/ } @default_versions;
 
@@ -92,7 +92,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
   run-windows-default:
-    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}'
+    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}' CCFLAGS="${{matrix.ccflags}}"
     runs-on: windows-latest
     needs: list-windows-default
     strategy:
@@ -113,7 +113,7 @@ jobs:
         run: cpanm --quiet --installdeps --notest .
       - name: Build
         run: |
-          perl Makefile.PL CCFLAGS="${{matrix.ccflags}}" CC="${{matrix.compiler}}" && make
+          perl Makefile.PL CCFLAGS="${{matrix.ccflags}}"  && make
         env:
           BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
@@ -121,7 +121,7 @@ jobs:
 
 
   run-windows-strawberry:
-    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}'
+    name: Perl ${{ matrix.perl }} on '${{ matrix.distribution }}' CCFLAGS="${{matrix.ccflags}}"
     runs-on: windows-latest
     needs: list-windows-strawberry
     strategy:
