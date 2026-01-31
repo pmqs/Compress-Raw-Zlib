@@ -112,7 +112,7 @@ jobs:
         run: cpanm --quiet --installdeps --notest .
       - name: Build
         run: |
-          perl Makefile.PL CCFLAGS="${{matrix.ccflags}}"  && make
+          perl Makefile.PL && make
         env:
           BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
@@ -141,7 +141,7 @@ jobs:
         run: cpanm --quiet --installdeps --notest .
       - name: Build
         run: |
-          perl Makefile.PL CCFLAGS="${{matrix.ccflags}}" CC="${{matrix.compiler}}" && make
+          perl Makefile.PL  CC="${{matrix.compiler}}" && make
         env:
           BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
