@@ -94,7 +94,7 @@ jobs:
   run-gpp:
     name: Perl ${{ matrix.perl }} BUILD_ZLIB:${{matrix.build-zlib}} CC="${{matrix.compiler}}" CCFLAGS:${{matrix.ccflags}}
     runs-on: ubuntu-latest
-    needs: list-gcc
+    needs: list-gpp
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.list-gpp.outputs.matrix)}}
@@ -116,4 +116,3 @@ jobs:
           BUILD_ZLIB: ${{matrix.build-zlib}}
       - name: Test
         run: make test
-
