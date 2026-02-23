@@ -8,6 +8,8 @@
 #ifndef ZCONF_H
 #define ZCONF_H
 
+#include <stddef.h>         /* Compress::Raw::Zlib change -- Needed for NULL */
+
 /*
  * If you *really* need a unique prefix for all types and library functions,
  * compile with -DZ_PREFIX. The "standard" zlib should be compiled without it.
