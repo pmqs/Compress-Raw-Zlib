@@ -151,8 +151,8 @@ const char * ZEXPORT zError(int err) {
 #ifndef HAVE_MEMCPY
 
 void ZLIB_INTERNAL zmemcpy(void FAR *dst, const void FAR *src, z_size_t n) {
-    uchf *p = dst;
-    const uchf *q = src;
+    uchf *p = (uchf *)dst;
+    const uchf *q = (const uchf *)src;
     while (n) {
         *p++ = *q++;
         n--;
@@ -160,7 +160,7 @@ void ZLIB_INTERNAL zmemcpy(void FAR *dst, const void FAR *src, z_size_t n) {
 }
 
 int ZLIB_INTERNAL zmemcmp(const void FAR *s1, const void FAR *s2, z_size_t n) {
-    const uchf *p = s1, *q = s2;
+    const uchf *p = (const uchf *)s1, *q = (const uchf *)s2;
     while (n) {
         if (*p++ != *q++)
             return (int)p[-1] - (int)q[-1];
@@ -170,7 +170,7 @@ int ZLIB_INTERNAL zmemcmp(const void FAR *s1, const void FAR *s2, z_size_t n) {
 }
 
 void ZLIB_INTERNAL zmemzero(void FAR *b, z_size_t len) {
-    uchf *p = b;
+    uchf *p = (uchf *)b;
     if (len == 0) return;
     while (len) {
         *p++ = 0;
