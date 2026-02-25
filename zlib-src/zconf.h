@@ -143,6 +143,7 @@
 #    define uncompress2_z         z_uncompress2_z
 #  endif
 #  define zError                Perl_crz_zError
+#  define z_errmsg              Perl_crz_errmsg
 #  ifndef Z_SOLO
 #    define zcalloc               z_zcalloc
 #    define zcfree                z_zcfree
