@@ -3,6 +3,22 @@ CHANGES
 
   2.221 27 February 2026
 
+    * Merge remote-tracking branch 'refs/remotes/origin/master'
+      Fri Feb 27 12:57:24 2026 +0000
+      34f0318c9687924347284704c6f3b9b2566e07fd
+
+    * Merge pull request #39 from jkeenan/correct-changes-date-20260227
+      Fri Feb 27 12:50:53 2026 +0000
+      e879453ec96d85b2917ed903a3f03cf8264238f1
+
+    * Update to 2.221
+      Fri Feb 27 12:44:53 2026 +0000
+      17f707ed1986acf6773d91ebf6b5c7d6ba6d32be
+
+    * Version number wrong in Changes file. Fixes #38
+      Fri Feb 27 12:38:32 2026 +0000
+      2c10524538077d20779c483c667e2ead4c65a87a
+
   2.220 27 February 2026
 
     * Update to version 2.220
