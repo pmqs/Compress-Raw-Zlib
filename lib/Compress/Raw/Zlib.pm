@@ -1318,7 +1318,7 @@ Refer to the I<zlib> documentation for more details.
 Returns the version of the I<zlib> library if this module has been built with the I<zlib> library.
 If this module has been built with I<zlib-ng> in native mode, this function will return a empty string.
 If this module has been built with I<zlib-ng> in compat mode, this function will return the Izlib> API
-verion that I<zlib-ng> is supporting.
+version that I<zlib-ng> is supporting.
 
 =head2 my $version = Compress::Raw::Zlib::zlibng_version();
 
