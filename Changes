@@ -216,7 +216,7 @@ CHANGES
         Tue Feb 13 09:31:12 2024 +0000
         e2bd28778a465ce8205233a3ec0e8c2f4c28f705
 
-      * #29 Add author & absrtract to Makefile.PL & meta.*
+      * #29 Add author & abstract to Makefile.PL & meta.*
         Sat Feb 10 16:17:15 2024 +0000
         0d4b451e1788300f3ffa21b3bf76e0ac26bcc32c
 
@@ -736,7 +736,7 @@ CHANGES
 
   2.036 6 May 2011
 
-      * Added offset patramter to CRC32
+      * Added offset parameter to CRC32
 
   2.035 6 May 2011
 
