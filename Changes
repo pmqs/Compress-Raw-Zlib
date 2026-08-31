@@ -1,7 +1,7 @@
 CHANGES
 -------
 
-  2.224 28 Auguat 2026
+  2.224 28 August 2026
 
     * Remove call to UpDowngrade in Makefile.PL
       Fri Aug 28 11:10:08 2026 +0100
