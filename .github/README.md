@@ -32,4 +32,4 @@ This program is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.
 
 
-Paul Marquess <pmqs@cpan.org>
+Paul Marquess <pmqs@outlook.com>
