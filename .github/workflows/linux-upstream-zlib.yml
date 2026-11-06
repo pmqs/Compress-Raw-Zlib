@@ -116,7 +116,8 @@ jobs:
         cmake -S . -B . \
           -D CMAKE_INSTALL_PREFIX='${{ env.zlib-install }}' \
           -D CMAKE_BUILD_TYPE=Release \
-          -D BUILD_SHARED_LIBS='ON'
+          -D BUILD_SHARED_LIBS='ON'\
+          -D CMAKE_POLICY_VERSION_MINIMUM=3.5
         cmake --build . --config Release
         ctest -C Release --output-on-failure --max-width 120
         cmake --install .
